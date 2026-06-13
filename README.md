@@ -1,55 +1,38 @@
-# Mintlify Starter Kit
+# FiveMesh Docs
 
-Use the starter kit to get your docs deployed and ready to customize.
+Mintlify documentation for FiveMesh.
 
-Click the green **Use this template** button at the top of this repo to copy the Mintlify starter kit. The starter kit contains examples with
+## Local commands
 
-- Guide pages
-- Navigation
-- Customizations
-- API reference pages
-- Use of popular components
-
-**[Follow the full quickstart guide](https://starter.mintlify.com/quickstart)**
-
-## AI-assisted writing
-
-Set up your AI coding tool to work with Mintlify:
+Install the Mintlify CLI globally if needed:
 
 ```bash
-npx skills add https://mintlify.com/docs
-```
-
-This command installs Mintlify's documentation skill for your configured AI tools like Claude Code, Cursor, Windsurf, and others. The skill includes component reference, writing standards, and workflow guidance.
-
-See the [AI tools guides](/ai-tools) for tool-specific setup.
-
-## Development
-
-Install the [Mintlify CLI](https://www.npmjs.com/package/mint) to preview your documentation changes locally. To install, use the following command:
-
-```
 npm i -g mint
 ```
 
-Run the following command at the root of your documentation, where your `docs.json` is located:
+Run a local preview:
 
+```bash
+npm run dev
 ```
-mint dev
+
+Validate the docs:
+
+```bash
+npm run validate
+npm run broken-links
 ```
 
-View your local preview at `http://localhost:3000`.
+## Structure
 
-## Publishing changes
+- `docs.json` controls navigation, branding, navbar links and footer links.
+- `index.mdx` and `quickstart.mdx` introduce the docs.
+- `dashboard/` documents workspace, organization and billing flows.
+- `cdn/` documents FiveMesh CDN setup and operations.
+- `cache/` documents FiveMesh Cache setup and operations.
+- `account/` documents servers and service API keys.
+- `reference/` contains troubleshooting material.
 
-Install our GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app) to propagate changes from your repo to your deployment. Changes are deployed to production automatically after pushing to the default branch.
+## Writing rules
 
-## Need help?
-
-### Troubleshooting
-
-- If your dev environment isn't running: Run `mint update` to ensure you have the most recent version of the CLI.
-- If a page loads as a 404: Make sure you are running in a folder with a valid `docs.json`.
-
-### Resources
-- [Mintlify documentation](https://mintlify.com/docs)
+Read `AGENTS.md` before changing docs. Keep content customer-facing, operational and specific to FiveMesh workflows.

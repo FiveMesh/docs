@@ -1,0 +1,66 @@
+---
+title: "Set up FiveMesh Cache"
+description: "Enable resource download caching for a registered FiveM server and copy the generated server.cfg block."
+icon: "hard-drive"
+---
+
+FiveMesh Cache is a resource download proxy for FiveM servers.
+
+Players download resources through a FiveMesh cache URL. Cache hits are served from FiveMesh. Cache misses are fetched from your origin once, then reused until you purge or refresh the cache version.
+
+## Prerequisites
+
+Before you enable Cache, confirm:
+
+- The active workspace has trial or subscription access.
+- The cfx.re server is registered in **Account** > **Servers**.
+- You can edit your server's `server.cfg`.
+- Your organization role can create Cache configuration if you are in an organization workspace.
+
+## Enable Cache
+
+<Steps>
+  <Step title="Open Cache">
+    In the dashboard sidebar, open **Cache**.
+  </Step>
+
+  <Step title="Choose a registered server">
+    In the **Servers** tab, find the registered server you want to cache.
+  </Step>
+
+  <Step title="Enable Cache">
+    Click **Enable Cache**.
+  </Step>
+
+  <Step title="Copy the setup block">
+    Copy the generated `server.cfg` block immediately.
+
+    The block includes a `fileserver_add` line and an `adhesive_cdnKey` secret.
+  </Step>
+
+  <Step title="Update server.cfg">
+    Paste the block into your server configuration and restart or reload your server according to your normal deployment process.
+  </Step>
+</Steps>
+
+Example shape:
+
+```cfg
+fileserver_add ".*" "https://cache.fivemesh.gg/YOUR_SERVER_ID/files"
+adhesive_cdnKey "YOUR_SECRET_KEY"
+```
+
+<Warning>
+  The adhesive key is only shown when it is created or rotated. If you lose it, rotate the key from Cache settings and update `server.cfg`.
+</Warning>
+
+## Origin URL
+
+FiveMesh detects an origin for the registered cfx.re server. In most cases, keep the detected origin.
+
+Change the origin URL only when the detected address is not the address Cache should use for resource downloads.
+
+## Next steps
+
+- Manage purge, origin and key rotation from [Cache operations](/cache/operations).
+- Register missing servers from [Account servers](/account/servers).

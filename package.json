@@ -1,0 +1,10 @@
+{
+  "scripts": {
+    "dev": "mint dev",
+    "validate": "mint validate",
+    "broken-links": "mint broken-links"
+  },
+  "devDependencies": {
+    "puppeteer": "^25.1.0"
+  }
+}

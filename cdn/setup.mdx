@@ -1,0 +1,73 @@
+---
+title: "Set up FiveMesh CDN"
+description: "Create your CDN workspace, choose a public path name and prepare starter folders."
+icon: "radio-tower"
+---
+
+FiveMesh CDN is for public assets that your FiveM server, scripts or player-facing UI need to load from stable URLs.
+
+Use it for files such as inventory images, phone media, tablet media, mugshots, loading screen assets and other public uploads.
+
+## Prerequisites
+
+Before you set up CDN, confirm:
+
+- The active workspace has trial or subscription access.
+- You have permission to create or administer CDN in the active workspace.
+- You know the public path name you want for this workspace.
+
+## Create the CDN workspace
+
+<Steps>
+  <Step title="Open CDN">
+    In the dashboard sidebar, open **CDN**.
+  </Step>
+
+  <Step title="Choose the workspace name">
+    Enter the **CDN workspace name**.
+
+    Use lowercase letters, numbers and hyphens. The name must be 3 to 48 characters and becomes part of your public CDN paths.
+  </Step>
+
+  <Step title="Choose setup mode">
+    Select **Start now** to create the workspace without starter folders, or select **Preconfigure folders** to prepare common paths during setup.
+  </Step>
+
+  <Step title="Review prepared paths">
+    If you preconfigure folders, choose server directories, script media folders and whether to include `/uploads`.
+  </Step>
+
+  <Step title="Complete setup">
+    Click **Complete setup**. FiveMesh prepares the selected folders for the object browser.
+  </Step>
+</Steps>
+
+<Warning>
+  The CDN workspace name can only be set during setup. Choose it carefully before completing setup.
+</Warning>
+
+## Folder planning
+
+The setup flow can prepare folders for:
+
+- Server asset directories.
+- Phone media.
+- Tablet media.
+- Mugshots.
+- General `/uploads`.
+
+If one shared media folder is enough, keep the all-in-one structure. If each server needs isolated media, split media folders by server.
+
+## Retention intent
+
+During setup, FiveMesh can save TTL policies for selected media folders. A TTL policy records how long objects under a path should be kept.
+
+<Note>
+  TTL policies are saved as settings. They express retention intent for the workspace and can be adjusted later from CDN settings.
+</Note>
+
+## Next steps
+
+- Upload files from the [object browser](/cdn/object-browser).
+- Add or change retention intent in [CDN settings](/cdn/settings).
+- Create scoped service keys from [API keys](/account/api-keys) if scripts need CDN access.

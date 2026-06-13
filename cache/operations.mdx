@@ -1,0 +1,87 @@
+---
+title: "Cache operations"
+description: "Manage Cache origin settings, purge, key rotation, server state and analytics."
+icon: "activity"
+---
+
+After Cache is enabled for a registered server, use the Cache dashboard to monitor request behavior and manage operational controls.
+
+## Cache tabs
+
+| Tab | Use it for |
+| --- | --- |
+| **Servers** | Enable Cache for registered servers and open server settings. |
+| **Analytics** | Review request volume, hit ratio, served bandwidth, latency and origin errors. |
+| **Settings** | Copy the cache URL, update origin, purge cache, rotate the adhesive key, disable Cache or delete configuration. |
+
+## Purge cache
+
+Use purge when resources change and players need the latest files.
+
+<Steps>
+  <Step title="Open settings">
+    In **Cache**, open the **Settings** tab.
+  </Step>
+
+  <Step title="Select the server">
+    Choose the Cache-enabled server.
+  </Step>
+
+  <Step title="Purge">
+    Click **Purge** under **Purge cache**.
+  </Step>
+</Steps>
+
+The purge action increments the cache version for the selected server.
+
+## Rotate the adhesive key
+
+Rotate the key if the previous `adhesive_cdnKey` was lost or should no longer be trusted.
+
+<Steps>
+  <Step title="Open settings">
+    Open **Cache** > **Settings**.
+  </Step>
+
+  <Step title="Rotate">
+    Click **Rotate** under **Adhesive key**.
+  </Step>
+
+  <Step title="Copy the new block">
+    Copy the generated `server.cfg` block.
+  </Step>
+
+  <Step title="Update your server">
+    Replace the old key in `server.cfg` and restart or reload your server.
+  </Step>
+</Steps>
+
+<Warning>
+  A rotated key must be copied immediately. The dashboard does not show existing secrets again.
+</Warning>
+
+## Disable or delete Cache
+
+Use **Disable Cache** when you want to pause Cache for a server without removing the saved configuration.
+
+Use **Delete Cache configuration** when you want to remove Cache settings for that server. The registered server remains in your account and can be enabled again later.
+
+## Analytics
+
+Cache analytics can show:
+
+- Total requests.
+- HIT and MISS ratio.
+- Bandwidth served by Cache.
+- Origin bandwidth saved.
+- Average latency.
+- Origin errors.
+- Top file extensions and origin status rows.
+
+If analytics are empty, generate traffic through the configured cache URL and check that the selected server has active Cache configuration.
+
+## Related pages
+
+- [Set up FiveMesh Cache](/cache/setup)
+- [Account servers](/account/servers)
+- [Troubleshooting](/reference/troubleshooting)

@@ -1,0 +1,60 @@
+---
+title: "CDN settings"
+description: "Manage CDN retention policies and understand read-only service states."
+icon: "settings-2"
+---
+
+CDN settings control workspace-level configuration for public asset paths.
+
+The current settings page focuses on TTL policies. These policies record retention intent per path.
+
+## Permissions
+
+Your organization role controls whether settings are editable.
+
+| State | Meaning |
+| --- | --- |
+| Editable | You can add, update and save TTL policies. |
+| Read-only | You can view policies, but your organization role cannot update them. |
+
+If settings are read-only and you need to change them, ask an organization owner or admin to update your role.
+
+## Add a TTL policy
+
+<Steps>
+  <Step title="Open settings">
+    In **CDN**, open the **Settings** tab.
+  </Step>
+
+  <Step title="Add a policy row">
+    Enter a folder path such as `phone`, `tablet`, `mugshot` or `uploads`.
+  </Step>
+
+  <Step title="Choose the retention value">
+    Set the value in hours or days. Values can range from 1 hour to 365 days.
+  </Step>
+
+  <Step title="Save policies">
+    Click **Save policies**.
+  </Step>
+</Steps>
+
+## Path rules
+
+- Do not start a user-facing path segment with `.`.
+- Use clear folder names that match your scripts or media workflows.
+- Keep temporary media separate from long-lived assets when retention needs differ.
+
+<Tip>
+  For temporary script media, start with a shorter path policy. Keep durable assets such as inventory icons in a separate path.
+</Tip>
+
+## Destructive actions
+
+The dashboard may show destructive actions as unavailable placeholders while cleanup automation is still being prepared.
+
+## Related pages
+
+- [Set up FiveMesh CDN](/cdn/setup)
+- [CDN object browser](/cdn/object-browser)
+- [API keys](/account/api-keys)

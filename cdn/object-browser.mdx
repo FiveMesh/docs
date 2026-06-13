@@ -1,0 +1,69 @@
+---
+title: "CDN object browser"
+description: "Upload, preview, rename, delete and organize files in a FiveMesh CDN workspace."
+icon: "folder-open"
+---
+
+The CDN object browser is the file workspace for public assets.
+
+It shows folders and objects for the active workspace path, with breadcrumbs, search, upload actions and file controls.
+
+## Public URL shape
+
+The object browser shows the public base path for your CDN workspace.
+
+Public URLs are generated from the configured CDN base URL and your CDN workspace name. Use the public URL shown in the dashboard instead of internal storage paths.
+
+## Upload files
+
+<Steps>
+  <Step title="Open CDN">
+    In the sidebar, open **CDN** and select the **Objects** tab.
+  </Step>
+
+  <Step title="Choose a folder">
+    Use breadcrumbs or folder rows to move to the target path.
+  </Step>
+
+  <Step title="Upload">
+    Click **Upload** and choose files.
+
+    FiveMesh supports up to 100 files in one upload batch. Upload progress appears in the bottom-right dock.
+  </Step>
+</Steps>
+
+<Note>
+  Do not close the page while an upload is running. The progress dock shows queued, uploading, finalizing, complete, error and canceled states.
+</Note>
+
+## Create folders
+
+Use **Create folder** from the object browser toolbar to add a folder under the current path.
+
+FiveMesh uses hidden marker objects internally so empty folders can exist. Those marker files are hidden from user-facing listing and usage displays.
+
+## Preview files
+
+Use the preview action on a file row to inspect supported files before copying or referencing the public URL.
+
+Text previews can fail when a file cannot be loaded as text. In that case, use the public URL or download path from the dashboard.
+
+## Rename and delete
+
+Available object actions depend on your workspace permissions.
+
+| Action | Behavior |
+| --- | --- |
+| Rename | Renames an object inside the current folder. |
+| Delete object | Removes one selected file. |
+| Delete selected | Removes multiple selected objects. |
+| Delete folder | Checks that the folder is empty before deletion. |
+
+<Warning>
+  File and folder deletion cannot be undone from the dashboard.
+</Warning>
+
+## Next steps
+
+- Configure folder retention intent in [CDN settings](/cdn/settings).
+- Create a path-scoped key in [API keys](/account/api-keys) for scripts that only need specific CDN folders.

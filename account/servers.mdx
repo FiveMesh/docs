@@ -1,0 +1,63 @@
+---
+title: "Account servers"
+description: "Register cfx.re server IDs so FiveMesh can prepare Cache and server-aware services."
+icon: "server"
+---
+
+Registered servers connect your FiveM server identity to the active FiveMesh workspace.
+
+CDN can operate without a registered server. Cache, origin detection and server-aware services need a registered cfx.re server ID.
+
+## Find your cfx.re server ID
+
+Open the Cfx.re portal or your server listing and copy the server ID. FiveMesh validates the ID before saving it to the workspace.
+
+The dashboard uses values like:
+
+```text
+57gk77
+```
+
+## Register a server
+
+<Steps>
+  <Step title="Open Account">
+    In the dashboard sidebar, open **Account**.
+  </Step>
+
+  <Step title="Open Servers">
+    Select the **Servers** tab, or use the **Servers** sidebar item.
+  </Step>
+
+  <Step title="Add the server ID">
+    Paste the cfx.re server ID and submit the form.
+  </Step>
+
+  <Step title="Review detected details">
+    FiveMesh may show detected origin, player slots, resource count, support status and sample resources when available.
+  </Step>
+</Steps>
+
+## Limits and access
+
+The number of servers you can register depends on the active plan.
+
+If the add button is unavailable:
+
+- Check that the workspace has active trial or subscription access.
+- Check whether the plan server limit is reached.
+- For organizations, confirm your role can manage registered servers.
+
+## Remove a server
+
+Removing a server deletes it from the current FiveMesh workspace. It does not change anything in Cfx.re.
+
+<Warning>
+  If Cache is configured for the server, review Cache state before removing the registered server.
+</Warning>
+
+## Related pages
+
+- [Set up FiveMesh Cache](/cache/setup)
+- [Workspaces](/dashboard/workspaces)
+- [Troubleshooting](/reference/troubleshooting)

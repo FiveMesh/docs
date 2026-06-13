@@ -1,0 +1,88 @@
+---
+title: "Troubleshooting"
+description: "Resolve common FiveMesh dashboard, CDN, Cache, workspace and permission issues."
+icon: "circle-help"
+---
+
+Use this page when the dashboard does not show the state you expected.
+
+## Service is locked
+
+Check these in order:
+
+1. Confirm the correct workspace is selected.
+2. Open **Billing** and confirm active trial or subscription access.
+3. If you are in an organization, confirm the service is shared under **Organization**.
+4. Confirm your role allows access to the service.
+
+## CDN setup is unavailable
+
+Possible causes:
+
+- The workspace does not have active billing or trial access.
+- Your organization role can view CDN but cannot create the workspace.
+- The CDN workspace is already set up.
+- The workspace name is invalid or already used.
+
+Workspace names must use lowercase letters, numbers and hyphens. They must be 3 to 48 characters.
+
+## CDN upload failed
+
+Check:
+
+- You still have write permission for the active workspace.
+- The selected file batch contains 100 files or fewer.
+- The browser tab stayed open while the upload was running.
+- You are uploading to the intended folder path.
+
+If one file fails in a batch, retry that file after the current upload finishes.
+
+## Folder cannot be deleted
+
+FiveMesh checks the folder before deletion.
+
+A folder can only be deleted when it is empty. Remove files and subfolders first, then retry deletion.
+
+## Cache setup is unavailable
+
+Check:
+
+- The active workspace has billing or trial access.
+- The server is registered under **Account** > **Servers**.
+- Your organization role can create Cache configuration.
+- The selected server is not already enabled.
+
+## Players still receive old resources
+
+If resources changed after Cache was enabled:
+
+1. Open **Cache** > **Settings**.
+2. Select the server.
+3. Click **Purge**.
+4. Restart or reload your server if your deployment process requires it.
+
+## Adhesive key was lost
+
+Existing `adhesive_cdnKey` secrets are not shown again.
+
+Rotate the key in **Cache** > **Settings**, copy the new `server.cfg` block, then update your server configuration.
+
+## Organization member cannot access a service
+
+Ask an owner to check:
+
+- The member accepted the invitation.
+- The member has the intended role.
+- The organization is the active workspace.
+- The service is shared under **Organization** > **Overview**.
+- Billing access is active for the organization workspace.
+
+## What to include when asking for help
+
+Include:
+
+- Active workspace type: personal or organization.
+- Service area: CDN, Cache, billing, organization or account.
+- Registered server ID when Cache or servers are involved.
+- The action you tried.
+- The exact error message shown in the dashboard.

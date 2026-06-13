@@ -1,0 +1,76 @@
+---
+title: "API keys"
+description: "Create user-owned service keys with personal, organization and CDN path scopes."
+icon: "key-round"
+---
+
+Service API keys let scripts and tools call FiveMesh service operations without using your dashboard session.
+
+Keys are user-owned. Scope controls whether the key targets personal resources or organization resources.
+
+## Create a key
+
+<Steps>
+  <Step title="Open key creation">
+    In the dashboard, open **Account** and create a new API key.
+  </Step>
+
+  <Step title="Name the key">
+    Use a name that describes where the key will run, such as `Production CDN worker`.
+  </Step>
+
+  <Step title="Choose the owner context">
+    Select **Personal resources** or **Organization resources**.
+  </Step>
+
+  <Step title="Choose CDN path access">
+    If the key has CDN permissions, choose whether it can access all CDN paths or only specific path prefixes.
+  </Step>
+
+  <Step title="Review permissions">
+    Select a preset or customize the allowed service actions.
+  </Step>
+
+  <Step title="Copy the key">
+    Create the key and copy the secret immediately.
+  </Step>
+</Steps>
+
+<Warning>
+  The secret is shown once after creation. Store it in your deployment secrets or server environment before leaving the page.
+</Warning>
+
+## Permission areas
+
+The dashboard can create keys for:
+
+- Global service operations.
+- CDN operations such as read, write, delete, purge, domains and settings.
+- Cache operations such as resource cache, origins, rules, purge, preload and observability.
+
+Use the smallest permission set that supports the script or tool.
+
+## CDN path prefixes
+
+When a key has CDN permissions, you can restrict it to specific paths.
+
+Examples:
+
+```text
+/phone
+/mugshots
+/uploads
+```
+
+Use path scope when a script should only manage one media area.
+
+## Organization keys
+
+For organization resources, choose the organization during key creation. The key remains owned by your user account, but the resource scope points at the selected organization.
+
+## Related pages
+
+- [Workspaces](/dashboard/workspaces)
+- [Organizations](/dashboard/organizations)
+- [CDN object browser](/cdn/object-browser)
+- [Cache operations](/cache/operations)

@@ -1,0 +1,55 @@
+---
+title: "Billing"
+description: "Use billing state to understand when FiveMesh services unlock for a workspace."
+icon: "credit-card"
+---
+
+Billing controls whether the active workspace can use FiveMesh services.
+
+The dashboard treats active and trialing subscriptions as service access. When a workspace does not have active access, CDN and Cache setup remain locked.
+
+## What to check
+
+Open **Billing** from the dashboard sidebar to review the current workspace subscription state.
+
+Check billing when:
+
+- A service says an active subscription is required.
+- A checkout or plan change just completed.
+- You switched from personal workspace to an organization.
+- You expected an organization to share services but the service is still locked.
+
+## Access states
+
+| State | What to do |
+| --- | --- |
+| Active or trialing | Continue to service setup. |
+| No active subscription | Pick a plan or complete checkout. |
+| Billing needs attention | Update the subscription before access changes. |
+| Organization has no shared subscription | Ask the owner to activate billing or switch back to your personal workspace. |
+
+## After checkout
+
+<Steps>
+  <Step title="Return to the dashboard">
+    After checkout, return to **Billing** or **Overview**.
+  </Step>
+
+  <Step title="Refresh the workspace state">
+    If the dashboard has not updated yet, refresh the page.
+  </Step>
+
+  <Step title="Open the service">
+    Open **CDN** or **Cache** from the sidebar.
+  </Step>
+</Steps>
+
+<Note>
+  The docs do not list plan limits because limits can change. Use the pricing page and dashboard billing state as the source of truth.
+</Note>
+
+## Related pages
+
+- [Quickstart](/quickstart)
+- [Dashboard overview](/dashboard/overview)
+- [Organizations](/dashboard/organizations)

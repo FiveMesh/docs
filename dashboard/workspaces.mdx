@@ -1,0 +1,67 @@
+---
+title: "Workspaces"
+description: "Use personal and organization workspaces without mixing service access or permissions."
+icon: "building-2"
+---
+
+A workspace is the active context for dashboard data and service operations.
+
+Your personal workspace belongs to your account. Organization workspaces belong to a team and apply organization roles, invitations and service-sharing settings.
+
+## Personal workspace
+
+Use your personal workspace when you are setting up services for yourself or for a single server operation managed by your account.
+
+Personal workspace resources can include:
+
+- Billing access tied to your account.
+- Registered cfx.re servers.
+- A CDN workspace.
+- Cache configuration for registered servers.
+- User-owned API keys.
+
+## Organization workspace
+
+Use an organization workspace when several operators need access to the same services.
+
+An organization can include:
+
+- Members and invitations.
+- Role-based permissions.
+- Shared access to CDN and Cache.
+- Organization-scoped API keys.
+
+## Switch workspace
+
+<Steps>
+  <Step title="Open the workspace switcher">
+    In the dashboard sidebar, use the workspace switcher near the top.
+  </Step>
+
+  <Step title="Choose a workspace">
+    Select **Personal workspace** or an organization you belong to.
+  </Step>
+
+  <Step title="Review service access">
+    Open **Overview**, **CDN** or **Cache** to confirm the selected workspace has the expected service state.
+  </Step>
+</Steps>
+
+<Warning>
+  Workspace context affects service actions. Check the active workspace before uploading files, purging Cache, rotating keys or changing organization settings.
+</Warning>
+
+## When access looks wrong
+
+If the dashboard does not show the service you expect:
+
+- Confirm you selected the correct workspace.
+- Check that the workspace has active billing or trial access.
+- For organizations, confirm the service is shared under **Organization**.
+- For Cache, confirm the server is registered under the active workspace.
+
+## Related pages
+
+- [Organizations](/dashboard/organizations)
+- [Billing](/dashboard/billing)
+- [Account servers](/account/servers)

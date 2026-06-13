@@ -1,0 +1,52 @@
+---
+title: "Dashboard overview"
+description: "Understand the FiveMesh dashboard areas, workspace selector and service navigation."
+icon: "layout-dashboard"
+---
+
+The FiveMesh dashboard is the operations surface for your active workspace. The sidebar keeps workspace, service and account areas separate so you can move between setup, service controls and access settings quickly.
+
+## Main areas
+
+| Sidebar area | What it contains |
+| --- | --- |
+| **Workspace** | Overview, organization management and billing. |
+| **Services** | FiveMesh CDN, FiveMesh Cache, and later service areas such as observability and usage. |
+| **Account** | Profile, registered servers and service API keys. |
+
+The overview page gives a quick read on the active workspace: service access, billing state, storage usage when available and the next common actions.
+
+## Workspace context
+
+The workspace switcher near the top of the sidebar controls whether you are viewing personal resources or an organization workspace.
+
+Changing the workspace can change:
+
+- Which subscription is used.
+- Which CDN workspace appears.
+- Which Cache servers appear.
+- Which organization roles and permissions apply.
+- Which service-sharing settings affect access.
+
+<Tip>
+  If a service looks empty or locked, check the workspace switcher before changing settings.
+</Tip>
+
+## Service states
+
+FiveMesh services can show different states depending on billing, setup and role permissions.
+
+| State | Meaning |
+| --- | --- |
+| Locked | The workspace does not have active trial or subscription access, or the service is not shared with the organization. |
+| Setup required | Billing is active, but the service workspace or server mapping has not been created yet. |
+| Read-only | Your organization role can view the service but cannot change it. |
+| Ready | The service can be used from the dashboard. |
+
+## Related pages
+
+- [Workspaces](/dashboard/workspaces)
+- [Billing](/dashboard/billing)
+- [Organizations](/dashboard/organizations)
+- [Set up FiveMesh CDN](/cdn/setup)
+- [Set up FiveMesh Cache](/cache/setup)

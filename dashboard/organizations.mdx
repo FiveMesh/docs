@@ -1,0 +1,76 @@
+---
+title: "Organizations"
+description: "Create an organization, invite members and control shared service access."
+icon: "users"
+---
+
+Organizations let several operators work in the same FiveMesh workspace. They are useful when billing, service setup and operational access should belong to a team instead of one personal account.
+
+## What owners manage
+
+Organization owners can manage:
+
+- Organization name and generated slug.
+- Members and invitations.
+- Member roles.
+- Whether CDN and Cache are shared with the organization.
+
+The dashboard currently exposes **Overview**, **Members** and **Invitations** tabs for organization management.
+
+## Create an organization
+
+<Steps>
+  <Step title="Open Organization">
+    In the sidebar, open **Organization**.
+  </Step>
+
+  <Step title="Enter the organization name">
+    Add the workspace name. FiveMesh generates a slug from the name.
+  </Step>
+
+  <Step title="Create the workspace">
+    Click **Create**. FiveMesh switches to the new organization when creation succeeds.
+  </Step>
+</Steps>
+
+<Note>
+  Organization creation depends on the active plan. If the create form is not available, review [Billing](/dashboard/billing) or ask the workspace owner to invite you.
+</Note>
+
+## Invite members
+
+<Steps>
+  <Step title="Open Invitations">
+    In **Organization**, open the **Invitations** tab.
+  </Step>
+
+  <Step title="Enter the email and role">
+    Choose the member email and role. Owners cannot assign another owner through the invitation form.
+  </Step>
+
+  <Step title="Send the invitation">
+    Create the invitation and share the generated invitation URL with the member.
+  </Step>
+</Steps>
+
+## Share services
+
+Service sharing controls whether organization members can access the services tied to the organization workspace.
+
+Available shared services:
+
+- **FiveMesh CDN**
+- **FiveMesh Cache**
+
+Owners can toggle each service under **Organization** > **Overview**. The setting saves automatically.
+
+<Warning>
+  If a service is not shared with the organization, members may see a locked or unavailable service even when the owner has an active subscription.
+</Warning>
+
+## Related pages
+
+- [Workspaces](/dashboard/workspaces)
+- [API keys](/account/api-keys)
+- [Set up FiveMesh CDN](/cdn/setup)
+- [Set up FiveMesh Cache](/cache/setup)
