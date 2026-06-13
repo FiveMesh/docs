@@ -1,0 +1,37 @@
+---
+title: "SDK"
+description: "SDK plans and integration guidance for FiveMesh automation."
+icon: "code"
+---
+
+The FiveMesh SDK will wrap common API workflows for service keys, CDN uploads and Cache operations.
+
+Until the SDK package is published, use the API reference pages and keep API calls server-side.
+
+## Planned coverage
+
+| Area | Planned helpers |
+| --- | --- |
+| Authentication | Service key configuration and request helpers. |
+| FiveMesh CDN | Presigned upload preparation, object listing, deletion and purge helpers. |
+| FiveMesh Cache | Cache state, purge and preload helpers for registered servers. |
+
+## Current integration path
+
+For new integrations, use server-side HTTP calls with scoped service keys.
+
+```bash
+FIVEMESH_API_URL="https://..."
+FIVEMESH_API_KEY="..."
+```
+
+<Info>
+  Keep the API URL and service key in server-only configuration. Client code should receive temporary upload targets or public asset URLs, not service keys.
+</Info>
+
+## Related pages
+
+- [API reference](/api-reference/introduction)
+- [Authentication](/api-reference/authentication)
+- [LB-Scripts integration](/integrations/lb-scripts)
+

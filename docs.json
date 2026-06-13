@@ -17,50 +17,60 @@
     "href": "https://fivemesh.io"
   },
   "navigation": {
-    "pages": [
+    "tabs": [
       {
-        "group": "Start",
+        "tab": "Overview",
+        "icon": "book-open",
         "pages": [
           "index",
-          "quickstart"
+          "quickstart",
+          {
+            "group": "Dashboard",
+            "pages": [
+              "dashboard/overview",
+              "dashboard/workspaces",
+              "dashboard/organizations",
+              "dashboard/billing"
+            ]
+          },
+          {
+            "group": "FiveMesh CDN",
+            "pages": ["cdn/setup", "cdn/object-browser", "cdn/settings"]
+          },
+          {
+            "group": "FiveMesh Cache",
+            "pages": ["cache/setup", "cache/operations"]
+          },
+          {
+            "group": "Integrations",
+            "pages": ["integrations/lb-scripts"]
+          },
+          {
+            "group": "Account",
+            "pages": ["account/servers", "account/api-keys"]
+          },
+          {
+            "group": "Reference",
+            "pages": ["reference/troubleshooting"]
+          }
         ]
       },
       {
-        "group": "Dashboard",
+        "tab": "API Reference",
+        "icon": "square-terminal",
         "pages": [
-          "dashboard/overview",
-          "dashboard/workspaces",
-          "dashboard/organizations",
-          "dashboard/billing"
+          "api-reference/introduction",
+          "api-reference/authentication",
+          {
+            "group": "Services",
+            "pages": ["api-reference/cdn", "api-reference/cache"]
+          }
         ]
       },
       {
-        "group": "FiveMesh CDN",
-        "pages": [
-          "cdn/setup",
-          "cdn/object-browser",
-          "cdn/settings"
-        ]
-      },
-      {
-        "group": "FiveMesh Cache",
-        "pages": [
-          "cache/setup",
-          "cache/operations"
-        ]
-      },
-      {
-        "group": "Account",
-        "pages": [
-          "account/servers",
-          "account/api-keys"
-        ]
-      },
-      {
-        "group": "Reference",
-        "pages": [
-          "reference/troubleshooting"
-        ]
+        "tab": "SDK",
+        "icon": "code",
+        "pages": ["sdk/introduction"]
       }
     ],
     "global": {

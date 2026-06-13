@@ -1,0 +1,57 @@
+---
+title: "FiveMesh CDN API"
+description: "Reference notes for automating public asset delivery with FiveMesh CDN."
+icon: "radio-tower"
+---
+
+Use the FiveMesh CDN API when a server-side integration needs to prepare uploads, organize public media paths or operate CDN objects without opening the dashboard.
+
+## Common operations
+
+| Operation | Description |
+| --- | --- |
+| Prepare upload | Request a server-side upload target for an asset. |
+| List objects | Read files and folders under a scoped CDN path. |
+| Rename object | Move a file to a new public path. |
+| Delete object | Remove a single object or a selected batch. |
+| Purge path | Refresh delivery state for a path after a change. |
+| Read settings | Inspect retention intent and workspace CDN settings. |
+
+## Path scopes
+
+Service keys can be restricted to path prefixes.
+
+Use prefixes when one script should only manage one media area:
+
+```text
+/phone
+/tablet
+/mugshots
+/uploads
+```
+
+## Upload flow
+
+Use presigned upload targets for integrations such as LB-Phone and LB-Tablet.
+
+<Steps>
+  <Step title="Call FiveMesh from the server">
+    Your server-side script requests an upload target using a scoped service key.
+  </Step>
+
+  <Step title="Return the upload target">
+    The script returns the generated upload URL to the LB-Scripts upload method.
+  </Step>
+
+  <Step title="Upload media">
+    The client uploads media to the generated URL without receiving the service key.
+  </Step>
+</Steps>
+
+## Related pages
+
+- [Set up FiveMesh CDN](/cdn/setup)
+- [CDN object browser](/cdn/object-browser)
+- [LB-Scripts integration](/integrations/lb-scripts)
+- [API keys](/account/api-keys)
+

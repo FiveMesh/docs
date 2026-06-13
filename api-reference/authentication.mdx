@@ -1,0 +1,49 @@
+---
+title: "Authentication"
+description: "Authenticate FiveMesh API requests with scoped service keys."
+icon: "key-round"
+---
+
+FiveMesh API requests use service keys created from the dashboard.
+
+Keys are scoped to personal resources or organization resources, and can be limited by service, action and CDN path prefix.
+
+## Authorization header
+
+Pass the service key as a bearer token.
+
+```http
+Authorization: Bearer YOUR_FIVEMESH_API_KEY
+```
+
+Example request shape:
+
+```bash
+curl "$FIVEMESH_API_URL/v1/..." \
+  -H "Authorization: Bearer $FIVEMESH_API_KEY"
+```
+
+## Key scopes
+
+Choose scopes based on where the key runs:
+
+| Scope | Use it when |
+| --- | --- |
+| Personal resources | A script operates services owned by your personal workspace. |
+| Organization resources | A script operates services shared with an organization workspace. |
+| CDN path prefixes | A script should only read or write selected public asset paths. |
+
+## Secret handling
+
+Store service keys in server environment variables, deployment secrets or a server-only configuration file.
+
+<Warning>
+  The secret is shown once when the key is created. Rotate the key if it has been copied into a client script, repository or browser bundle.
+</Warning>
+
+## Related pages
+
+- [API keys](/account/api-keys)
+- [FiveMesh CDN API](/api-reference/cdn)
+- [FiveMesh Cache API](/api-reference/cache)
+

@@ -1,0 +1,33 @@
+---
+title: "FiveMesh Cache API"
+description: "Reference notes for automating resource cache operations for registered FiveM servers."
+icon: "hard-drive"
+---
+
+Use the FiveMesh Cache API when a server-side integration needs to operate resource cache state for registered FiveM servers.
+
+Cache is configured per registered server. The dashboard generates the `server.cfg` block that contains `fileserver_add` and `adhesive_cdnKey`.
+
+## Common operations
+
+| Operation | Description |
+| --- | --- |
+| Read cache state | Inspect whether Cache is enabled for a registered server. |
+| Rotate adhesive key | Generate a replacement key for `server.cfg`. |
+| Purge resources | Refresh cached resource downloads after a deployment. |
+| Preload resources | Warm selected resources before player traffic reaches them. |
+| Read observability | Review hit, miss and origin behavior for cache operations. |
+
+## Server ownership
+
+Cache operations require access to the workspace that owns the registered cfx.re server.
+
+If a server is shared with an organization, create the service key in the organization resource context and grant only the Cache permissions the automation needs.
+
+## Related pages
+
+- [Set up FiveMesh Cache](/cache/setup)
+- [Cache operations](/cache/operations)
+- [Account servers](/account/servers)
+- [API keys](/account/api-keys)
+

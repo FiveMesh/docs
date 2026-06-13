@@ -1,0 +1,44 @@
+---
+title: "API reference"
+description: "Use service keys to automate FiveMesh CDN and Cache operations."
+icon: "square-terminal"
+---
+
+The FiveMesh API is for scripts, deployment tools and server automation that need to operate FiveMesh services without a dashboard session.
+
+Use the API for workspace-scoped tasks such as preparing CDN uploads, managing public asset paths and operating Cache for registered FiveM servers.
+
+<Info>
+  Endpoint-specific reference pages will be expanded as the public API surface is finalized. Start with authentication and service scopes before connecting scripts.
+</Info>
+
+## API areas
+
+| Area | Use it for |
+| --- | --- |
+| [Authentication](/api-reference/authentication) | Passing service keys, handling scopes and keeping secrets server-side. |
+| [FiveMesh CDN](/api-reference/cdn) | Public asset delivery, folder paths, presigned uploads and purge operations. |
+| [FiveMesh Cache](/api-reference/cache) | Resource cache setup, cache operations, origin settings and observability. |
+
+## Before you call the API
+
+Create a service key from [API keys](/account/api-keys), then choose the smallest permission set that supports your script.
+
+If the script only uploads media for one integration, restrict the key to a path prefix such as `/phone` or `/tablet`.
+
+<Warning>
+  Do not put service keys in client-side Lua, browser code or NUI bundles. Keep API calls that use service keys on the server side.
+</Warning>
+
+## Request pattern
+
+FiveMesh service APIs use bearer authentication.
+
+```bash
+curl "$FIVEMESH_API_URL/v1/..." \
+  -H "Authorization: Bearer $FIVEMESH_API_KEY" \
+  -H "Content-Type: application/json"
+```
+
+Set `FIVEMESH_API_URL` to the API base URL provided for your workspace or integration environment.
+
