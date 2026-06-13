@@ -3,14 +3,18 @@
   "theme": "mint",
   "name": "FiveMesh Docs",
   "colors": {
-    "primary": "#0A0A0A",
-    "light": "#18181B",
-    "dark": "#FAFAFA"
+    "primary": "#18181B",
+    "light": "#FAFAFA",
+    "dark": "#18181B"
   },
-  "favicon": "/favicon.svg",
+  "icons": {
+    "library": "lucide"
+  },
+  "favicon": "/favicon-fivemesh.svg",
   "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
+    "light": "/logo/fivemesh-light.svg",
+    "dark": "/logo/fivemesh-dark.svg",
+    "href": "https://fivemesh.io"
   },
   "navigation": {
     "pages": [
