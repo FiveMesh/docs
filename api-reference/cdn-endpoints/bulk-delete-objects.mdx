@@ -1,0 +1,44 @@
+---
+title: "Bulk delete objects"
+description: "Delete multiple CDN objects and receive per-path results."
+api: "POST /objects/bulk-delete"
+---
+
+Delete multiple CDN objects in one request. The response includes one result per path.
+
+Requires `cdn:delete`.
+
+<ParamField header="Idempotency-Key" type="string">
+  Optional key used to replay the same successful bulk delete response after a retry.
+</ParamField>
+
+<ParamField body="paths" type="string[]" required>
+  Object paths to delete.
+</ParamField>
+
+```bash
+curl -X POST "https://api.fivemesh.io/v1/objects/bulk-delete" \
+  -H "Authorization: Bearer $FIVEMESH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -H "Idempotency-Key: delete-media-batch-001" \
+  -d '{"paths":["screenshots/a.png","screenshots/b.png"]}'
+```
+
+```json
+{
+  "success": true,
+  "results": [
+    {
+      "path": "screenshots/a.png",
+      "success": true,
+      "status": "deleted"
+    },
+    {
+      "path": "screenshots/b.png",
+      "success": false,
+      "error": "PATH_NOT_ALLOWED"
+    }
+  ],
+  "requestId": "req_..."
+}
+```

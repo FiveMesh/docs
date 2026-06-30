@@ -1,0 +1,55 @@
+---
+title: "Upload one object"
+description: "Upload a single CDN object with a multipart request."
+api: "POST /objects"
+---
+
+Upload one file to FiveMesh CDN from a server-side integration.
+
+Requires `cdn:write`.
+
+<ParamField header="Idempotency-Key" type="string">
+  Optional key used to replay the same successful upload response after a retry.
+</ParamField>
+
+<ParamField body="file" type="file" required>
+  File to upload.
+</ParamField>
+
+<ParamField body="path" type="string">
+  Optional destination folder.
+</ParamField>
+
+<ParamField body="filename" type="string">
+  Optional stored filename. Defaults to the uploaded file name.
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Optional string metadata. Non-string values are ignored.
+</ParamField>
+
+```bash
+curl -X POST "https://api.fivemesh.io/v1/objects" \
+  -H "Authorization: Bearer $FIVEMESH_API_KEY" \
+  -H "Idempotency-Key: upload-screenshot-001" \
+  -F "file=@a.png" \
+  -F "path=screenshots" \
+  -F 'metadata={"playerId":"license:abc"}'
+```
+
+```json
+{
+  "success": true,
+  "object": {
+    "key": "screenshots/a.png",
+    "size": 12345,
+    "contentType": "image/png",
+    "etag": "3f2a...",
+    "publicUrl": "https://cdn.fivemesh.io/acme/screenshots/a.png",
+    "metadata": {
+      "playerId": "license:abc"
+    }
+  },
+  "requestId": "req_..."
+}
+```

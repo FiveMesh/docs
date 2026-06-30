@@ -1,0 +1,45 @@
+---
+title: "List objects"
+description: "Read CDN objects under an allowed path."
+api: "GET /objects"
+---
+
+List CDN objects under a workspace path. This endpoint returns object metadata and public delivery URLs only; it does not return file content.
+
+Requires `cdn:read`.
+
+<ParamField query="path" type="string">
+  Optional folder path to list. Required when the service key is restricted to specific prefixes.
+</ParamField>
+
+<ParamField query="limit" type="number">
+  Optional page size from `1` to `1000`.
+</ParamField>
+
+<ParamField query="continuationToken" type="string">
+  Token returned by a previous list response.
+</ParamField>
+
+```bash
+curl "https://api.fivemesh.io/v1/objects?path=screenshots&limit=50" \
+  -H "Authorization: Bearer $FIVEMESH_API_KEY"
+```
+
+```json
+{
+  "success": true,
+  "objects": [
+    {
+      "key": "screenshots/a.png",
+      "size": 12345,
+      "contentType": null,
+      "etag": "3f2a...",
+      "lastModified": "2026-06-16T11:00:00.000Z",
+      "metadata": {},
+      "publicUrl": "https://cdn.fivemesh.io/acme/screenshots/a.png"
+    }
+  ],
+  "continuationToken": null,
+  "requestId": "req_..."
+}
+```

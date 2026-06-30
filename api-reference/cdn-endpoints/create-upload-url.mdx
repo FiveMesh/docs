@@ -1,0 +1,62 @@
+---
+title: "Create an upload URL"
+description: "Create a short-lived URL that can upload files without exposing a service key."
+api: "GET /presigned-url"
+---
+
+Create a short-lived upload URL that can receive files without exposing the service key.
+
+The URL is managed by the FiveMesh API. Uploads still enforce path scope, file limits, MIME allow-lists and metadata rules.
+
+Requires `cdn:write`.
+
+<Info>
+  The upload URL is not a direct storage URL. Send the upload request to the returned `uploadUrl`.
+</Info>
+
+<ParamField query="expiresIn" type="number">
+  Optional lifetime in seconds. The API clamps it to the workspace maximum.
+</ParamField>
+
+<ParamField query="path" type="string">
+  Optional path lock. Uploaded files must stay under this folder.
+</ParamField>
+
+<ParamField query="maxFiles" type="number">
+  Optional maximum number of files accepted by the URL. Defaults to `1`.
+</ParamField>
+
+<ParamField query="maxFileSize" type="number">
+  Optional maximum size per file, in bytes.
+</ParamField>
+
+<ParamField query="allowedMimeTypes" type="string">
+  Optional comma-separated allow-list, such as `image/png,image/jpeg`.
+</ParamField>
+
+<ParamField query="allowCustomMetadata" type="boolean">
+  Optional flag that allows the upload request to include metadata.
+</ParamField>
+
+```bash
+curl "https://api.fivemesh.io/v1/presigned-url?path=screenshots&maxFiles=1&allowedMimeTypes=image/png,image/jpeg" \
+  -H "Authorization: Bearer $FIVEMESH_API_KEY"
+```
+
+```json
+{
+  "success": true,
+  "uploadUrl": "https://api.fivemesh.io/v1/presigned-url/UPLOAD_TOKEN",
+  "method": "POST",
+  "token": "UPLOAD_TOKEN",
+  "expiresAt": "2026-06-16T12:00:00.000Z",
+  "maxFiles": 1,
+  "maxFileSize": 104857600,
+  "allowedMimeTypes": ["image/png", "image/jpeg"],
+  "allowCustomMetadata": false,
+  "path": "screenshots",
+  "requestId": "req_..."
+}
+```
+
+The response uses `Cache-Control: no-store` because the upload URL is a credential.

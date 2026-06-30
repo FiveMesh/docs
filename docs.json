@@ -11,6 +11,14 @@
     "library": "lucide"
   },
   "favicon": "/favicon-fivemesh.svg",
+  "api": {
+    "mdx": {
+      "server": "https://api.fivemesh.io/v1",
+      "auth": {
+        "method": "bearer"
+      }
+    }
+  },
   "logo": {
     "light": "/logo/fivemesh-light.svg",
     "dark": "/logo/fivemesh-dark.svg",
@@ -62,8 +70,21 @@
           "api-reference/introduction",
           "api-reference/authentication",
           {
-            "group": "Services",
-            "pages": ["api-reference/cdn", "api-reference/cache"]
+            "group": "FiveMesh CDN",
+            "pages": [
+              "api-reference/cdn",
+              "api-reference/cdn-endpoints/list-objects",
+              "api-reference/cdn-endpoints/upload-object",
+              "api-reference/cdn-endpoints/bulk-upload-objects",
+              "api-reference/cdn-endpoints/delete-object",
+              "api-reference/cdn-endpoints/bulk-delete-objects",
+              "api-reference/cdn-endpoints/create-upload-url",
+              "api-reference/cdn-endpoints/upload-with-url"
+            ]
+          },
+          {
+            "group": "FiveMesh Cache",
+            "pages": ["api-reference/cache"]
           }
         ]
       },

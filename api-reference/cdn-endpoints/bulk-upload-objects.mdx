@@ -1,0 +1,54 @@
+---
+title: "Bulk upload objects"
+description: "Upload multiple CDN objects and receive per-file results."
+api: "POST /objects/bulk"
+---
+
+Upload multiple files in one multipart request. Each file is validated and uploaded independently, so one failed file does not stop the rest of the batch.
+
+Requires `cdn:write`.
+
+<ParamField header="Idempotency-Key" type="string">
+  Optional key used to replay the same successful bulk response after a retry.
+</ParamField>
+
+<ParamField body="files" type="file[]" required>
+  One or more file fields. Repeated `files` fields are exposed as `files[0]`, `files[1]` and so on in the payload.
+</ParamField>
+
+<ParamField body="payload" type="object" required>
+  JSON object with an `items` array. Each item includes `fieldName`, and may include `path`, `filename` and `metadata`.
+</ParamField>
+
+```bash
+curl -X POST "https://api.fivemesh.io/v1/objects/bulk" \
+  -H "Authorization: Bearer $FIVEMESH_API_KEY" \
+  -H "Idempotency-Key: media-batch-001" \
+  -F "files=@a.png" \
+  -F "files=@b.png" \
+  -F 'payload={"items":[
+    {"fieldName":"files[0]","path":"screenshots","filename":"a.png"},
+    {"fieldName":"files[1]","path":"screenshots","filename":"b.png"}
+  ]}'
+```
+
+```json
+{
+  "success": true,
+  "results": [
+    {
+      "success": true,
+      "fieldName": "files[0]",
+      "key": "screenshots/a.png",
+      "size": 12345,
+      "publicUrl": "https://cdn.fivemesh.io/acme/screenshots/a.png"
+    },
+    {
+      "success": false,
+      "fieldName": "files[1]",
+      "error": "PATH_NOT_ALLOWED"
+    }
+  ],
+  "requestId": "req_..."
+}
+```

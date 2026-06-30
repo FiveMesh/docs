@@ -1,0 +1,37 @@
+---
+title: "Upload with an upload URL"
+description: "Upload files through a scoped URL without sending a service key."
+api: "POST /presigned-url/{token}"
+authMethod: "none"
+---
+
+Upload one or more files to a scoped upload URL created by `GET /presigned-url`.
+
+No service key is required. Send a multipart form body to the returned `uploadUrl`.
+
+<ParamField path="token" type="string" required>
+  Upload token from the `uploadUrl`.
+</ParamField>
+
+<ParamField body="file" type="file" required>
+  File to upload. Multiple files are allowed when the URL was created with `maxFiles` greater than `1`.
+</ParamField>
+
+<ParamField body="path" type="string">
+  Optional destination folder. Must stay inside the URL path lock.
+</ParamField>
+
+<ParamField body="filename" type="string">
+  Optional stored filename.
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Optional metadata when the URL was created with `allowCustomMetadata=true`.
+</ParamField>
+
+```bash
+curl -X POST "https://api.fivemesh.io/v1/presigned-url/UPLOAD_TOKEN" \
+  -F "file=@a.png"
+```
+
+For a single file, the response contains `object`. For multiple files, the response contains `results`.

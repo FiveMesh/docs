@@ -8,17 +8,15 @@ The FiveMesh API is for scripts, deployment tools and server automation that nee
 
 Use the API for workspace-scoped tasks such as preparing CDN uploads, managing public asset paths and operating Cache for registered FiveM servers.
 
-<Info>
-  Endpoint-specific reference pages will be expanded as the public API surface is finalized. Start with authentication and service scopes before connecting scripts.
-</Info>
+Current public endpoints cover FiveMesh CDN object management and scoped upload URLs. FiveMesh Cache endpoints will be documented when the public API surface is available.
 
 ## API areas
 
 | Area | Use it for |
 | --- | --- |
 | [Authentication](/api-reference/authentication) | Passing service keys, handling scopes and keeping secrets server-side. |
-| [FiveMesh CDN](/api-reference/cdn) | Public asset delivery, folder paths, presigned uploads and purge operations. |
-| [FiveMesh Cache](/api-reference/cache) | Resource cache setup, cache operations, origin settings and observability. |
+| [FiveMesh CDN](/api-reference/cdn) | Listing, uploading and deleting CDN objects, plus scoped upload URLs. |
+| [FiveMesh Cache](/api-reference/cache) | Planned resource cache setup, cache operations, origin settings and observability. |
 
 ## Before you call the API
 
@@ -42,3 +40,8 @@ curl "$FIVEMESH_API_URL/v1/..." \
 
 Set `FIVEMESH_API_URL` to the API base URL provided for your workspace or integration environment.
 
+The production API base URL is:
+
+```text
+https://api.fivemesh.io
+```

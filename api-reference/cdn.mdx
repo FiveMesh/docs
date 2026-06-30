@@ -1,57 +1,114 @@
 ---
 title: "FiveMesh CDN API"
-description: "Reference notes for automating public asset delivery with FiveMesh CDN."
+description: "Manage CDN objects, uploads and scoped upload URLs from server-side integrations."
 icon: "radio-tower"
 ---
 
-Use the FiveMesh CDN API when a server-side integration needs to prepare uploads, organize public media paths or operate CDN objects without opening the dashboard.
+Use the FiveMesh CDN API when a server-side integration needs to list, upload or delete CDN objects without opening the dashboard.
 
-## Common operations
+The API manages objects only. Public file delivery happens through the `publicUrl` returned by object responses.
 
-| Operation | Description |
-| --- | --- |
-| Prepare upload | Request a server-side upload target for an asset. |
-| List objects | Read files and folders under a scoped CDN path. |
-| Rename object | Move a file to a new public path. |
-| Delete object | Remove a single object or a selected batch. |
-| Purge path | Refresh delivery state for a path after a change. |
-| Read settings | Inspect retention intent and workspace CDN settings. |
+<Warning>
+  Do not call these endpoints with a service key from client-side Lua, browser code or NUI bundles. Keep service keys on the server side.
+</Warning>
 
-## Path scopes
-
-Service keys can be restricted to path prefixes.
-
-Use prefixes when one script should only manage one media area:
+## Base URL
 
 ```text
-/phone
-/tablet
-/mugshots
-/uploads
+https://api.fivemesh.io/v1
 ```
 
-## Upload flow
+All authenticated CDN routes require a service key with the matching `cdn` permission.
 
-Use presigned upload targets for integrations such as LB-Phone and LB-Tablet.
+```http
+Authorization: Bearer YOUR_FIVEMESH_API_KEY
+```
 
-<Steps>
-  <Step title="Call FiveMesh from the server">
-    Your server-side script requests an upload target using a scoped service key.
-  </Step>
+Every response includes `success` and `requestId`. The same request ID is returned as the `X-Request-Id` header.
 
-  <Step title="Return the upload target">
-    The script returns the generated upload URL to the LB-Scripts upload method.
-  </Step>
+## Permissions
 
-  <Step title="Upload media">
-    The client uploads media to the generated URL without receiving the service key.
-  </Step>
-</Steps>
+| Permission | Allows |
+| --- | --- |
+| `cdn:read` | List objects under allowed paths. |
+| `cdn:write` | Upload objects and create scoped upload URLs. |
+| `cdn:delete` | Delete one object or a batch of objects. |
+
+Service keys can be limited to CDN path prefixes such as `/phone`, `/tablet` or `/uploads`.
+
+<Info>
+  Path checks run against the final normalized object path. Encoded traversal, backslashes, absolute paths and dot-prefixed path segments are rejected or hidden from customer-facing listings.
+</Info>
+
+## Endpoints
+
+| Endpoint | Use it for |
+| --- | --- |
+| `GET /objects` | Read objects under an allowed CDN path. |
+| `POST /objects` | Upload a single file from a server-side integration. |
+| `POST /objects/bulk` | Upload multiple files and receive per-file results. |
+| `DELETE /objects` | Remove a single object by path. |
+| `POST /objects/bulk-delete` | Remove multiple objects and receive per-path results. |
+| `GET /presigned-url` | Create a short-lived upload URL without exposing the service key. |
+| `POST /presigned-url/{token}` | Send files to a scoped upload URL. |
+
+## Object shape
+
+```json
+{
+  "key": "screenshots/a.png",
+  "size": 12345,
+  "contentType": "image/png",
+  "etag": "3f2a...",
+  "lastModified": "2026-06-16T11:00:00.000Z",
+  "metadata": {},
+  "publicUrl": "https://cdn.fivemesh.io/acme/screenshots/a.png"
+}
+```
+
+## Idempotency
+
+Upload and delete routes accept `Idempotency-Key`.
+
+Use this header when retrying a request after a network timeout. Reusing the same idempotency key with a different request returns `CONFLICT`.
+
+```http
+Idempotency-Key: upload-screenshot-001
+```
+
+## Error format
+
+```json
+{
+  "success": false,
+  "error": {
+    "code": "PATH_NOT_ALLOWED",
+    "message": "This API key cannot access the requested path."
+  },
+  "requestId": "req_..."
+}
+```
+
+Common CDN error codes:
+
+| Code | Meaning |
+| --- | --- |
+| `UNAUTHORIZED` | The service key is missing, invalid, disabled or expired. |
+| `FORBIDDEN` | The service key does not include the required permission. |
+| `INVALID_PATH` | The path or filename is not accepted. |
+| `PATH_NOT_ALLOWED` | The path is outside the key or upload URL scope. |
+| `FILE_TOO_LARGE` | The uploaded file is over the allowed size. |
+| `TOO_MANY_FILES` | The request exceeds the file or path count limit. |
+| `CONTENT_TYPE_NOT_ALLOWED` | The file MIME type is not allowed. |
+| `TOKEN_INVALID` | The upload URL token is invalid. |
+| `TOKEN_EXPIRED` | The upload URL token expired or reached its file limit. |
+| `RATE_LIMITED` | Retry after the `Retry-After` header. |
+| `CONFLICT` | An idempotency key was reused with different request content. |
 
 ## Related pages
 
+- [Authentication](/api-reference/authentication)
+- [API keys](/account/api-keys)
 - [Set up FiveMesh CDN](/cdn/setup)
 - [CDN object browser](/cdn/object-browser)
 - [LB-Scripts integration](/integrations/lb-scripts)
-- [API keys](/account/api-keys)
-

@@ -1,0 +1,34 @@
+---
+title: "Delete one object"
+description: "Delete a single CDN object by path."
+api: "DELETE /objects"
+---
+
+Delete one object from FiveMesh CDN.
+
+Requires `cdn:delete`.
+
+<ParamField header="Idempotency-Key" type="string">
+  Optional key used to replay the same successful delete response after a retry.
+</ParamField>
+
+<ParamField query="path" type="string" required>
+  Object path to delete.
+</ParamField>
+
+```bash
+curl -X DELETE "https://api.fivemesh.io/v1/objects?path=screenshots/a.png" \
+  -H "Authorization: Bearer $FIVEMESH_API_KEY" \
+  -H "Idempotency-Key: delete-screenshot-001"
+```
+
+```json
+{
+  "success": true,
+  "key": "screenshots/a.png",
+  "status": "deleted",
+  "requestId": "req_..."
+}
+```
+
+If the object is already gone, the API may return `status: "not_found"`.
