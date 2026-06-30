@@ -10,7 +10,7 @@
   "icons": {
     "library": "lucide"
   },
-  "favicon": "/favicon-fivemesh.svg",
+  "favicon": "/favicons/favicon.ico",
   "api": {
     "mdx": {
       "server": "https://api.fivemesh.io/v1",
