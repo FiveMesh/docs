@@ -118,7 +118,7 @@
     "links": [
       {
         "label": "Support",
-        "href": "https://discord.gg/fivemesh"
+        "href": "https://discord.gg/wBJamWETxr"
       }
     ],
     "primary": {
@@ -141,7 +141,9 @@
   },
   "footer": {
     "socials": {
-      "discord": "https://discord.gg/fivemesh"
+      "github": "https://github.com/FiveMesh",
+      "x": "https://x.com/fivemesh_",
+      "discord": "https://discord.gg/wBJamWETxr"
     }
   }
 }
