@@ -62,10 +62,23 @@ Before you begin, confirm:
 | ConVar | Default | Description |
 | --- | --- | --- |
 | `FIVEMESH_API_KEY` | none | Service key created in the FiveMesh dashboard. |
+| `FIVEMESH_API_KEY_<PROFILE_NAME>` | none | Optional case-sensitive API key profile used by SDK calls with `keyProfile`. |
 | `FIVEMESH_API_URL` | `https://api.fivemesh.io/v1` | FiveMesh API base URL. |
 | `FIVEMESH_SDK_DEBUG` | `false` | Prints the resolved API base URL when the resource starts. |
 
 `FIVEMESH_CDN_API_KEY` and `FIVEMESH_SERVICE_API_KEY` are accepted as fallback key names, but new installs should use `FIVEMESH_API_KEY`.
+
+## API key profiles
+
+Use `FIVEMESH_API_KEY` for the default SDK key. If you want separate keys for specific resources, add profile keys with the exact profile name in the ConVar suffix.
+
+```cfg
+set FIVEMESH_API_KEY "fm_live_..."
+set FIVEMESH_API_KEY_PHONE "fm_live_..."
+set FIVEMESH_API_KEY_MUGSHOTS "fm_live_..."
+```
+
+Profile names are case-sensitive. `keyProfile = "MUGSHOTS"` resolves to `FIVEMESH_API_KEY_MUGSHOTS`; `keyProfile = "mugshots"` resolves to `FIVEMESH_API_KEY_mugshots`.
 
 ## Next steps
 

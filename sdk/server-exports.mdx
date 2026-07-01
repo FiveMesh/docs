@@ -6,7 +6,7 @@ icon: "server"
 
 Use server exports when your FiveM resource needs to manage FiveMesh CDN objects.
 
-The service key is read from `FIVEMESH_API_KEY`, so these exports should be called from server-side Lua or JavaScript.
+The default service key is read from `FIVEMESH_API_KEY`, so these exports should be called from server-side Lua or JavaScript.
 
 ## Upload a file
 
@@ -69,6 +69,22 @@ local result = exports["fivemesh-sdk"]:uploadImage(dataUrl, {
 
 print(result.object.publicUrl)
 ```
+
+## Use an API key profile
+
+Pass `keyProfile` when an export should use a named key such as `FIVEMESH_API_KEY_MUGSHOTS` instead of the default `FIVEMESH_API_KEY`.
+
+```lua
+local result = exports["fivemesh-sdk"]:uploadImage(dataUrl, {
+    playerSource = source
+}, {
+    keyProfile = "MUGSHOTS",
+    filename = "profile.webp",
+    path = "screenshots/profile"
+})
+```
+
+The profile name is case-sensitive and is appended directly to `FIVEMESH_API_KEY_`.
 
 ## Upload multiple files
 
@@ -154,7 +170,7 @@ end
 | `uploadImage(dataUrl, metadata, options)` | Uploads an image data URL. |
 | `bulkUpload(items, options)` | Uploads multiple files and returns per-file results. |
 | `deleteObject(path, options)` | Deletes one object path. |
-| `bulkDelete(paths)` | Deletes multiple object paths and returns per-path results. |
+| `bulkDelete(paths, options)` | Deletes multiple object paths and returns per-path results. |
 
 ## Related pages
 

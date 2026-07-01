@@ -11,6 +11,7 @@ Use this page when the SDK resource starts but an export fails, returns an API e
 | Symptom | Check |
 | --- | --- |
 | `Missing FiveMesh API key` | Confirm `set FIVEMESH_API_KEY "fm_live_..."` is in `server.cfg` before `ensure fivemesh-sdk`. |
+| `Missing FiveMesh API key profile` | Confirm the exact `FIVEMESH_API_KEY_<PROFILE_NAME>` ConVar exists for the `keyProfile` used by the export. |
 | `FORBIDDEN` | Add the required CDN permission to the service key. |
 | `PATH_NOT_ALLOWED` | Check the service key path prefix and the `path` passed to the export. |
 | Screenshot exports fail | Confirm `screenshot-basic` is installed and started before `fivemesh-sdk`. |
@@ -22,9 +23,12 @@ The SDK reads the service key from `FIVEMESH_API_KEY`.
 
 ```cfg
 set FIVEMESH_API_KEY "fm_live_..."
+set FIVEMESH_API_KEY_MUGSHOTS "fm_live_..."
 ```
 
 Create the key from **Account** > **API keys** and give it the exact CDN permission your export needs.
+
+If an export uses `keyProfile = "MUGSHOTS"`, the SDK reads `FIVEMESH_API_KEY_MUGSHOTS`. Profile names are case-sensitive.
 
 | Export | Required permission |
 | --- | --- |
