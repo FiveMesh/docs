@@ -1,0 +1,163 @@
+---
+title: "Server exports"
+description: "Upload, list and delete FiveMesh CDN objects from FiveM server scripts."
+icon: "server"
+---
+
+Use server exports when your FiveM resource needs to manage FiveMesh CDN objects.
+
+The service key is read from `FIVEMESH_API_KEY`, so these exports should be called from server-side Lua or JavaScript.
+
+## Upload a file
+
+Use `uploadFile` when you already have bytes, a data URL or a `Blob`-compatible value.
+
+<CodeGroup>
+
+```lua Lua
+local result = exports["fivemesh-sdk"]:uploadFile(fileBytes, {
+    filename = "inventory.png",
+    path = "inventory/items",
+    metadata = {
+        source = "inventory"
+    }
+})
+
+print(result.object.publicUrl)
+```
+
+```js JavaScript
+const result = await exports["fivemesh-sdk"].uploadFile(fileBytes, {
+  filename: "inventory.png",
+  path: "inventory/items",
+  metadata: {
+    source: "inventory",
+  },
+});
+
+console.log(result.object.publicUrl);
+```
+
+</CodeGroup>
+
+Upload responses include the stored object and its `publicUrl`.
+
+```json
+{
+  "success": true,
+  "object": {
+    "key": "inventory/items/inventory.png",
+    "size": 12421,
+    "contentType": "image/png",
+    "publicUrl": "https://cdn.fivemesh.io/workspace/inventory/items/inventory.png"
+  },
+  "requestId": "req_..."
+}
+```
+
+## Upload an image data URL
+
+Use `uploadImage` when a script gives you an image as a data URL.
+
+```lua
+local result = exports["fivemesh-sdk"]:uploadImage(dataUrl, {
+    playerSource = source
+}, {
+    filename = "profile.webp",
+    path = "screenshots/profile"
+})
+
+print(result.object.publicUrl)
+```
+
+## Upload multiple files
+
+Use `bulkUpload` when a resource needs to upload a small batch and handle per-file results.
+
+```lua
+local result = exports["fivemesh-sdk"]:bulkUpload({
+    {
+        data = firstFileBytes,
+        filename = "a.png",
+        path = "inventory/items"
+    },
+    {
+        data = secondFileBytes,
+        filename = "b.png",
+        path = "inventory/items"
+    }
+})
+
+for _, item in ipairs(result.results) do
+    if item.success then
+        print(item.publicUrl)
+    else
+        print(("Upload failed for %s: %s"):format(item.fieldName, item.error))
+    end
+end
+```
+
+## List CDN objects
+
+Use `listObjects` with a path and optional pagination limit.
+
+```lua
+local result = exports["fivemesh-sdk"]:listObjects({
+    path = "screenshots",
+    limit = 50
+})
+
+for _, object in ipairs(result.objects) do
+    print(object.key, object.publicUrl)
+end
+```
+
+If `continuationToken` is returned, pass it to the next call.
+
+```lua
+local nextPage = exports["fivemesh-sdk"]:listObjects({
+    path = "screenshots",
+    limit = 50,
+    continuationToken = result.continuationToken
+})
+```
+
+## Delete objects
+
+Use `deleteObject` for one path or `bulkDelete` for a batch.
+
+```lua
+exports["fivemesh-sdk"]:deleteObject("screenshots/old.webp")
+
+local result = exports["fivemesh-sdk"]:bulkDelete({
+    "screenshots/a.webp",
+    "screenshots/b.webp"
+})
+```
+
+Bulk delete returns one result per path, so your script can log partial failures.
+
+```lua
+for _, item in ipairs(result.results) do
+    if not item.success then
+        print(("Failed to delete %s: %s"):format(item.path, item.error))
+    end
+end
+```
+
+## Export reference
+
+| Export | Description |
+| --- | --- |
+| `listObjects(options)` | Lists objects under an allowed CDN path. |
+| `uploadFile(data, options)` | Uploads one file to FiveMesh CDN. |
+| `uploadImage(dataUrl, metadata, options)` | Uploads an image data URL. |
+| `bulkUpload(items, options)` | Uploads multiple files and returns per-file results. |
+| `deleteObject(path, options)` | Deletes one object path. |
+| `bulkDelete(paths)` | Deletes multiple object paths and returns per-path results. |
+
+## Related pages
+
+- [Installation](/sdk/installation)
+- [Screenshots](/sdk/screenshots)
+- [FiveMesh CDN API](/api-reference/cdn)

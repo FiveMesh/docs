@@ -1,37 +1,65 @@
 ---
-title: "SDK"
-description: "SDK plans and integration guidance for FiveMesh automation."
+title: "FiveM SDK"
+description: "Use the FiveMesh SDK resource to call FiveMesh CDN from FiveM server scripts."
 icon: "code"
 ---
 
-The FiveMesh SDK will wrap common API workflows for service keys, CDN uploads and Cache operations.
+The FiveMesh SDK is a FiveM resource that connects your server scripts to the FiveMesh API.
 
-Until the SDK package is published, use the API reference pages and keep API calls server-side.
+Use it when a resource needs to upload, list or delete FiveMesh CDN objects without hand-writing HTTP requests. The SDK keeps your service key on the server side. Client exports call back to the server resource before anything is sent to FiveMesh.
 
-## Planned coverage
+<Warning>
+  Do not place a FiveMesh service key in client-side Lua, NUI code or browser bundles. Configure the key as a server ConVar and let the SDK call the API from the server resource.
+</Warning>
 
-| Area | Planned helpers |
+## What the SDK covers
+
+| Area | Exports |
 | --- | --- |
-| Authentication | Service key configuration and request helpers. |
-| FiveMesh CDN | Presigned upload preparation, object listing, deletion and purge helpers. |
-| FiveMesh Cache | Cache state, purge and preload helpers for registered servers. |
+| Object reads | `listObjects` |
+| Object uploads | `uploadFile`, `uploadImage`, `bulkUpload` |
+| Object deletion | `deleteObject`, `bulkDelete` |
+| Scoped upload URLs | `createPresignedUrl`, `uploadWithPresignedUrl` |
+| Screenshots | `takeServerImage`, client `takeImage` |
 
-## Current integration path
+FiveMesh Cache helpers are not part of the first SDK release.
 
-For new integrations, use server-side HTTP calls with scoped service keys.
+## Start here
 
-```bash
-FIVEMESH_API_URL="https://..."
-FIVEMESH_API_KEY="..."
-```
+<Columns cols={2}>
+  <Card title="Install the SDK" icon="download" href="/sdk/installation">
+    Add the resource, configure `FIVEMESH_API_KEY` and confirm the SDK starts.
+  </Card>
 
-<Info>
-  Keep the API URL and service key in server-only configuration. Client code should receive temporary upload targets or public asset URLs, not service keys.
-</Info>
+  <Card title="Call server exports" icon="server" href="/sdk/server-exports">
+    Upload, list and delete CDN objects from server-side Lua or JavaScript.
+  </Card>
+
+  <Card title="Capture screenshots" icon="camera" href="/sdk/screenshots">
+    Use `screenshot-basic` with `takeServerImage` or client `takeImage`.
+  </Card>
+
+  <Card title="Create upload URLs" icon="link" href="/sdk/presigned-uploads">
+    Give another script a short-lived upload target without exposing your service key.
+  </Card>
+</Columns>
+
+## Permissions
+
+Use these permissions when creating the service key:
+
+| Permission | Required for |
+| --- | --- |
+| `cdn:read` | `listObjects` |
+| `cdn:write` | `uploadFile`, `uploadImage`, `bulkUpload`, `createPresignedUrl`, `takeServerImage`, client `takeImage` |
+| `cdn:delete` | `deleteObject`, `bulkDelete` |
+
+<Tip>
+  Scope the service key to the path your resource owns, such as `/phone`, `/screenshots` or `/inventory`. This limits what the script can access if the key is copied by mistake.
+</Tip>
 
 ## Related pages
 
-- [API reference](/api-reference/introduction)
-- [Authentication](/api-reference/authentication)
+- [API keys](/account/api-keys)
+- [FiveMesh CDN API](/api-reference/cdn)
 - [LB-Scripts integration](/integrations/lb-scripts)
-

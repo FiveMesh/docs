@@ -1,0 +1,57 @@
+---
+title: "Scoped upload URLs"
+description: "Create temporary upload URLs without exposing a FiveMesh service key."
+icon: "link"
+---
+
+Use scoped upload URLs when another script or client-visible integration needs to upload a file without receiving the service key.
+
+The SDK calls `GET /presigned-url` with your server-side service key and returns a short-lived `uploadUrl`. Uploads sent to that URL are checked against the path, file count, file size and MIME rules you configured.
+
+## Create an upload URL
+
+```lua
+local upload = exports["fivemesh-sdk"]:createPresignedUrl({
+    path = "uploads",
+    maxFiles = 1,
+    expiresIn = 3600,
+    allowedMimeTypes = { "image/png", "image/jpeg" },
+    allowCustomMetadata = true
+})
+
+print(upload.uploadUrl)
+```
+
+The returned URL is a credential. Keep it short-lived and scoped to the path the caller needs.
+
+## Upload with the URL
+
+Use `uploadWithPresignedUrl` if a server resource already has a token or full upload URL and wants to send a file through it.
+
+```lua
+local result = exports["fivemesh-sdk"]:uploadWithPresignedUrl(upload.uploadUrl, fileBytes, {
+    filename = "proof.png",
+    metadata = {
+        source = "support"
+    }
+})
+
+print(result.object.publicUrl)
+```
+
+## Options
+
+| Option | Description |
+| --- | --- |
+| `path` | Locks uploads to a CDN folder. |
+| `maxFiles` | Maximum files accepted by the URL. |
+| `expiresIn` | URL lifetime in seconds. |
+| `maxFileSize` | Maximum bytes accepted per file. |
+| `allowedMimeTypes` | MIME allow-list such as `image/png` or `image/jpeg`. |
+| `allowCustomMetadata` | Allows upload requests to include metadata. |
+
+## Related pages
+
+- [Server exports](/sdk/server-exports)
+- [FiveMesh CDN API](/api-reference/cdn)
+- [LB-Scripts integration](/integrations/lb-scripts)

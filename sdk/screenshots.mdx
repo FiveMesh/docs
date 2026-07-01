@@ -1,0 +1,66 @@
+---
+title: "Screenshots"
+description: "Capture player screenshots and upload them to FiveMesh CDN."
+icon: "camera"
+---
+
+Screenshot helpers use `screenshot-basic` to capture an image, then upload it through the SDK server resource.
+
+Start `screenshot-basic` before `fivemesh-sdk`.
+
+```cfg
+ensure screenshot-basic
+ensure fivemesh-sdk
+```
+
+## Capture from the server
+
+Use `takeServerImage` when a server script wants to request a screenshot from a specific player.
+
+```lua
+local result = exports["fivemesh-sdk"]:takeServerImage(source, {
+    reason = "support-ticket"
+}, {
+    path = "screenshots/support",
+    filename = "ticket.webp",
+    encoding = "webp",
+    quality = 0.82
+}, 15000)
+
+print(result.object.publicUrl)
+```
+
+The last argument is the timeout in milliseconds.
+
+## Capture from the client
+
+Use client `takeImage` when client code should trigger its own screenshot.
+
+```lua
+local result = exports["fivemesh-sdk"]:takeImage({
+    reason = "profile"
+}, {
+    path = "screenshots/profile",
+    filename = "profile.webp"
+})
+
+print(result.object.publicUrl)
+```
+
+The client export sends the request back to the SDK server resource. The service key stays server-side.
+
+## Options
+
+| Option | Description |
+| --- | --- |
+| `path` | Destination folder inside your allowed CDN path. |
+| `filename` | Stored filename. |
+| `encoding` | Screenshot encoding: `png`, `jpg` or `webp`. |
+| `quality` | Screenshot quality passed to `screenshot-basic`. |
+| `metadata` | Custom metadata stored with the uploaded object. |
+
+## Related pages
+
+- [Installation](/sdk/installation)
+- [Server exports](/sdk/server-exports)
+- [Troubleshooting](/sdk/troubleshooting)

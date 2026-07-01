@@ -1,0 +1,74 @@
+---
+title: "Installation"
+description: "Install the FiveMesh SDK resource and configure the server ConVars."
+icon: "download"
+---
+
+Install the SDK as a FiveM resource and configure the service key in `server.cfg`.
+
+## Prerequisites
+
+Before you begin, confirm:
+
+- FiveMesh CDN is set up for the workspace.
+- You have a service key with the permissions your script needs.
+- You can edit `server.cfg`.
+- `screenshot-basic` is installed if you plan to use screenshot exports.
+
+## Install the resource
+
+<Steps>
+  <Step title="Download the SDK">
+    Download the latest release from the [`FiveMesh/sdk` GitHub repository](https://github.com/FiveMesh/sdk/releases/latest).
+
+    Releases include a built and zipped FiveM resource.
+
+    {/* TODO: Verify the final release asset name after the build-and-zip workflow is enabled. */}
+  </Step>
+
+  <Step title="Place it in your resources folder">
+    Add the folder to your FiveM server resources directory.
+
+    The examples in these docs assume the folder is named `fivemesh-sdk`. If you use another folder name, use that name in `ensure` and `exports[...]`.
+  </Step>
+
+  <Step title="Configure server.cfg">
+    Add the resource and service key to `server.cfg`.
+
+    ```cfg
+    ensure screenshot-basic # only required for screenshot helpers
+    ensure fivemesh-sdk
+
+    set FIVEMESH_API_KEY "fm_live_..."
+    ```
+  </Step>
+
+  <Step title="Restart the resource">
+    Restart the server or run:
+
+    ```text
+    refresh
+    ensure fivemesh-sdk
+    ```
+  </Step>
+</Steps>
+
+<Check>
+  When the SDK starts, the server console prints `[FiveMesh SDK] Ready.`
+</Check>
+
+## Configuration
+
+| ConVar | Default | Description |
+| --- | --- | --- |
+| `FIVEMESH_API_KEY` | none | Service key created in the FiveMesh dashboard. |
+| `FIVEMESH_API_URL` | `https://api.fivemesh.io/v1` | FiveMesh API base URL. |
+| `FIVEMESH_SDK_DEBUG` | `false` | Prints the resolved API base URL when the resource starts. |
+
+`FIVEMESH_CDN_API_KEY` and `FIVEMESH_SERVICE_API_KEY` are accepted as fallback key names, but new installs should use `FIVEMESH_API_KEY`.
+
+## Next steps
+
+- [Call server exports](/sdk/server-exports)
+- [Capture screenshots](/sdk/screenshots)
+- [Create scoped upload URLs](/sdk/presigned-uploads)

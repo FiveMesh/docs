@@ -91,7 +91,19 @@
       {
         "tab": "SDK",
         "icon": "code",
-        "pages": ["sdk/introduction"]
+        "pages": [
+          "sdk/introduction",
+          {
+            "group": "FiveM SDK",
+            "pages": [
+              "sdk/installation",
+              "sdk/server-exports",
+              "sdk/screenshots",
+              "sdk/presigned-uploads",
+              "sdk/troubleshooting"
+            ]
+          }
+        ]
       }
     ],
     "global": {

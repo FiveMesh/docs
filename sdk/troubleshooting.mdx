@@ -1,0 +1,65 @@
+---
+title: "SDK troubleshooting"
+description: "Resolve common FiveMesh SDK setup, permission and upload errors."
+icon: "circle-question-mark"
+---
+
+Use this page when the SDK resource starts but an export fails, returns an API error or cannot capture screenshots.
+
+## Common errors
+
+| Symptom | Check |
+| --- | --- |
+| `Missing FiveMesh API key` | Confirm `set FIVEMESH_API_KEY "fm_live_..."` is in `server.cfg` before `ensure fivemesh-sdk`. |
+| `FORBIDDEN` | Add the required CDN permission to the service key. |
+| `PATH_NOT_ALLOWED` | Check the service key path prefix and the `path` passed to the export. |
+| Screenshot exports fail | Confirm `screenshot-basic` is installed and started before `fivemesh-sdk`. |
+| Upload URL expired | Create a new upload URL and keep `expiresIn` short but long enough for the caller to upload. |
+
+## Check the service key
+
+The SDK reads the service key from `FIVEMESH_API_KEY`.
+
+```cfg
+set FIVEMESH_API_KEY "fm_live_..."
+```
+
+Create the key from **Account** > **API keys** and give it the exact CDN permission your export needs.
+
+| Export | Required permission |
+| --- | --- |
+| `listObjects` | `cdn:read` |
+| `uploadFile`, `uploadImage`, `bulkUpload` | `cdn:write` |
+| `createPresignedUrl`, `takeServerImage`, client `takeImage` | `cdn:write` |
+| `deleteObject`, `bulkDelete` | `cdn:delete` |
+
+## Check the path scope
+
+If the service key is scoped to `/screenshots`, keep uploads and deletes under that path.
+
+```lua
+exports["fivemesh-sdk"]:uploadImage(dataUrl, nil, {
+    path = "screenshots/profile",
+    filename = "profile.webp"
+})
+```
+
+Avoid absolute paths, backslashes and dot-prefixed segments.
+
+## Check screenshot setup
+
+Screenshot helpers require `screenshot-basic`.
+
+```cfg
+ensure screenshot-basic
+ensure fivemesh-sdk
+```
+
+If the call times out, increase the timeout passed to `takeServerImage` and confirm the target player is still connected.
+
+## Related pages
+
+- [Installation](/sdk/installation)
+- [Server exports](/sdk/server-exports)
+- [Screenshots](/sdk/screenshots)
+- [API keys](/account/api-keys)
