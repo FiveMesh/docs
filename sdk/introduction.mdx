@@ -6,7 +6,7 @@ icon: "code"
 
 The FiveMesh SDK is a FiveM resource that connects your server scripts to the FiveMesh API.
 
-Use it when a resource needs to upload, list or delete FiveMesh CDN objects without hand-writing HTTP requests. The SDK keeps your service key on the server side. Client exports call back to the server resource before anything is sent to FiveMesh.
+Use it when a resource needs to upload, list, delete or purge FiveMesh CDN objects without hand-writing HTTP requests. The SDK keeps your service key on the server side. Client exports call back to the server resource before anything is sent to FiveMesh.
 
 <Warning>
   Do not place a FiveMesh service key in client-side Lua, NUI code or browser bundles. Configure the key as a server ConVar and let the SDK call the API from the server resource.
@@ -19,6 +19,7 @@ Use it when a resource needs to upload, list or delete FiveMesh CDN objects with
 | Object reads | `listObjects` |
 | Object uploads | `uploadFile`, `uploadImage`, `bulkUpload` |
 | Object deletion | `deleteObject`, `bulkDelete` |
+| CDN cache purge | `purgeObjects` |
 | Scoped upload URLs | `createPresignedUrl`, `uploadWithPresignedUrl` |
 | Screenshots | `takeServerImage`, client `takeImage` |
 
@@ -32,7 +33,7 @@ FiveMesh Cache helpers are not part of the first SDK release.
   </Card>
 
   <Card title="Call server exports" icon="server" href="/sdk/server-exports">
-    Upload, list and delete CDN objects from server-side Lua or JavaScript.
+    Upload, list, delete and purge CDN objects from server-side Lua or JavaScript.
   </Card>
 
   <Card title="Capture screenshots" icon="camera" href="/sdk/screenshots">
@@ -53,6 +54,7 @@ Use these permissions when creating the service key:
 | `cdn:read` | `listObjects` |
 | `cdn:write` | `uploadFile`, `uploadImage`, `bulkUpload`, `createPresignedUrl`, `takeServerImage`, client `takeImage` |
 | `cdn:delete` | `deleteObject`, `bulkDelete` |
+| `cdn:purge` | `purgeObjects` |
 
 <Tip>
   Scope the service key to the path your resource owns, such as `/phone`, `/screenshots` or `/inventory`. This limits what the script can access if the key is copied by mistake.

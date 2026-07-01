@@ -1,6 +1,6 @@
 ---
 title: "Server exports"
-description: "Upload, list and delete FiveMesh CDN objects from FiveM server scripts."
+description: "Upload, list, delete and purge FiveMesh CDN objects from FiveM server scripts."
 icon: "server"
 ---
 
@@ -161,6 +161,34 @@ for _, item in ipairs(result.results) do
 end
 ```
 
+## Purge CDN files
+
+Use `purgeObjects` when a resource needs Cloudflare to refresh public CDN files after an overwrite or external change. The paths are bucket-relative and must be allowed by the service key.
+
+<CodeGroup>
+
+```lua Lua
+local result = exports["fivemesh-sdk"]:purgeObjects({
+    "screenshots/a.webp",
+    "screenshots/b.webp"
+})
+
+print(("Purged %d CDN files"):format(result.purged))
+```
+
+```js JavaScript
+const result = await exports["fivemesh-sdk"].purgeObjects([
+  "screenshots/a.webp",
+  "screenshots/b.webp",
+]);
+
+console.log(`Purged ${result.purged} CDN files`);
+```
+
+</CodeGroup>
+
+The service key needs `cdn:purge` for this export.
+
 ## Export reference
 
 | Export | Description |
@@ -171,6 +199,7 @@ end
 | `bulkUpload(items, options)` | Uploads multiple files and returns per-file results. |
 | `deleteObject(path, options)` | Deletes one object path. |
 | `bulkDelete(paths, options)` | Deletes multiple object paths and returns per-path results. |
+| `purgeObjects(paths, options)` | Purges public CDN cache for one or more object paths. |
 
 ## Related pages
 
