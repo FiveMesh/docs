@@ -1,12 +1,12 @@
 ---
 title: "CDN settings"
-description: "Manage CDN retention policies and understand read-only service states."
+description: "Manage CDN placeholders, retention policies and read-only service states."
 icon: "settings-2"
 ---
 
 CDN settings control workspace-level configuration for public asset paths.
 
-The current settings page focuses on TTL policies. These policies record retention intent per path.
+The settings page includes placeholders for missing images and TTL policies for retention intent.
 
 ## Permissions
 
@@ -14,10 +14,70 @@ Your organization role controls whether settings are editable.
 
 | State | Meaning |
 | --- | --- |
-| Editable | You can add, update and save TTL policies. |
-| Read-only | You can view policies, but your organization role cannot update them. |
+| Editable | You can add, update and save placeholders and TTL policies. |
+| Read-only | You can view settings, but your organization role cannot update them. |
 
 If settings are read-only and you need to change them, ask an organization owner or admin to update your role.
+
+## Placeholders
+
+Placeholders are fallback images for missing public CDN objects.
+
+When a requested file exists, FiveMesh CDN serves the file normally. When the file does not exist, FiveMesh checks your placeholder patterns. If a pattern matches the requested path, the matching placeholder image is served instead.
+
+This is useful for inventory icons, shop images, job logos, vehicle thumbnails, default avatars and other image-heavy FiveM interfaces where a missing file would otherwise show as a broken image.
+
+<Note>
+  Placeholders do not create the missing file. Upload the real image when it is ready.
+</Note>
+
+## Add a placeholder
+
+<Steps>
+  <Step title="Open settings">
+    In **CDN**, open the **Settings** tab.
+  </Step>
+
+  <Step title="Create a placeholder">
+    In **Placeholders**, click **Add placeholder**.
+  </Step>
+
+  <Step title="Enter a pattern">
+    Enter the path pattern that should use the fallback image, such as `inventory/items/*`.
+  </Step>
+
+  <Step title="Upload the fallback image">
+    Choose the image FiveMesh should serve when a missing object matches the pattern.
+  </Step>
+
+  <Step title="Save the placeholder">
+    Save the rule. New matching missing-file requests can now return the placeholder image.
+  </Step>
+</Steps>
+
+## Placeholder patterns
+
+Use patterns that match your folder structure.
+
+| Pattern | Example use |
+| --- | --- |
+| `inventory/items/*` | Inventory item icons |
+| `shops/icons/*` | Shop product images |
+| `vehicles/images/*` | Vehicle thumbnails |
+| `jobs/logos/*` | Job or business logos |
+| `phone/avatars/*` | Default avatar fallbacks |
+
+Keep patterns narrow when different folders need different fallback images. A broad pattern can be useful, but it may make unrelated missing images use the same placeholder.
+
+<Tip>
+  Use placeholders as a graceful fallback, not as a replacement for organizing and uploading the real assets.
+</Tip>
+
+## Update or delete a placeholder
+
+Use the actions in the **Placeholders** list to edit the pattern, replace the image or delete the rule.
+
+Deleting a placeholder rule stops future fallback responses for that pattern. It does not delete real CDN objects that were uploaded outside the placeholder rule.
 
 ## Add a TTL policy
 
