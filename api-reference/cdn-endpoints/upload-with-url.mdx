@@ -18,7 +18,7 @@ No service key is required. Send a multipart form body to the returned `uploadUr
 </ParamField>
 
 <ParamField body="path" type="string">
-  Optional destination folder. Must stay inside the URL path lock.
+  Optional destination folder. If omitted, the upload uses the `path` from the created URL. When provided, it must stay inside the URL path lock.
 </ParamField>
 
 <ParamField body="filename" type="string">
@@ -33,5 +33,7 @@ No service key is required. Send a multipart form body to the returned `uploadUr
 curl -X POST "https://api.fivemesh.io/v1/presigned-url/UPLOAD_TOKEN" \
   -F "file=@a.png"
 ```
+
+If the upload URL was created with `path=screenshots`, this request stores `a.png` under `screenshots/a.png`.
 
 For a single file, the response contains `object`. For multiple files, the response contains `results`.

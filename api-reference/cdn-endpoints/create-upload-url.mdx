@@ -19,7 +19,7 @@ Requires `cdn:write`.
 </ParamField>
 
 <ParamField query="path" type="string">
-  Optional path lock. Uploaded files must stay under this folder.
+  Optional path lock and default upload folder. Uploaded files must stay under this folder. If the upload request omits `path`, files are stored here.
 </ParamField>
 
 <ParamField query="maxFiles" type="number">
