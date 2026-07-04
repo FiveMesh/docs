@@ -9,7 +9,9 @@ Use FiveMesh CDN with [LB-Phone](https://lbscripts.com/phone) or [LB-Tablet](htt
 Use presigned uploads so the script can upload phone or tablet media without exposing your FiveMesh service key to clients.
 
 <Tip>
-  If you use both LB-Phone and LB-Tablet, give each script its own CDN path prefix such as `/phone` and `/tablet`. You can restrict service keys to those prefixes from the FiveMesh dashboard.
+  If you use both LB-Phone and LB-Tablet, give each script its own CDN path
+  prefix such as `/phone` and `/tablet`. You can restrict service keys to those
+  prefixes from the FiveMesh dashboard.
 </Tip>
 
 ## Prerequisites
@@ -23,15 +25,17 @@ Before you begin, confirm:
 
 Use these values while configuring the integration:
 
-| Value | Description |
-| --- | --- |
+| Value                           | Description                                                                                    |
+| ------------------------------- | ---------------------------------------------------------------------------------------------- |
 | `FIVEMESH_PRESIGNED_UPLOAD_URL` | The presigned upload endpoint provided for your FiveMesh workspace or integration environment. |
-| `YOUR_API_KEY` | A scoped FiveMesh service key. |
-| `YOUR_CDN_WORKSPACE` | The CDN workspace name you configured during setup. |
-| `file` | The upload field name used by LB-Scripts. |
+| `YOUR_API_KEY`                  | A scoped FiveMesh service key.                                                                 |
+| `YOUR_CDN_WORKSPACE`            | The CDN workspace name you configured during setup.                                            |
+| `file`                          | The upload field name used by LB-Scripts.                                                      |
 
 <Warning>
-  Do not configure direct uploads with a permanent API key in client-visible files. Keep the service key in server-side LB-Scripts files and return presigned upload URLs to the client.
+  Do not configure direct uploads with a permanent API key in client-visible
+  files. Keep the service key in server-side LB-Scripts files and return
+  presigned upload URLs to the client.
 </Warning>
 
 ## LB-Phone configuration
@@ -40,7 +44,7 @@ To use presigned uploads with LB-Phone, update the server and upload configurati
 
 <Steps>
   <Step title="Configure server credentials">
-    Open `lb-phone/server/apiKeys.lua` and configure the API keys, workspace names and target path prefixes.
+    Open `lb-phone/server/apiKeys.lua` and configure the API keys and target path prefixes.
 
     ```lua
     API_KEYS = {
@@ -49,20 +53,13 @@ To use presigned uploads with LB-Phone, update the server and upload configurati
         Audio = "YOUR_API_KEY",
     }
 
-    CDN_WORKSPACES = {
-        Video = "YOUR_CDN_WORKSPACE",
-        Image = "YOUR_CDN_WORKSPACE",
-        Audio = "YOUR_CDN_WORKSPACE",
+    UPLOAD_PATHS = {
+        Video = "phone/video",
+        Image = "phone/images",
+        Audio = "phone/audio",
     }
-
-    CDN_PATH_PREFIXES = {
-        Video = "/phone/video",
-        Image = "/phone/images",
-        Audio = "/phone/audio",
-    }
-
-    FIVEMESH_PRESIGNED_UPLOAD_URL = "YOUR_PRESIGNED_UPLOAD_ENDPOINT"
     ```
+
   </Step>
 
   <Step title="Request a presigned upload URL">
@@ -71,39 +68,35 @@ To use presigned uploads with LB-Phone, update the server and upload configurati
     ```lua
     function GetPresignedUrl(source, uploadType)
         local apiKey = API_KEYS[uploadType]
-        local workspace = CDN_WORKSPACES[uploadType]
-        local pathPrefix = CDN_PATH_PREFIXES[uploadType]
+        local uploadPath = UPLOAD_PATHS[uploadType]
 
-        if not apiKey or not workspace or not pathPrefix then
-            infoprint("error", ("[GetPresignedUrl] Invalid uploadType '%s'"):format(uploadType))
+        if not apiKey then
+            infoprint("error", ("[GetPresignedUrl] Invalid uploadType '%s' (missing API key or bucket")):format(uploadType))
             return false
         end
 
         local p = promise.new()
 
-        local endpoint = ("%s?randomizeName=true&workspace=%s&pathPrefix=%s"):format(
-            FIVEMESH_PRESIGNED_UPLOAD_URL,
-            workspace,
-            pathPrefix
-        )
-
         PerformHttpRequest(
-            endpoint,
+            ("https://api.fivemesh.io/v1/presigned-url?allowCustomMetadata=true&randomizeName=true&path=%s"):format(uploadPath),
             function(status, body, headers, error)
-                if status ~= 200 then
+                if status ~= 201 then
                     infoprint("error", ("[GetPresignedUrl] Request failed for '%s', status: %s"):format(uploadType, status))
+                    if error then
+                      infoprint("error", "Error: " .. error)
+                    end
                     p:resolve(false)
                     return
                 end
 
                 local ok, data = pcall(json.decode, body)
-                if not ok or not data or not data.url then
+                if not ok or not data or not data.success or not data.uploadUrl then
                     infoprint("error", ("[GetPresignedUrl] Invalid response for '%s'"):format(uploadType))
                     p:resolve(false)
                     return
                 end
 
-                p:resolve(data.url)
+                p:resolve(data.uploadUrl)
             end,
             "GET",
             nil,
@@ -113,6 +106,7 @@ To use presigned uploads with LB-Phone, update the server and upload configurati
         return Citizen.Await(p)
     end
     ```
+
   </Step>
 
   <Step title="Use presigned URLs in upload settings">
@@ -136,6 +130,7 @@ To use presigned uploads with LB-Phone, update the server and upload configurati
         }
     }
     ```
+
   </Step>
 
   <Step title="Return the custom method">
@@ -161,6 +156,7 @@ To use presigned uploads with LB-Phone, update the server and upload configurati
         return method
     end
     ```
+
   </Step>
 </Steps>
 
@@ -170,16 +166,18 @@ LB-Tablet uses the same presigned upload pattern.
 
 <Steps>
   <Step title="Configure server credentials">
-    Open `lb-tablet/server/apiKeys.lua` and add the same `API_KEYS`, `CDN_WORKSPACES`, `CDN_PATH_PREFIXES` and `FIVEMESH_PRESIGNED_UPLOAD_URL` values.
+    Open `lb-tablet/server/apiKeys.lua` and add the same `API_KEYS` and `UPLOAD_PATHS ` values.
   </Step>
 
-  <Step title="Request a presigned upload URL">
-    Update `lb-tablet/server/custom/functions/functions.lua` with the same `GetPresignedUrl` function used for LB-Phone.
-  </Step>
+<Step title="Request a presigned upload URL">
+  Update `lb-tablet/server/custom/functions/functions.lua` with the same
+  `GetPresignedUrl` function used for LB-Phone.
+</Step>
 
-  <Step title="Use presigned URLs in upload settings">
-    In `lb-tablet/config/upload.lua`, set `url = "PRESIGNED_URL"` for each custom media type.
-  </Step>
+<Step title="Use presigned URLs in upload settings">
+  In `lb-tablet/config/upload.lua`, set `url = "PRESIGNED_URL"` for each custom
+  media type.
+</Step>
 
   <Step title="Return the custom method">
     Confirm `CustomGetUploadMethod` is implemented in `lb-tablet/client/custom/functions/functions.lua`.
