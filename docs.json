@@ -50,6 +50,10 @@
             "pages": ["cache/setup", "cache/operations"]
           },
           {
+            "group": "FiveMesh Voice",
+            "pages": ["voice/setup", "voice/operations"]
+          },
+          {
             "group": "Integrations",
             "pages": ["integrations/lb-scripts"]
           },
@@ -85,6 +89,10 @@
           {
             "group": "FiveMesh Cache",
             "pages": ["api-reference/cache"]
+          },
+          {
+            "group": "FiveMesh Voice",
+            "pages": ["api-reference/voice"]
           }
         ]
       },

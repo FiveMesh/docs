@@ -18,6 +18,7 @@ Personal workspace resources can include:
 - Registered cfx.re servers.
 - A CDN workspace.
 - Cache configuration for registered servers.
+- Voice instances for registered servers.
 - User-owned API keys.
 
 ## Organization workspace
@@ -28,7 +29,7 @@ An organization can include:
 
 - Members and invitations.
 - Role-based permissions.
-- Shared access to CDN and Cache.
+- Shared access to CDN, Cache and Voice.
 - Organization-scoped API keys.
 
 ## Switch workspace
@@ -43,12 +44,12 @@ An organization can include:
   </Step>
 
   <Step title="Review service access">
-    Open **Overview**, **CDN** or **Cache** to confirm the selected workspace has the expected service state.
+    Open **Overview**, **CDN**, **Cache** or **Voice** to confirm the selected workspace has the expected service state.
   </Step>
 </Steps>
 
 <Warning>
-  Workspace context affects service actions. Check the active workspace before uploading files, purging Cache, rotating keys or changing organization settings.
+  Workspace context affects service actions. Check the active workspace before uploading files, purging Cache, restarting Voice instances, rotating keys or changing organization settings.
 </Warning>
 
 ## When access looks wrong
@@ -58,7 +59,7 @@ If the dashboard does not show the service you expect:
 - Confirm you selected the correct workspace.
 - Check that the workspace has active billing or trial access.
 - For organizations, confirm the service is shared under **Organization**.
-- For Cache, confirm the server is registered under the active workspace.
+- For Cache or Voice, confirm the server is registered under the active workspace.
 
 ## Related pages
 

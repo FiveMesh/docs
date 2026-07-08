@@ -1,6 +1,6 @@
 ---
 title: "Troubleshooting"
-description: "Resolve common FiveMesh dashboard, CDN, Cache, workspace and permission issues."
+description: "Resolve common FiveMesh dashboard, CDN, Cache, Voice, workspace and permission issues."
 icon: "circle-help"
 ---
 
@@ -82,6 +82,44 @@ Existing `adhesive_cdnKey` secrets are not shown again.
 
 Rotate the key in **Cache** > **Settings**, copy the new `server.cfg` block, then update your server configuration.
 
+## Voice setup is unavailable
+
+Check:
+
+- The active workspace has billing or trial access.
+- The active plan includes FiveMesh Voice.
+- The server is registered under **Account** > **Servers**.
+- Your organization role can create Voice instances.
+- The selected server does not already have an active Voice instance.
+- The workspace has not reached its Voice instance limit.
+- At least one Voice region is accepting new instances.
+
+## PMA-Voice does not connect to the endpoint
+
+Check:
+
+1. Open **Voice** and select the instance.
+2. Copy the latest PMA-Voice setup block from the instance detail page.
+3. Confirm `voice_externalAddress` contains only the hostname, without `http://` or `https://`.
+4. Confirm `voice_externalPort` matches the port shown in the dashboard.
+5. Restart or reload your server using your normal deployment process.
+6. Confirm the instance status is online and the heartbeat updates.
+
+## Voice instance is stuck or shows an error
+
+If an instance stays in provisioning, restarting or error state:
+
+- Refresh the instance detail page.
+- Use **Restart** if the action is available.
+- Do not delete the instance while provisioning is still in progress.
+- Open a [Discord ticket](https://discord.gg/wBJamWETxr) with the workspace, registered server ID, instance ID, region and visible error message.
+
+## Voice region is missing or unavailable
+
+Voice regions can be limited, under maintenance or unavailable.
+
+If no region is accepting new instances, open a [Discord ticket](https://discord.gg/wBJamWETxr). Include the workspace, registered server ID and preferred region.
+
 ## Organization member cannot access a service
 
 Ask an owner to check:
@@ -97,7 +135,7 @@ Ask an owner to check:
 Include:
 
 - Active workspace type: personal or organization.
-- Service area: CDN, Cache, billing, organization or account.
-- Registered server ID when Cache or servers are involved.
+- Service area: CDN, Cache, Voice, billing, organization or account.
+- Registered server ID when Cache, Voice or servers are involved.
 - The action you tried.
 - The exact error message shown in the dashboard.

@@ -1,0 +1,37 @@
+---
+title: "FiveMesh Voice API"
+description: "Planned reference notes for automating managed Voice instance state and lifecycle."
+icon: "mic"
+---
+
+FiveMesh Voice API endpoints are not public yet.
+
+This page describes the planned surface for server-side integrations that need to inspect or operate managed PMA-Voice compatible instances for registered FiveM servers.
+
+<Info>
+  Use the dashboard for Voice setup and operations until public Voice API endpoints are released.
+</Info>
+
+## Common operations
+
+| Operation | Description |
+| --- | --- |
+| Read Voice state | Inspect whether a registered server has a Voice instance. |
+| Read regions | List regions that can accept new Voice instances. |
+| Create instance | Provision a Voice instance for a registered server and region. |
+| Restart instance | Request a restart for an existing instance. |
+| Delete instance | Remove an instance that should no longer serve the registered server. |
+| Read setup config | Retrieve the endpoint, port and PMA-Voice settings for server configuration. |
+
+## Server ownership
+
+Voice operations require access to the workspace that owns the registered cfx.re server.
+
+If a server belongs to an organization workspace, create the service key in the organization resource context and grant only the Voice permissions the automation needs when public API access becomes available.
+
+## Related pages
+
+- [Set up FiveMesh Voice](/voice/setup)
+- [Voice operations](/voice/operations)
+- [Account servers](/account/servers)
+- [API keys](/account/api-keys)

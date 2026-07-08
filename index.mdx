@@ -1,17 +1,18 @@
 ---
 title: "FiveMesh documentation"
-description: "Set up and operate FiveMesh workspaces, CDN asset delivery, Cache resource proxying, organizations and service keys."
+description: "Set up and operate FiveMesh workspaces, CDN asset delivery, Cache resource proxying, Voice infrastructure, organizations and service keys."
 icon: "network"
 ---
 
 FiveMesh is a cloud infrastructure platform for FiveM servers, powered by sCloud.
 
-Use these docs to configure your workspace, register servers, prepare public asset delivery with FiveMesh CDN, and enable resource download caching with FiveMesh Cache.
+Use these docs to configure your workspace, register servers, prepare public asset delivery with FiveMesh CDN, enable resource download caching with FiveMesh Cache and run managed PMA-Voice compatible infrastructure with FiveMesh Voice.
 
 ## What FiveMesh manages
 
 - **FiveMesh CDN** hosts public server assets such as inventory images, phone media, loading screen files and other files that need stable public URLs.
 - **FiveMesh Cache** proxies FiveM resource downloads through a cache URL generated for each registered server.
+- **FiveMesh Voice** runs managed PMA-Voice compatible infrastructure for registered servers.
 - **Workspaces** separate your personal services from organization-owned services.
 - **API keys** let scripts and tools access service operations with scoped permissions.
 
@@ -37,6 +38,10 @@ Use these docs to configure your workspace, register servers, prepare public ass
   Enable Cache for a registered server and copy the generated `server.cfg` lines.
 </Card>
 
+<Card title="Set up FiveMesh Voice" icon="mic" href="/voice/setup">
+  Create a managed Voice instance and copy the PMA-Voice configuration for your server.
+</Card>
+
 ## Product paths
 
 | Area | Use it for |
@@ -44,6 +49,7 @@ Use these docs to configure your workspace, register servers, prepare public ass
 | **Dashboard** | Workspace overview, billing, organizations and account settings. |
 | **CDN** | Public asset hosting, uploads, folders, previews, deletes and retention intent. |
 | **Cache** | FiveM resource download proxy setup, origin mapping, purge and analytics. |
+| **Voice** | Managed PMA-Voice compatible instance setup, endpoint configuration and lifecycle actions. |
 | **Account** | Profile settings, registered cfx.re servers and service API keys. |
 
 ## Get help

@@ -30,6 +30,7 @@ npm run broken-links
 - `dashboard/` documents workspace, organization and billing flows.
 - `cdn/` documents FiveMesh CDN setup and operations.
 - `cache/` documents FiveMesh Cache setup and operations.
+- `voice/` documents FiveMesh Voice setup and operations.
 - `account/` documents servers and service API keys.
 - `reference/` contains troubleshooting material.
 

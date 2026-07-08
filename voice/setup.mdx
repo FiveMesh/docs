@@ -1,0 +1,84 @@
+---
+title: "Set up FiveMesh Voice"
+description: "Create a managed PMA-Voice compatible instance for a registered FiveM server."
+icon: "mic"
+---
+
+FiveMesh Voice provides managed PMA-Voice compatible infrastructure for registered FiveM servers.
+
+Use the Voice dashboard to create an instance, choose an available region and copy the generated `server.cfg` settings for PMA-Voice.
+
+## Prerequisites
+
+Before you create a Voice instance, confirm that:
+
+- The active workspace has billing or trial access.
+- The active plan includes FiveMesh Voice.
+- The server is registered under **Account** > **Servers**.
+- PMA-Voice is installed on the server.
+- You can edit and restart or reload the server configuration.
+- Your organization role can create Voice instances if you are working in an organization workspace.
+
+<Info>
+  Voice availability follows plan limits and regional capacity. If no region is accepting new instances, open a Discord ticket so FiveMesh can help with placement.
+</Info>
+
+## Create a Voice instance
+
+<Steps>
+  <Step title="Open Voice">
+    In the dashboard sidebar, open **Voice**.
+  </Step>
+
+  <Step title="Choose a server">
+    Select the registered cfx.re server that should use managed voice infrastructure.
+  </Step>
+
+  <Step title="Choose a region">
+    Select an available region close to your player base.
+  </Step>
+
+  <Step title="Create the instance">
+    Click **Create** and wait for provisioning to finish.
+  </Step>
+
+  <Step title="Open the instance">
+    Open the instance detail page to copy the endpoint, port and PMA-Voice configuration.
+  </Step>
+</Steps>
+
+<Warning>
+  Each registered server can have one active Voice instance. If Voice is already enabled for a server, open the existing instance instead of creating another one.
+</Warning>
+
+## Configure PMA-Voice
+
+The instance detail page shows a generated `server.cfg` block similar to this:
+
+```cfg
+setr voice_useNativeAudio true
+setr voice_externalAddress "VOICE_HOSTNAME"
+setr voice_externalPort VOICE_PORT
+setr voice_externalDisallowJoin 0
+setr voice_useSendingRangeOnly false
+```
+
+Replace `VOICE_HOSTNAME` and `VOICE_PORT` with the values shown in the dashboard.
+
+<Warning>
+  Do not include `http://` or `https://` in `voice_externalAddress`. PMA-Voice expects only the hostname.
+</Warning>
+
+After saving the configuration, restart or reload the server using your normal deployment process.
+
+## Region availability
+
+Voice regions can be available, limited, under maintenance or unavailable.
+
+If the dashboard does not show an available region, wait and refresh later or open a [Discord ticket](https://discord.gg/wBJamWETxr). Include your workspace, registered server ID and preferred region.
+
+## Next steps
+
+- Monitor the instance from [Voice operations](/voice/operations).
+- Review [Account servers](/account/servers) if the server is missing from the selector.
+- Read [Troubleshooting](/reference/troubleshooting) if setup is locked or PMA-Voice does not connect.
