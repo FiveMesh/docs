@@ -17,6 +17,15 @@ Before you enable Cache, confirm:
 - You can edit your server's `server.cfg`.
 - Your organization role can create Cache configuration if you are in an organization workspace.
 
+<Warning>
+  Servers that use a direct-IP connection endpoint should use a domain or
+  subdomain before Cache is enabled. Enabling Cache on a direct-IP endpoint can
+  cause player connection errors. Point a domain or subdomain at the server IP,
+  then use that hostname for Cache services. If you do not have one, open a
+  [Discord ticket](https://discord.gg/wBJamWETxr) to request a free FiveMesh
+  subdomain.
+</Warning>
+
 ## Enable Cache
 
 <Steps>
@@ -63,4 +72,5 @@ Change the origin URL only when the detected address is not the address Cache sh
 ## Next steps
 
 - Manage purge, origin and key rotation from [Cache operations](/cache/operations).
+- Review [troubleshooting](/reference/troubleshooting) if players cannot connect after Cache is enabled.
 - Register missing servers from [Account servers](/account/servers).

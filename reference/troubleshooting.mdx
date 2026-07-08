@@ -52,6 +52,21 @@ Check:
 - Your organization role can create Cache configuration.
 - The selected server is not already enabled.
 
+## Players cannot connect after Cache is enabled
+
+Check whether the server connection endpoint or Cache origin uses a direct IP address.
+
+FiveMesh Cache should use a domain or subdomain for the server origin. Direct-IP endpoints can cause player connection errors after Cache is enabled.
+
+To fix it:
+
+1. Point a domain or subdomain at the server IP address.
+2. In **Cache** > **Settings**, select the server.
+3. Update **Origin URL** to use the domain or subdomain instead of the direct IP address.
+4. Save the origin and restart or reload your server if your deployment process requires it.
+
+If you cannot provide a domain, open a [Discord ticket](https://discord.gg/wBJamWETxr) to request a free FiveMesh subdomain.
+
 ## Players still receive old resources
 
 If resources changed after Cache was enabled:
