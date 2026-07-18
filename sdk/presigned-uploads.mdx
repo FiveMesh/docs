@@ -19,6 +19,11 @@ local upload = exports["fivemesh-sdk"]:createPresignedUrl({
     allowCustomMetadata = true
 })
 
+if not upload.success then
+    print(("FiveMesh upload URL failed: %s"):format(upload.error.message))
+    return
+end
+
 print(upload.uploadUrl)
 ```
 
@@ -35,6 +40,11 @@ local result = exports["fivemesh-sdk"]:uploadWithPresignedUrl(upload.uploadUrl, 
         source = "support"
     }
 })
+
+if not result.success then
+    print(("FiveMesh presigned upload failed: %s"):format(result.error.message))
+    return
+end
 
 print(result.object.publicUrl)
 ```

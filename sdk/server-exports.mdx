@@ -8,6 +8,8 @@ Use server exports when your FiveM resource needs to manage FiveMesh CDN objects
 
 The default service key is read from `FIVEMESH_API_KEY`, so these exports should be called from server-side Lua or JavaScript.
 
+Lua callers can read the returned value directly. Failed exports return `success = false` with an `error` payload. JavaScript callers can use the returned Promise with `await`.
+
 ## Upload a file
 
 Use `uploadFile` when you already have bytes, a data URL or a `Blob`-compatible value.
@@ -22,6 +24,11 @@ local result = exports["fivemesh-sdk"]:uploadFile(fileBytes, {
         source = "inventory"
     }
 })
+
+if not result.success then
+    print(("FiveMesh upload failed: %s"):format(result.error.message))
+    return
+end
 
 print(result.object.publicUrl)
 ```
@@ -67,6 +74,11 @@ local result = exports["fivemesh-sdk"]:uploadImage(dataUrl, {
     path = "screenshots/profile"
 })
 
+if not result.success then
+    print(("FiveMesh image upload failed: %s"):format(result.error.message))
+    return
+end
+
 print(result.object.publicUrl)
 ```
 
@@ -82,6 +94,13 @@ local result = exports["fivemesh-sdk"]:uploadImage(dataUrl, {
     filename = "profile.webp",
     path = "screenshots/profile"
 })
+
+if not result.success then
+    print(("FiveMesh image upload failed: %s"):format(result.error.message))
+    return
+end
+
+print(result.object.publicUrl)
 ```
 
 The profile name is case-sensitive and is appended directly to `FIVEMESH_API_KEY_`.
@@ -104,6 +123,11 @@ local result = exports["fivemesh-sdk"]:bulkUpload({
     }
 })
 
+if not result.success then
+    print(("FiveMesh bulk upload failed: %s"):format(result.error.message))
+    return
+end
+
 for _, item in ipairs(result.results) do
     if item.success then
         print(item.publicUrl)
@@ -123,6 +147,11 @@ local result = exports["fivemesh-sdk"]:listObjects({
     limit = 50
 })
 
+if not result.success then
+    print(("FiveMesh list failed: %s"):format(result.error.message))
+    return
+end
+
 for _, object in ipairs(result.objects) do
     print(object.key, object.publicUrl)
 end
@@ -136,6 +165,13 @@ local nextPage = exports["fivemesh-sdk"]:listObjects({
     limit = 50,
     continuationToken = result.continuationToken
 })
+
+if not nextPage.success then
+    print(("FiveMesh list failed: %s"):format(nextPage.error.message))
+    return
+end
+
+print(nextPage.continuationToken)
 ```
 
 ## Delete objects
@@ -143,12 +179,20 @@ local nextPage = exports["fivemesh-sdk"]:listObjects({
 Use `deleteObject` for one path or `bulkDelete` for a batch.
 
 ```lua
-exports["fivemesh-sdk"]:deleteObject("screenshots/old.webp")
+local deleteResult = exports["fivemesh-sdk"]:deleteObject("screenshots/old.webp")
+
+if not deleteResult.success then
+    print(("FiveMesh delete failed: %s"):format(deleteResult.error.message))
+end
 
 local result = exports["fivemesh-sdk"]:bulkDelete({
     "screenshots/a.webp",
     "screenshots/b.webp"
 })
+
+if not result.success then
+    print(("FiveMesh bulk delete failed: %s"):format(result.error.message))
+end
 ```
 
 Bulk delete returns one result per path, so your script can log partial failures.
@@ -172,6 +216,11 @@ local result = exports["fivemesh-sdk"]:purgeObjects({
     "screenshots/a.webp",
     "screenshots/b.webp"
 })
+
+if not result.success then
+    print(("FiveMesh purge failed: %s"):format(result.error.message))
+    return
+end
 
 print(("Purged %d CDN files"):format(result.purged))
 ```

@@ -27,6 +27,11 @@ local result = exports["fivemesh-sdk"]:takeServerImage(source, {
     quality = 0.82
 }, 15000)
 
+if not result.success then
+    print(("FiveMesh screenshot failed: %s"):format(result.error.message))
+    return
+end
+
 print(result.object.publicUrl)
 ```
 
@@ -43,6 +48,11 @@ local result = exports["fivemesh-sdk"]:takeImage({
     path = "screenshots/profile",
     filename = "profile.webp"
 })
+
+if not result.success then
+    print(("FiveMesh screenshot failed: %s"):format(result.error.message))
+    return
+end
 
 print(result.object.publicUrl)
 ```
