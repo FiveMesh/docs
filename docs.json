@@ -79,6 +79,7 @@
               "api-reference/cdn",
               "api-reference/cdn-endpoints/list-objects",
               "api-reference/cdn-endpoints/upload-object",
+              "api-reference/cdn-endpoints/upload-base64-object",
               "api-reference/cdn-endpoints/bulk-upload-objects",
               "api-reference/cdn-endpoints/delete-object",
               "api-reference/cdn-endpoints/bulk-delete-objects",

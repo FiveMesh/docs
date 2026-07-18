@@ -1,0 +1,109 @@
+---
+title: "Upload one Base64 object"
+description: "Upload a Base64-encoded CDN object with a JSON request."
+api: "POST /objects/base64"
+---
+
+Upload one Base64-encoded file to FiveMesh CDN from a server-side integration.
+Use this route when the source provides Base64 instead of file bytes, such as a
+screenshot or mugshot capture.
+
+Requires `cdn:write`.
+
+<Warning>
+  Keep the service key in a server-side script. Never send it to a FiveM client,
+  NUI bundle or browser.
+</Warning>
+
+<ParamField header="Idempotency-Key" type="string">
+  Optional key used to replay the same successful upload response after a retry.
+</ParamField>
+
+<ParamField body="data" type="string" required>
+  Raw standard Base64 or a Base64 data URL such as `data:image/png;base64,...`.
+  Padded and unpadded Base64 are accepted.
+</ParamField>
+
+<ParamField body="filename" type="string" required>
+  Stored filename, including its extension.
+</ParamField>
+
+<ParamField body="contentType" type="string">
+  File MIME type, such as `image/png`. When omitted, the API uses the MIME type
+  from a data URL or falls back to `application/octet-stream`.
+</ParamField>
+
+<ParamField body="path" type="string">
+  Optional destination folder.
+</ParamField>
+
+<ParamField body="metadata" type="object">
+  Optional metadata containing string, number or boolean values.
+</ParamField>
+
+## FiveM server example
+
+This example sends raw PNG Base64 from a server-side Lua resource. The API key
+is read from the server ConVar and never sent to the player.
+
+```lua
+local apiKey = GetConvar("FIVEMESH_API_KEY", "")
+
+local payload = json.encode({
+    data = pngBase64,
+    filename = ("family-%d-member-%d.png"):format(familyId, memberId),
+    contentType = "image/png",
+    path = "family_mugshot",
+    metadata = {
+        familyId = tostring(familyId),
+        memberId = tostring(memberId),
+        source = GetCurrentResourceName(),
+    },
+})
+
+PerformHttpRequest(
+    "https://api.fivemesh.io/v1/objects/base64",
+    function(statusCode, responseBody, _, errorData)
+        local response = responseBody and json.decode(responseBody) or nil
+
+        if statusCode < 200 or statusCode >= 300 or not response then
+            print(("[FiveMesh] Upload failed (%s): %s"):format(
+                tostring(statusCode),
+                responseBody or errorData or "No response"
+            ))
+            return
+        end
+
+        print(("[FiveMesh] Uploaded %s"):format(response.object.publicUrl))
+    end,
+    "POST",
+    payload,
+    {
+        ["Authorization"] = "Bearer " .. apiKey,
+        ["Content-Type"] = "application/json",
+    }
+)
+```
+
+<Info>
+  Base64 increases the request size. Prefer the multipart upload route when you
+  already have file bytes.
+</Info>
+
+```json
+{
+  "success": true,
+  "object": {
+    "key": "family_mugshot/family-1-member-1.png",
+    "size": 12345,
+    "contentType": "image/png",
+    "etag": "3f2a...",
+    "publicUrl": "https://cdn.fivemesh.io/acme/family_mugshot/family-1-member-1.png",
+    "metadata": {
+      "familyId": "1",
+      "memberId": "1"
+    }
+  },
+  "requestId": "req_..."
+}
+```
