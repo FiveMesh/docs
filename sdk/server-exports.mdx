@@ -49,6 +49,18 @@ console.log(result.object.publicUrl);
 
 Upload responses include the stored object and its `publicUrl`.
 
+`canvas.toDataURL()` values and raw binary strings produced by `atob()` can be
+passed directly. When the value is bare base64 without a `data:` prefix, declare
+the representation explicitly:
+
+```lua
+local result = exports["fivemesh-sdk"]:uploadFile(base64Data, {
+    filename = "mugshot.png",
+    contentType = "image/png",
+    dataEncoding = "base64"
+})
+```
+
 ```json
 {
   "success": true,
