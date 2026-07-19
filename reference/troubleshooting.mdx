@@ -67,6 +67,29 @@ To fix it:
 
 If you cannot provide a domain, open a [Discord ticket](https://discord.gg/wBJamWETxr) to request a free FiveMesh subdomain.
 
+## Players get download errors while the server runs fine
+
+Players see resource download errors when joining, while players already in the game keep playing normally. The server itself stays online and reachable.
+
+This usually means a firewall or DDoS protection on the origin machine is blocking FiveMesh cache requests. Player game traffic still reaches the server, but cache misses are fetched by FiveMesh from Cloudflare's network, and game host protection systems often filter that traffic.
+
+Common triggers:
+
+- The host's automatic DDoS mitigation engages during a join rush, while many players download updated resources at once. These episodes often clear on their own after a few hours.
+- Firewall or protection rules changed, for example while setting up another FiveM server on the same machine. These errors persist until the rules change again.
+- Protection rules cover one FiveM server port on the machine but not another. Each server uses its own fileserver port, and each port needs the same rules.
+
+To confirm the cause, open **Cache** > **Analytics**. Origin errors rise while the server logs show no matching download traffic, because FiveMesh requests are dropped before they reach the server.
+
+To fix it:
+
+1. Open **Cache** > **Settings** and note the origin URL and port for the affected server.
+2. Allow Cloudflare's published IP ranges on that TCP port in the machine firewall and in the hosting provider's protection panel. The current ranges are listed at [cloudflare.com/ips](https://www.cloudflare.com/ips/).
+3. Apply the same rule to every FiveM server port on the machine.
+4. If the hosting panel does not expose firewall or protection settings, ask the host to allow the ranges.
+
+After the rules change, downloads recover on the next request. No purge or restart is needed.
+
 ## Players still receive old resources
 
 If resources changed after Cache was enabled:
@@ -137,5 +160,6 @@ Include:
 - Active workspace type: personal or organization.
 - Service area: CDN, Cache, Voice, billing, organization or account.
 - Registered server ID when Cache, Voice or servers are involved.
+- Hosting provider, and whether other FiveM servers run on the same machine, when players see download errors.
 - The action you tried.
 - The exact error message shown in the dashboard.

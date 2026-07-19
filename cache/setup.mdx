@@ -15,6 +15,7 @@ Before you enable Cache, confirm:
 - The active workspace has trial or subscription access.
 - The cfx.re server is registered in **Account** > **Servers**.
 - You can edit your server's `server.cfg`.
+- You or your host can edit firewall and DDoS protection rules for the origin machine.
 - Your organization role can create Cache configuration if you are in an organization workspace.
 
 <Warning>
@@ -68,6 +69,20 @@ adhesive_cdnKey "YOUR_SECRET_KEY"
 FiveMesh detects an origin for the registered cfx.re server. In most cases, keep the detected origin.
 
 Change the origin URL only when the detected address is not the address Cache should use for resource downloads.
+
+## Allow FiveMesh to reach your origin
+
+FiveMesh fetches cache misses from your origin through Cloudflare's network.
+
+Game host firewalls and DDoS protection often filter data center traffic while allowing player traffic. If the origin machine or your host protects the fileserver port, allow Cloudflare's published IP ranges on that TCP port before you enable Cache. The current ranges are listed at [cloudflare.com/ips](https://www.cloudflare.com/ips/).
+
+<Info>
+  If the machine runs several FiveM servers, apply the same rule to every
+  fileserver port. Protection rules that cover only one port cause download
+  errors for the other servers.
+</Info>
+
+If downloads fail after Cache is enabled while the server runs normally, see [players get download errors while the server runs fine](/reference/troubleshooting#players-get-download-errors-while-the-server-runs-fine).
 
 ## Next steps
 
