@@ -1,0 +1,191 @@
+---
+title: "Set up a Player Upload Portal"
+description: "Create a Discord-gated page where community members can upload images and videos to your FiveMesh CDN workspace."
+icon: "cloud-upload"
+tag: "New"
+---
+
+A Player Upload Portal gives your community a dedicated page for uploading images and videos to FiveMesh CDN.
+
+Players verify with Discord, upload from their browser and receive a public CDN URL. They do not need a FiveMesh customer account or access to your dashboard.
+
+## Availability
+
+Player Upload Portals are included in every FiveMesh subscription plan. Uploaded files consume the CDN storage, request and bandwidth allowances included with the workspace subscription.
+
+The number of portals you can create follows the registered-server allowance of your plan.
+
+| Plan | Portal allowance |
+| --- | ---: |
+| Starter | 1 |
+| Growth | Up to 3 |
+| Pro | Up to 5 |
+
+Custom subscriptions use the portal limit assigned to their plan.
+
+## Prerequisites
+
+Before you create a portal, confirm:
+
+- The active workspace has trial or subscription access.
+- [FiveMesh CDN is configured](/cdn/setup) for the active workspace.
+- You are the workspace owner. Organization members can manage existing portals with the required CDN permissions, but cannot create one.
+- Discord is linked under **Account** > **Connections**.
+- Your linked Discord account owns or can manage the Discord server.
+- You can install the FiveMesh bot in that Discord server.
+
+<Note>
+  If the workspace belongs to an organization, switch to that organization before opening CDN. The portal belongs to the workspace owner and uses the organization's shared CDN access.
+</Note>
+
+## Create the portal
+
+<Steps>
+  <Step title="Open Upload Portal">
+    In the dashboard sidebar, open **CDN**, then select **Upload Portal**.
+  </Step>
+
+  <Step title="Start setup">
+    Click **Create portal**.
+
+    The dashboard shows your current portal count and the maximum allowed by the active subscription.
+  </Step>
+
+  <Step title="Connect the Discord server">
+    Install the FiveMesh bot, enter the Discord server ID and click **Verify**.
+
+    FiveMesh confirms that the bot is installed and that your linked Discord account owns or can manage the server. Verification also loads the Discord roles that can be used for portal access.
+  </Step>
+
+  <Step title="Choose who can upload">
+    Allow every Discord server member or restrict access with selected roles.
+
+    See [Access rules](#access-rules) for the difference between the available modes.
+  </Step>
+
+  <Step title="Configure the public page">
+    Choose the portal name used in the public URL.
+
+    For example, `sunset-roleplay` creates:
+
+    ```text
+    https://fivemesh.io/upload-portal/sunset-roleplay
+    ```
+
+    Portal names must contain 3 to 48 lowercase letters, numbers or hyphens. They cannot begin or end with a hyphen.
+  </Step>
+
+  <Step title="Configure uploads">
+    Choose the destination folder, file retention, maximum file size and rolling per-player allowance.
+
+    Review [Upload settings](#upload-settings) before using a destination that is shared with another portal.
+  </Step>
+
+  <Step title="Review and activate">
+    Confirm the Discord server, access rule, public URL and upload settings.
+
+    Enable **Activate the portal now** if players should be able to upload as soon as setup completes, then click **Create portal**.
+  </Step>
+</Steps>
+
+## Access rules
+
+Discord membership and roles control who can use the public page.
+
+| Mode | Requirement |
+| --- | --- |
+| **Any server member** | The player must be a member of the connected Discord server. Their roles do not matter. |
+| **Any selected role** | The player must have at least one of the selected roles. |
+| **All selected roles** | The player must have every selected role. |
+
+For example, if **Verified** and **Staff** are selected:
+
+- **Any selected role** accepts a member with either **Verified** or **Staff**.
+- **All selected roles** accepts only a member who has both **Verified** and **Staff**.
+
+FiveMesh checks membership and roles again when an upload starts. Discord role changes therefore apply to future uploads without a separate FiveMesh permission list.
+
+<Tip>
+  Use **Any server member** for a community-wide portal. Use selected roles when Discord already controls whitelist, staff or event access.
+</Tip>
+
+## Upload settings
+
+### Destination folder
+
+The default destination is:
+
+```text
+uploads/community
+```
+
+Files are stored directly in the selected folder. FiveMesh does not append player IDs or dates to the path.
+
+Use a relative path with lowercase letters, numbers, hyphens or underscores. Separate nested folders with `/`, for example:
+
+```text
+uploads/community-events
+uploads/phone-edits
+servers/main/roleplay-media
+```
+
+Each uploaded file receives a randomly generated public name.
+
+### File retention
+
+Files never expire by default. You can instead choose a retention period from 1 hour to 365 days.
+
+The public page tells players whether their file never expires or how long its URL remains available.
+
+<Warning>
+  Portals with overlapping destination folders must use the same retention. Choose a separate folder when two portals need different retention periods.
+</Warning>
+
+Upload audit logs are separate from file retention. Logs always expire after 30 days.
+
+### Maximum file size
+
+Choose a per-file limit from 1 MB to 256 MB.
+
+Use a lower limit for screenshots and other image-only workflows. Increase it when the portal needs to accept video.
+
+### Per-player allowance
+
+Choose between 1 and 100 uploads per Discord user in a rolling 24-hour window.
+
+The window follows each player's recent upload activity rather than resetting at a fixed time of day.
+
+## Supported media
+
+Player Upload Portals accept:
+
+- PNG
+- JPEG and JPG
+- WebP
+- GIF
+- WebM
+- MP4
+
+FiveMesh checks the declared media type, file size and file content before completing the upload. Renaming an unsupported file to an accepted extension does not make it valid.
+
+## What players see
+
+Share the public portal URL with your community after activation.
+
+When a player opens it, they:
+
+1. Continue with Discord.
+2. Pass the configured membership and role checks.
+3. Choose or drag files into the page.
+4. Upload directly to the CDN delivery layer.
+5. Copy the generated public URLs.
+
+Portal authentication is separate from FiveMesh customer authentication. Verifying with Discord does not create a customer account or grant dashboard access.
+
+The player can also see their latest 25 successful uploads from the last 30 days. This list is private to the signed-in Discord user and does not change the configured lifetime of the files.
+
+## Next steps
+
+- [Manage portals and upload activity](/cdn/upload-portal-management).
+- Review files from the [CDN object browser](/cdn/object-browser).
+- Review organization access in [Organizations](/dashboard/organizations).

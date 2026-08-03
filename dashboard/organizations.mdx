@@ -69,10 +69,25 @@ Owners can toggle each service under **Organization** > **Overview**. The settin
   If a service is not shared with the organization, members may see a locked or unavailable service even when the owner has an active subscription.
 </Warning>
 
+## Player Upload Portal permissions
+
+Player Upload Portals use the organization's FiveMesh CDN permissions.
+
+| Permission | Portal access |
+| --- | --- |
+| CDN read | View the workspace owner's portals, settings and upload logs. |
+| CDN write | Update existing portals, pause uploads, and block or unblock uploaders. |
+| CDN delete | Delete uploaded files from portal logs. |
+
+Only the workspace owner can create or reset portals. Organization members work with the owner's portals, and the owner's subscription determines the portal allowance.
+
+See [Manage Player Upload Portals](/cdn/upload-portal-management) for the complete permission and moderation workflow.
+
 ## Related pages
 
 - [Workspaces](/dashboard/workspaces)
 - [API keys](/account/api-keys)
 - [Set up FiveMesh CDN](/cdn/setup)
+- [Set up a Player Upload Portal](/cdn/upload-portal-setup)
 - [Set up FiveMesh Cache](/cache/setup)
 - [Set up FiveMesh Voice](/voice/setup)

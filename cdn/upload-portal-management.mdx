@@ -1,0 +1,205 @@
+---
+title: "Manage Player Upload Portals"
+description: "Update portal access, review upload activity, block abusive uploaders and reset a Player Upload Portal."
+icon: "shield-check"
+---
+
+Use **CDN** > **Upload Portal** to review your workspace portals and select the portal you want to manage.
+
+The portal overview shows its public URL, Discord server, destination folder, file limits and current status.
+
+## Portal list and limits
+
+The portal list shows how many portals the workspace uses against its subscription allowance.
+
+Only the workspace owner can create a portal. Organization members with CDN read access see the owner's portals instead of creating separate personal portals inside the organization workspace.
+
+If the portal allowance is reached, reset an unused portal or change the subscription before creating another one.
+
+## Pause or resume uploads
+
+Use **Accept player uploads** to change whether the public page accepts new files.
+
+When you pause a portal:
+
+- New uploads are rejected.
+- Existing CDN files remain available according to their retention.
+- Existing audit logs keep their normal 30-day expiration.
+- Portal settings remain available in the dashboard.
+
+Turn the setting on and save the portal to resume uploads.
+
+Pausing is appropriate for temporary maintenance. Use [Reset a portal](#reset-a-portal) when you want to remove its public configuration and return its slot to the setup flow.
+
+## Update access and upload settings
+
+Organization members need CDN write permission to change portal settings.
+
+You can update:
+
+- The connected Discord server.
+- Discord member or role requirements.
+- Whether the portal accepts uploads.
+- The public portal name.
+- The destination folder.
+- File retention.
+- Maximum file size.
+- Uploads allowed per player in a rolling 24-hour window.
+
+FiveMesh verifies the Discord server through the Discord account linked to the operator making the change. That account must own or manage the selected server.
+
+### Change the destination folder
+
+Changing the destination affects new uploads only. Existing files remain at their current public paths.
+
+FiveMesh preserves any retention needed by existing portal files while changing the active destination. If a previous retention migration is still active, wait before changing the destination again.
+
+<Warning>
+  Two portals with overlapping destination folders cannot use different retention periods. Match the existing retention or choose a separate folder.
+</Warning>
+
+### Change file retention
+
+The active retention rule applies to media uploaded into the portal destination.
+
+Choose **Never expire** for durable media, or set a period from 1 hour to 365 days for temporary files. The portal page displays the selected lifetime to players before they upload.
+
+Changing media retention does not change the fixed 30-day lifetime of audit logs.
+
+## Review upload logs
+
+Open **Upload logs** inside the selected portal to review recent activity.
+
+Logs include the uploader's Discord identity, original file name, request context, upload status and date. Search by player, Discord ID, file name or recorded IP address.
+
+Use the status filter to focus on:
+
+| Status | Meaning |
+| --- | --- |
+| **Uploading** | FiveMesh prepared the upload, but completion has not been confirmed. |
+| **Complete** | The upload completed and received a public CDN URL. |
+| **Rejected** | Validation, access or transfer checks prevented completion. |
+| **Deleted** | An authorized operator removed the CDN file. |
+
+Audit logs expire automatically after 30 days. This lifetime cannot be increased from portal settings.
+
+<Note>
+  A file can remain available after its audit log expires when the portal uses a longer retention period or **Never expire**.
+</Note>
+
+## Delete an uploaded file
+
+Deleting a portal upload requires CDN delete permission.
+
+<Steps>
+  <Step title="Find the upload">
+    Open **Upload logs** and search for the player, Discord ID or file.
+  </Step>
+
+  <Step title="Review the file">
+    Open the uploaded file and confirm that it should be removed.
+  </Step>
+
+  <Step title="Delete the file">
+    Select **Delete file** and confirm the action.
+  </Step>
+</Steps>
+
+The public URL stops working immediately. The log changes to **Deleted** and remains until its normal 30-day expiration.
+
+<Warning>
+  Deleting a CDN file cannot be undone from the upload log.
+</Warning>
+
+## Block or unblock an uploader
+
+Blocking requires CDN write permission.
+
+<Steps>
+  <Step title="Find the player">
+    Open **Upload logs** and locate an entry from the Discord user.
+  </Step>
+
+  <Step title="Block future uploads">
+    Select **Block uploader**.
+
+    The player can still authenticate, but the portal rejects new uploads from that Discord account.
+  </Step>
+
+  <Step title="Restore access when needed">
+    Find the same player in the logs and select **Unblock uploader**.
+
+    Normal Discord membership, role and upload-limit checks apply again.
+  </Step>
+</Steps>
+
+Blocking an uploader does not delete files they already uploaded. Remove those files separately when required.
+
+## Organization permissions
+
+Player Upload Portals use the organization's existing FiveMesh CDN permissions.
+
+| Permission | Portal access |
+| --- | --- |
+| CDN read | View the owner's portals, settings and 30-day upload logs. |
+| CDN write | Update existing portals, pause or resume uploads, and block or unblock uploaders. |
+| CDN delete | Delete uploaded CDN files from the portal logs. |
+| Workspace owner | Create and reset portals in addition to all management actions. |
+
+The workspace owner's subscription controls the portal allowance. Organization members do not receive a separate portal allowance.
+
+See [Organizations](/dashboard/organizations) for service sharing and role management.
+
+## Reset a portal
+
+Resetting removes the public portal configuration and returns that portal slot to the setup flow.
+
+Only the workspace owner can reset a portal.
+
+<Steps>
+  <Step title="Open portal settings">
+    Select the portal, then open **Reset upload portal**.
+  </Step>
+
+  <Step title="Review what remains">
+    Existing CDN files remain in their current folders. Upload logs keep their normal 30-day expiration.
+  </Step>
+
+  <Step title="Confirm the reset">
+    Click **Reset portal** and confirm the action.
+  </Step>
+</Steps>
+
+After reset:
+
+- The public portal page stops working immediately.
+- The portal name becomes available for another portal.
+- Existing CDN files are not deleted.
+- Existing audit logs remain until they expire.
+- Blocked-uploader entries for the portal are cleared.
+- Retention needed by existing files remains active.
+
+Use the [CDN object browser](/cdn/object-browser) to manage files that remain after reset.
+
+## Troubleshooting player access
+
+| Message or behavior | What to check |
+| --- | --- |
+| Upload portal unavailable | Confirm the URL and verify that the portal has not been reset. |
+| This portal is disabled | Turn on **Accept player uploads** and save the portal. |
+| Join the Discord server first | Confirm the player authenticated with a Discord account that belongs to the connected server. |
+| A Discord role is required | Compare the player's roles with the portal's **Any selected role** or **All selected roles** rule. |
+| Uploads are blocked | Review the player's log entry and unblock the uploader if appropriate. |
+| Unsupported file type | Use PNG, JPEG, JPG, WebP, GIF, WebM or MP4. |
+| File is too large | Compare the file size with the portal's configured per-file limit. |
+| 24-hour limit reached | Wait for older uploads to leave the player's rolling 24-hour window, or adjust the portal allowance. |
+| Transfer failed | Retry the upload. If it continues, check [service status](https://status.fivemesh.io) and contact support. |
+
+Discord membership and roles are checked when a new upload begins. Ask the player to retry after correcting their server membership or roles.
+
+## Related pages
+
+- [Set up a Player Upload Portal](/cdn/upload-portal-setup)
+- [Set up FiveMesh CDN](/cdn/setup)
+- [CDN object browser](/cdn/object-browser)
+- [CDN settings](/cdn/settings)

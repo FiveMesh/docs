@@ -43,7 +43,18 @@
           },
           {
             "group": "FiveMesh CDN",
-            "pages": ["cdn/setup", "cdn/object-browser", "cdn/settings"]
+            "pages": [
+              "cdn/setup",
+              "cdn/object-browser",
+              "cdn/settings",
+              {
+                "group": "Player Upload Portals",
+                "pages": [
+                  "cdn/upload-portal-setup",
+                  "cdn/upload-portal-management"
+                ]
+              }
+            ]
           },
           {
             "group": "FiveMesh Cache",
