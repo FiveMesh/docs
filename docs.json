@@ -65,6 +65,10 @@
             "pages": ["voice/setup", "voice/operations"]
           },
           {
+            "group": "FiveMesh Logs",
+            "pages": ["logs/setup", "logs/operations"]
+          },
+          {
             "group": "Integrations",
             "pages": ["integrations/lb-scripts"]
           },

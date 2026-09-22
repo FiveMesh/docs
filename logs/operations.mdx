@@ -1,0 +1,54 @@
+---
+title: "Logs operations"
+description: "Search, filter and export events, manage the connection for each server and remove a server's Logs configuration."
+icon: "list-filter"
+---
+
+Once a server is connected, the Logs service follows the server selected in the dashboard sidebar.
+
+## Explorer
+
+**Explorer** is the search surface for stored events.
+
+- Filter by server, time range, level, event type, resource, message and player identifiers.
+- Open a result to inspect its identifiers, metadata and payload.
+- Export the current filter as CSV or JSON when your role allows exports.
+
+Retention follows the organization plan. Events older than the retention window are removed automatically.
+
+## Analytics
+
+**Analytics** summarizes accepted ingestion over the selected time range, including event volume, batches, payload size and the sources that contributed them.
+
+Use it to confirm ingestion is healthy and to see which resources produce the most activity.
+
+## Settings
+
+**Settings** applies to the server currently selected in the sidebar and holds the connection state, credentials and lifecycle actions.
+
+| Action | What it does |
+| --- | --- |
+| **Disable Logs for this server** | Stops ingesting events from this server. The configuration stays and can be enabled again. |
+| **Enable Logs for this server** | Resumes ingestion for a disabled server. |
+| **Create ingestion key** | Opens the API key form with the Logs `logs:write` scope. |
+| **Create viewer key** | Opens the API key form with the Logs `logs:read` scope for the in-game viewer. |
+| **Delete Logs configuration** | Stops ingestion immediately and removes the configuration. Already stored events keep their normal retention window. |
+
+<Info>
+  Installation steps live in [Set up FiveMesh Logs](/logs/setup). Use **Open installation guide** to return to them whenever you connect another server.
+</Info>
+
+## Permissions
+
+Logs respects organization roles and API key scopes.
+
+- `logs:read` searches events and reads event details.
+- `logs:write` ingests events from a server.
+- `logs:export` exports filtered events.
+- `logs:admin` enables, disables and deletes a server's Logs configuration.
+
+## Next steps
+
+- Connect another server with [Set up FiveMesh Logs](/logs/setup).
+- Create or rotate credentials from [Account API keys](/account/api-keys).
+- Review [troubleshooting](/reference/troubleshooting) if an expected event is missing.

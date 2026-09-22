@@ -1,0 +1,107 @@
+---
+title: "Set up FiveMesh Logs"
+description: "Enable Logs for a registered FiveM server, create an ingestion key and send server events to FiveMesh."
+icon: "scroll-text"
+---
+
+FiveMesh Logs collects player, inventory, economy and staff events from a FiveM server into one searchable view.
+
+Each server connects to Logs with the FiveMesh SDK and an ingestion key. The dashboard then searches, filters, exports and retains the events that arrive from that server.
+
+## Prerequisites
+
+Before you connect a server, confirm:
+
+- The organization is on a plan that includes Logs.
+- The cfx.re server is registered in **Account** > **Servers**.
+- You can edit your server's `server.cfg`.
+- Someone with permission to create API keys can create a Logs key, or you already have one.
+
+## Connect a server
+
+<Steps>
+  <Step title="Select the server">
+    The dashboard sidebar carries the selected server into every service. Open **Logs** and confirm the server you want to connect.
+  </Step>
+
+  <Step title="Enable Logs for the server">
+    The first time the organization uses Logs, the page asks the billing owner to enable Logs for the organization. After that, click **Enable Logs for this server** to create its source.
+  </Step>
+
+  <Step title="Create an ingestion key">
+    Open **Logs** > **Settings** and click **Create ingestion key**. The key uses the Logs `logs:write` permission and is only for ingestion.
+  </Step>
+
+  <Step title="Install the SDK">
+    Download the latest [FiveMesh SDK](https://github.com/FiveMesh/sdk/releases/latest) release and place it in your server resources like any other resource.
+  </Step>
+
+  <Step title="Configure server.cfg">
+    Add the SDK settings with the connected server ID and the ingestion key.
+
+    ```cfg
+    set FIVEMESH_SERVER_ID "your-cfx-server-id"
+    set FIVEMESH_LOGS_API_KEY "fm_live_..."
+    set FIVEMESH_LOGS_AUTOMATIC "true"
+
+    ensure fivemesh-sdk
+    ```
+
+    Restart or reload the server with your normal deployment process.
+  </Step>
+
+  <Step title="Verify ingestion">
+    Open **Logs** > **Explorer**. Incoming events appear within a few seconds of server activity.
+  </Step>
+</Steps>
+
+<Warning>
+  Treat the ingestion key as a secret. Anyone with it can write events into your Logs workspace, so keep it out of public repositories and client-side code.
+</Warning>
+
+## What the SDK records automatically
+
+With `FIVEMESH_LOGS_AUTOMATIC` enabled, the SDK captures events from:
+
+- FiveM server and resource lifecycle
+- `baseevents` player connections
+- `ox_inventory` item and money movement
+- `txAdmin` moderation actions
+
+Resources can also send their own events through the SDK exports. See [Server exports](/sdk/server-exports).
+
+## In-game staff viewer
+
+The optional `fivemesh-logs` resource opens the Explorer inside the game with `/fmlogs`.
+
+1. Create a separate read-only key with **Create viewer key** in **Logs** > **Settings**. It uses the `logs:read` permission.
+2. Download the latest [FiveMesh Logs viewer](https://github.com/0xSacul/fivemesh-logs/releases/latest).
+3. Configure the viewer and restrict access to staff groups.
+
+```cfg
+set FIVEMESH_LOGS_QUERY_API_KEY "fm_live_..."
+add_ace group.admin fivemesh.logs.view allow
+
+ensure fivemesh-sdk
+ensure fivemesh-logs
+```
+
+<Info>
+  The viewer needs `fivemesh-sdk` 0.1.5 or newer and a key with `logs:read`.
+</Info>
+
+## Direct ingestion
+
+Integrations that do not use the SDK can post atomic event batches directly to the ingestion endpoint shown in **Logs** > **Settings**.
+
+| Field | Value |
+| --- | --- |
+| Endpoint | Ingestion endpoint from **Logs** > **Settings**, with `{serverId}` replaced by the connected cfx.re server ID |
+| Authorization | `Bearer <FiveMesh API key>` with `logs:write` |
+| Content-Type | `application/json` |
+
+## Next steps
+
+- Search, filter and export events from [Logs operations](/logs/operations).
+- Create scoped keys from [Account API keys](/account/api-keys).
+- Review [troubleshooting](/reference/troubleshooting) if events do not appear.
