@@ -37,15 +37,19 @@ Before you connect a server, confirm:
   </Step>
 
   <Step title="Configure server.cfg">
-    Add the SDK settings with the connected server ID and the ingestion key.
+    Add the SDK settings with the ingestion key. Use a key that is specific to
+    this server, so the SDK does not need the server ID.
 
     ```cfg
-    set FIVEMESH_SERVER_ID "your-cfx-server-id"
     set FIVEMESH_LOGS_API_KEY "fm_live_..."
     set FIVEMESH_LOGS_AUTOMATIC "true"
 
     ensure fivemesh-sdk
     ```
+
+    `FIVEMESH_SERVER_ID` is only required when the ingestion key is global
+    (allowed on every server of the organization), because a server-specific key
+    already names its server.
 
     Restart or reload the server with your normal deployment process.
   </Step>
@@ -87,7 +91,9 @@ ensure fivemesh-logs
 ```
 
 <Info>
-  The viewer needs `fivemesh-sdk` 0.1.5 or newer and a key with `logs:read`.
+  The viewer needs `fivemesh-sdk` 0.1.5 or newer and a key with `logs:read`. A key
+  created for this server already names it, so `FIVEMESH_SERVER_ID` is only
+  required when the viewer key is global (all servers).
 </Info>
 
 ## Direct ingestion

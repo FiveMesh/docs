@@ -1,12 +1,12 @@
 ---
 title: "API keys"
-description: "Create user-owned service keys with personal, organization and CDN path scopes."
+description: "Create service keys that are global to your organization or scoped to a single server."
 icon: "key-round"
 ---
 
 Service API keys let scripts and tools call FiveMesh service operations without using your dashboard session.
 
-Keys are user-owned. Scope controls whether the key targets personal resources or organization resources.
+Every key belongs to your organization. Its context decides whether the key may act on every server in that organization or on exactly one server.
 
 ## Create a key
 
@@ -19,8 +19,8 @@ Keys are user-owned. Scope controls whether the key targets personal resources o
     Use a name that describes where the key will run, such as `Production CDN worker`.
   </Step>
 
-  <Step title="Choose the owner context">
-    Select **Personal resources** or **Organization resources**.
+  <Step title="Choose the context">
+    Select **Global - all servers** to let the key act on every server of the organization, or **Specific server** and pick the server the key belongs to. A specific server is the safer default because the key cannot act anywhere else.
   </Step>
 
   <Step title="Choose CDN path access">
@@ -65,13 +65,15 @@ Examples:
 
 Use path scope when a script should only manage one media area.
 
-## Organization keys
+## Global and server-specific keys
 
-For organization resources, choose the organization during key creation. The key remains owned by your user account, but the resource scope points at the selected organization.
+- A **specific-server** key is bound to one server. Requests for another server are refused, and the FiveMesh SDK does not need `FIVEMESH_SERVER_ID` because the key already names its server. Prefer this for scripts and integrations that run on a single server.
+- A **global** key can act on every server of the organization. Use it for tooling that manages multiple servers; callers must name the server they act on, so set `FIVEMESH_SERVER_ID` when the SDK runs on a server.
+
+Deleting a server removes the keys bound to it, so keep server-specific keys replaceable.
 
 ## Related pages
 
-- [Workspaces](/dashboard/workspaces)
 - [Organizations](/dashboard/organizations)
 - [CDN object browser](/cdn/object-browser)
 - [Cache operations](/cache/operations)
