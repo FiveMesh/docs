@@ -4,14 +4,14 @@ description: "Install the FiveMesh SDK resource and configure the server ConVars
 icon: "download"
 ---
 
-Install the SDK as a FiveM resource and configure the service key in `server.cfg`.
+Install the SDK as a FiveM resource and configure the Server API Key in `server.cfg`.
 
 ## Prerequisites
 
 Before you begin, confirm:
 
-- FiveMesh CDN is set up for the workspace.
-- You have a service key with the permissions your script needs.
+- Your server is registered in FiveMesh.
+- You have generated its Server API Key from the Server page.
 - You can edit `server.cfg`.
 - `screenshot-basic` is installed if you plan to use screenshot exports.
 
@@ -33,13 +33,13 @@ Before you begin, confirm:
   </Step>
 
   <Step title="Configure server.cfg">
-    Add the resource and service key to `server.cfg`.
+    Add the Server API Key before starting the resource.
 
     ```cfg
+    set FIVEMESH_API_KEY "fm_server_..."
+
     ensure screenshot-basic # only required for screenshot helpers
     ensure fivemesh-sdk
-
-    set FIVEMESH_API_KEY "fm_live_..."
     ```
   </Step>
 
@@ -61,19 +61,19 @@ Before you begin, confirm:
 
 | ConVar | Default | Description |
 | --- | --- | --- |
-| `FIVEMESH_API_KEY` | none | Service key created in the FiveMesh dashboard. |
+| `FIVEMESH_API_KEY` | none | Server API Key generated from this Server's dashboard page. |
 | `FIVEMESH_API_KEY_<PROFILE_NAME>` | none | Optional case-sensitive API key profile used by SDK calls with `keyProfile`. |
 | `FIVEMESH_API_URL` | `https://api.fivemesh.io/v1` | FiveMesh API base URL. |
 | `FIVEMESH_SDK_DEBUG` | `false` | Prints the resolved API base URL when the resource starts. |
 
-`FIVEMESH_CDN_API_KEY` and `FIVEMESH_SERVICE_API_KEY` are accepted as fallback key names, but new installs should use `FIVEMESH_API_KEY`.
+Keep the key in server-side configuration. Do not include it in client Lua or NUI code. It is shown only once; rotate it from the Server page if you lose it.
 
 ## API key profiles
 
-Use `FIVEMESH_API_KEY` for the default SDK key. If you want separate keys for specific resources, add profile keys with the exact profile name in the ConVar suffix.
+The default Server API Key is sufficient for official FiveMesh resources. Custom integrations can use [Developer API Keys](/api-reference/authentication) with narrower permissions and named profiles. Existing `fm_live_*` keys and older `FIVEMESH_CDN_API_KEY` or `FIVEMESH_SERVICE_API_KEY` settings remain supported for migration and advanced configurations.
 
 ```cfg
-set FIVEMESH_API_KEY "fm_live_..."
+set FIVEMESH_API_KEY "fm_server_..."
 set FIVEMESH_API_KEY_PHONE "fm_live_..."
 set FIVEMESH_API_KEY_MUGSHOTS "fm_live_..."
 ```

@@ -1,12 +1,12 @@
 ---
 title: "Set up FiveMesh Logs"
-description: "Enable Logs for a registered FiveM server, create an ingestion key and send server events to FiveMesh."
+description: "Enable Logs for a registered FiveM server and connect it with a Server API Key."
 icon: "scroll-text"
 ---
 
 FiveMesh Logs collects player, inventory, economy and staff events from a FiveM server into one searchable view.
 
-Each server connects to Logs with the FiveMesh SDK and an ingestion key. The dashboard then searches, filters, exports and retains the events that arrive from that server.
+Each server connects to Logs with the FiveMesh SDK and its Server API Key. The same key supports ingestion and the optional in-game staff viewer.
 
 ## Prerequisites
 
@@ -15,7 +15,7 @@ Before you connect a server, confirm:
 - The organization is on a plan that includes Logs.
 - The cfx.re server is registered in **Account** > **Servers**.
 - You can edit your server's `server.cfg`.
-- Someone with permission to create API keys can create a Logs key, or you already have one.
+- Someone with permission to manage the Server API Key can generate it from the Server page.
 
 ## Connect a server
 
@@ -28,8 +28,8 @@ Before you connect a server, confirm:
     The first time the organization uses Logs, the page asks the billing owner to enable Logs for the organization. After that, click **Enable Logs for this server** to create its source.
   </Step>
 
-  <Step title="Create an ingestion key">
-    Open **Logs** > **Settings** and click **Create ingestion key**. The key uses the Logs `logs:write` permission and is only for ingestion.
+  <Step title="Generate the Server API Key">
+    Open this Server in the dashboard and click **Generate API key** under **Server API Key**. Copy it now; FiveMesh shows the raw key only once.
   </Step>
 
   <Step title="Install the SDK">
@@ -37,19 +37,15 @@ Before you connect a server, confirm:
   </Step>
 
   <Step title="Configure server.cfg">
-    Add the SDK settings with the ingestion key. Use a key that is specific to
-    this server, so the SDK does not need the server ID.
+    Add the Server API Key to `server.cfg`. The key is already bound to this server.
 
     ```cfg
-    set FIVEMESH_LOGS_API_KEY "fm_live_..."
+    set FIVEMESH_API_KEY "fm_server_..."
     set FIVEMESH_LOGS_AUTOMATIC "true"
 
     ensure fivemesh-sdk
+    ensure fivemesh-logs
     ```
-
-    `FIVEMESH_SERVER_ID` is only required when the ingestion key is global
-    (allowed on every server of the organization), because a server-specific key
-    already names its server.
 
     Restart or reload the server with your normal deployment process.
   </Step>
@@ -60,7 +56,7 @@ Before you connect a server, confirm:
 </Steps>
 
 <Warning>
-  Treat the ingestion key as a secret. Anyone with it can write events into your Logs workspace, so keep it out of public repositories and client-side code.
+  Keep the Server API Key in server-side configuration. Never put it in client Lua, NUI code or a public repository. If you lose it, rotate it from the Server page.
 </Warning>
 
 ## What the SDK records automatically
@@ -78,12 +74,11 @@ Resources can also send their own events through the SDK exports. See [Server ex
 
 The optional `fivemesh-logs` resource opens the Explorer inside the game with `/fmlogs`.
 
-1. Create a separate read-only key with **Create viewer key** in **Logs** > **Settings**. It uses the `logs:read` permission.
-2. Download the latest [FiveMesh Logs viewer](https://github.com/0xSacul/fivemesh-logs/releases/latest).
-3. Configure the viewer and restrict access to staff groups.
+1. Download the latest [FiveMesh Logs viewer](https://github.com/FiveMesh/fivemesh-logs/releases/latest).
+2. Configure the viewer and restrict access to staff groups. It uses the same Server API Key as the SDK.
 
 ```cfg
-set FIVEMESH_LOGS_QUERY_API_KEY "fm_live_..."
+set FIVEMESH_API_KEY "fm_server_..."
 add_ace group.admin fivemesh.logs.view allow
 
 ensure fivemesh-sdk
@@ -91,9 +86,7 @@ ensure fivemesh-logs
 ```
 
 <Info>
-  The viewer needs `fivemesh-sdk` 0.1.5 or newer and a key with `logs:read`. A key
-  created for this server already names it, so `FIVEMESH_SERVER_ID` is only
-  required when the viewer key is global (all servers).
+  Place the `FIVEMESH_API_KEY` setting before both `ensure` lines. The Server API Key already identifies this server.
 </Info>
 
 ## Direct ingestion
@@ -109,5 +102,5 @@ Integrations that do not use the SDK can post atomic event batches directly to t
 ## Next steps
 
 - Search, filter and export events from [Logs operations](/logs/operations).
-- Create scoped keys from [Account API keys](/account/api-keys).
+- Create [Developer API Keys](/api-reference/authentication) for custom integrations that need separate permissions.
 - Review [troubleshooting](/reference/troubleshooting) if events do not appear.
