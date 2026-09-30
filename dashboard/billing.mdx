@@ -46,9 +46,11 @@ Check billing when:
   </Step>
 </Steps>
 
-<Note>
-  The docs do not list plan limits because limits can change. Use the pricing page and dashboard billing state as the source of truth.
-</Note>
+## Logs usage
+
+**Log Events** counts accepted events across the customer's servers in the subscription billing period. Growth includes **5 million events/month** and Pro includes **25 million events/month**. Starter does not include Logs. Rejected batches and retries of an accepted batch do not add usage.
+
+The planned rate is **€1 per additional million accepted events**. Logs overage is not charged during observation. Any end-of-period projection is an estimate at the planned rate, not an amount due. See [Logs operations](/logs/operations#usage-and-allowances) for counting and retry behavior.
 
 ## Related pages
 

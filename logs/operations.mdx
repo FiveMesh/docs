@@ -14,13 +14,31 @@ Once a server is connected, the Logs service follows the server selected in the 
 - Open a result to inspect its identifiers, metadata and payload.
 - Export the current filter as CSV or JSON when your role allows exports.
 
-Retention follows the organization plan. Events older than the retention window are removed automatically.
+Retention follows the customer's plan. Events older than the retention window are removed automatically.
+
+## Usage and allowances
+
+**Log Events** is the single Logs allowance. It counts accepted events across all of your servers during your subscription billing period.
+
+| Plan | Included Log Events per month |
+| --- | ---: |
+| Starter | Logs is not included |
+| Growth | 5 million |
+| Pro | 25 million |
+
+An accepted batch of 500 events counts as 500 Log Events. Rejected batches count as zero. Retrying an accepted batch with the same batch ID and unchanged payload adds no usage. Custom integrations should preserve the batch ID when retrying.
+
+Open **Billing** to see accepted usage, your allowance and a projection for the end of the billing period. Usage refreshes after acceptance; delivery delays can postpone an update. The period follows your subscription renewal dates, rather than a calendar-month reset.
+
+The planned overage rate is **€1 per additional million accepted events**. During the observation period, Logs overage is not charged. The projection shows an estimate at that planned rate, not an amount due. Charging starts only after usage accounting is validated and customers are informed.
 
 ## Analytics
 
 **Analytics** summarizes accepted ingestion over the selected time range, including event volume, batches, payload size and the sources that contributed them.
 
 Use it to confirm ingestion is healthy and to see which resources produce the most activity.
+
+Analytics and payload-size metrics help you monitor ingestion. Payload bytes, batches and queries are not additional customer-facing billing quotas.
 
 ## Settings
 
