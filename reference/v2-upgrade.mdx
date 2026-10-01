@@ -1,0 +1,54 @@
+---
+title: "V2 upgrade checklist"
+description: "Check account ownership, server selection, credentials and service configuration in the V2 dashboard."
+icon: "list-checks"
+---
+
+Use this checklist to review an existing installation in the [FiveMesh dashboard](https://app.fivemesh.io).
+
+## Account and access
+
+1. Sign in with the account that owns your services.
+2. Open **Billing** in your personal account context and confirm the current plan and service access.
+3. If you collaborate through an organization, select it in the sidebar and check the members, roles and server grants. An organization is optional; its services and subscription belong to its owner.
+4. Review your profile, sessions, connections and notification preferences.
+
+See [Workspaces](/dashboard/workspaces) and [Organizations](/dashboard/organizations) for the access model.
+
+## Servers and credentials
+
+1. Review registrations in **Servers**.
+2. Choose **My account** or your organization, then the intended server in the sidebar selector.
+3. Open that server's overview to manage its Server API Key.
+4. Check which credentials each integration uses before replacing or rotating them.
+
+A Server API Key grants `cdn:write`, `logs:read` and `logs:write`. CDN listing, deletion and purge require a Developer API Key with the corresponding permissions. Developer keys can also restrict CDN paths and MIME types.
+
+Key rotation immediately invalidates the previous key. Update the server configuration and restart the affected SDK resource after rotation. See [API keys](/account/api-keys).
+
+## Service configuration
+
+| Service | Check |
+| --- | --- |
+| **CDN** | Confirm the public workspace slug, upload paths, retention and Developer key restrictions. The public slug is fixed after onboarding; contact support if it needs to change. |
+| **Cache** | Select the server, confirm the public origin and provisioning state, and compare `server.cfg` with the generated setup block. Copy the exact Cache URL; do not substitute the cfx.re join code. |
+| **Voice** | Select the server, confirm the instance is ready, then compare the PMA-Voice host, port and ConVars with the generated setup block. |
+| **Logs** | Confirm plan access, activate Logs for the selected server, install the current SDK and check ingestion in Explorer. |
+
+Remove unused Cache or external Voice configuration from `server.cfg` before disabling or deleting those services. Removing a registration does not automatically remove its separate Cache or Voice configuration.
+
+## SDK and Logs
+
+Install the current [FiveM SDK](/sdk/installation) and ensure `fivemesh-sdk` starts before dependent resources. Keep credentials in server-only `set` ConVars.
+
+Server-bound keys supply the Logs server identity. Global Developer keys need `FIVEMESH_SERVER_ID` set to the cfx.re join code, which differs from the FiveMesh registration ID.
+
+Review [Logs setup](/logs/setup) for automatic event capture, optional integrations and the in-game staff viewer. SDK and public API queries are limited to a seven-day span per request; dashboard Explorer follows plan retention.
+
+## Confirm the installation
+
+- Open a public CDN asset and test an upload through your integration.
+- Join the server and check resource downloads after any Cache change.
+- Test proximity voice after any Voice configuration change.
+- Send a Logs event and confirm it appears in Explorer.
+- Review [Troubleshooting](/reference/troubleshooting) if a service is unavailable or a configuration fails.

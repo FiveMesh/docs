@@ -1,13 +1,13 @@
 ---
 title: "Upload with an upload URL"
-description: "Upload files through a scoped URL without sending a service key."
+description: "Upload files through a scoped URL without sending an API key."
 api: "POST /presigned-url/{token}"
 authMethod: "none"
 ---
 
 Upload one or more files to a scoped upload URL created by `GET /presigned-url`.
 
-No service key is required. Send a multipart form body to the returned `uploadUrl`.
+No API key is required. Send a multipart form body to the returned `uploadUrl`.
 
 <ParamField path="token" type="string" required>
   Upload token from the `uploadUrl`.

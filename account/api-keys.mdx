@@ -1,80 +1,101 @@
 ---
 title: "API keys"
-description: "Create service keys that are global to your organization or scoped to a single server."
+description: "Generate a Server API Key for official resources or scoped Developer API Keys for custom integrations."
 icon: "key-round"
 ---
 
-Service API keys let scripts and tools call FiveMesh service operations without using your dashboard session.
+FiveMesh V2 has two credential types. Keep both in server-side configuration.
 
-Every key belongs to your organization. Its context decides whether the key may act on every server in that organization or on exactly one server.
+| Key | Use it for | Permissions |
+| --- | --- | --- |
+| **Server API Key** (`fm_server_...`) | Official SDK uploads, Logs ingestion and the in-game Logs viewer for one registered server. | Fixed `cdn:write`, `logs:read` and `logs:write`. |
+| **Developer API Key** (`fm_live_...`) | Custom integrations with selected service actions, CDN paths and a global or server-specific scope. | The permissions you choose, limited by your own access. |
 
-## Create a key
+Keys belong to the resource owner's customer account. A key created through organization collaboration also carries that organization context. You do not need an organization to create a personal key.
 
-<Steps>
-  <Step title="Open key creation">
-    In the dashboard, open **Account** and create a new API key.
-  </Step>
+## Server API Key
 
-  <Step title="Name the key">
-    Use a name that describes where the key will run, such as `Production CDN worker`.
-  </Step>
+1. Open **Servers** and select the registered server.
+2. Under **Server API Key**, click **Generate API key**.
+3. Copy the secret from the one-time dialog.
+4. Add it before your resource `ensure` lines:
 
-  <Step title="Choose the context">
-    Select **Global - all servers** to let the key act on every server of the organization, or **Specific server** and pick the server the key belongs to. A specific server is the safer default because the key cannot act anywhere else.
-  </Step>
+```cfg
+set FIVEMESH_API_KEY "fm_server_..."
 
-  <Step title="Choose CDN path access">
-    If the key has CDN permissions, choose whether it can access all CDN paths or only specific path prefixes.
-  </Step>
+ensure fivemesh-sdk
+```
 
-  <Step title="Review permissions">
-    Select a preset or customize the allowed service actions.
-  </Step>
+The key identifies its server, so you do not need `FIVEMESH_SERVER_ID`.
 
-  <Step title="Copy the key">
-    Create the key and copy the secret immediately.
-  </Step>
-</Steps>
+A Server API Key can upload to the owner's CDN, but cannot list, delete or purge CDN objects. Use a Developer API Key for those actions or for restricted CDN path access.
+
+## Rotate or revoke a Server API Key
+
+Open the server's **Server API Key** panel and choose **Rotate API key** or **Revoke API key**. Review the confirmation.
+
+Rotation invalidates the previous key immediately. Replace it in every SDK or viewer configuration that uses it, then restart the affected resources. Revocation stops authenticated requests until a replacement key is configured.
 
 <Warning>
-  The secret is shown once after creation. Store it in your deployment secrets or server environment before leaving the page.
+  The raw secret is shown only when generated or rotated. Keep it out of client Lua, NUI bundles and public repositories. If it is lost or exposed, rotate it.
 </Warning>
 
-## Permission areas
+## Developer API Keys
 
-The dashboard can create keys for:
+Open the user menu > **Profile** > **API keys** and create a new key.
 
-- Global service operations.
-- CDN operations such as read, write, delete, purge, domains and settings.
-- Cache operations such as resource cache, origins, rules, purge, preload and observability.
-- Voice operations such as instance state and lifecycle when public API access becomes available.
+1. Give it a descriptive name.
+2. Choose **Global - all servers** or **Specific server**.
+3. Choose all CDN paths or specific path prefixes when using CDN.
+4. Select a permission preset or customize the allowed actions.
+5. Review the scope and copy the secret immediately after creation.
 
-Use the smallest permission set that supports the script or tool.
+Use the smallest permission set that supports your integration. The key cannot grant actions you do not have.
 
-## CDN path prefixes
+### Global and server-specific scope
 
-When a key has CDN permissions, you can restrict it to specific paths.
+- A **specific-server** key cannot query or ingest Logs for another server. The SDK resolves its cfx.re ID automatically.
+- A **global** key covers the resource owner's servers. For SDK Logs features, set `FIVEMESH_SERVER_ID` to the server's cfx.re join code.
+- CDN belongs to the customer account. A server binding alone does not isolate CDN folders; choose path prefixes to restrict media access.
 
-Examples:
+```cfg
+set FIVEMESH_API_KEY "fm_live_..."
+# Required for Logs with a global key:
+set FIVEMESH_SERVER_ID "YOUR_CFX_JOIN_CODE"
+```
+
+### CDN path prefixes
+
+Restrict a key to the media paths its script uses, for example:
 
 ```text
 /phone
-/mugshots
-/uploads
+/tablet
+/screenshots
 ```
 
-Use path scope when a script should only manage one media area.
+Keep uploads, lists and deletes inside the allowed prefixes. See [CDN API permissions](/api-reference/cdn#permissions).
 
-## Global and server-specific keys
+### Permission areas
 
-- A **specific-server** key is bound to one server. Requests for another server are refused, and the FiveMesh SDK does not need `FIVEMESH_SERVER_ID` because the key already names its server. Prefer this for scripts and integrations that run on a single server.
-- A **global** key can act on every server of the organization. Use it for tooling that manages multiple servers; callers must name the server they act on, so set `FIVEMESH_SERVER_ID` when the SDK runs on a server.
+| Area | Examples |
+| --- | --- |
+| CDN | Read, upload, delete and purge objects; dashboard settings administration. |
+| Cache | Read, create, purge, preload and administer resource cache configuration. |
+| Logs | Read, ingest, export and administer Logs sources. |
+| Voice | Read, create, restart and delete instances. |
 
-Deleting a server removes the keys bound to it, so keep server-specific keys replaceable.
+A dashboard permission does not imply that a public REST endpoint exists. Use the [API reference](/api-reference/introduction) for supported public routes.
+
+### Manage a Developer API Key
+
+Use the key's actions in **Profile** > **API keys** to enable, disable or revoke it. Revocation is permanent. Create a replacement when the secret must change; the stored secret cannot be recovered.
+
+Deleting a registered server removes its bound credentials. Deleting an organization revokes organization credentials while preserving customer resources.
 
 ## Related pages
 
-- [Organizations](/dashboard/organizations)
-- [CDN object browser](/cdn/object-browser)
-- [Cache operations](/cache/operations)
-- [Voice operations](/voice/operations)
+- [API authentication](/api-reference/authentication)
+- [Registered servers](/account/servers)
+- [SDK installation](/sdk/installation)
+- [Logs setup](/logs/setup)

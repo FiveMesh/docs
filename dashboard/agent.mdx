@@ -1,0 +1,44 @@
+---
+title: "FiveMesh Agent"
+description: "Use the dashboard Agent to inspect your services and prepare changes with explicit confirmation."
+icon: "bot"
+---
+
+FiveMesh Agent helps you inspect workspace state, usage, services, plans and documentation from the dashboard. It follows your account permissions and the organization context you are working in.
+
+## Access preferences
+
+Open your account menu, choose **Profile**, then open **Agent**.
+
+| Preference | Behavior |
+| --- | --- |
+| **Read-only Agent access** | On by default. Allows the Agent to inspect supported FiveMesh information. |
+| **Allow Agent executions** | Off by default. Allows it to prepare supported service changes for your approval. |
+
+Read access must be enabled before executions can be enabled. Turning off read access also turns off executions.
+
+## Ask for help
+
+Open **Agent** in the dashboard sidebar and describe the service or issue you want to investigate. Include the server name when your question involves Cache, Voice or Logs.
+
+You can ask it to explain usage, inspect a service's state or find the relevant setup instructions. Review its answer against the dashboard when deciding what to change.
+
+## Approve a service change
+
+With executions enabled, the Agent can prepare supported operations such as creating, updating, purging, restarting, disabling or deleting a service. Availability depends on the service and your permissions.
+
+Every execution pauses for explicit confirmation. Review the named target, proposed operation and consequences in the confirmation before approving. A request to inspect a service does not itself authorize a prepared change.
+
+<Warning>
+  Purging cached content and deleting a service have different consequences.
+  Read each confirmation carefully and copy any required configuration or
+  data before approving a destructive action.
+</Warning>
+
+Organization members can only prepare operations their role and service access permit. Agent preferences do not grant additional permissions.
+
+## Related pages
+
+- [Account settings](/account/settings)
+- [Workspaces](/dashboard/workspaces)
+- [Organizations](/dashboard/organizations)

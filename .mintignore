@@ -5,3 +5,7 @@
 # Draft content
 drafts/
 *.draft.mdx
+
+# Maintainer instructions and audit records are not published documentation.
+AGENTS.md
+audit/

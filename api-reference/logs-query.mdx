@@ -1,0 +1,95 @@
+---
+title: "Query log events"
+description: "Search one server's events within a bounded time range and paginate with a signed cursor."
+api: "POST /logs/query"
+---
+
+Requires `logs:read`, an eligible customer subscription and access to the connected server's Logs source.
+
+<ParamField body="serverId" type="string">
+  cfx.re join code. Required for a global key; optional for a server-bound key. A key bound to another server is refused.
+</ParamField>
+
+<ParamField body="from" type="string" required>
+  RFC 3339 start time.
+</ParamField>
+
+<ParamField body="to" type="string" required>
+  RFC 3339 end time. The range may span at most seven days and is limited by plan retention.
+</ParamField>
+
+<ParamField body="limit" type="integer" default="100">
+  1 to 100 results. Defaults to 100.
+</ParamField>
+
+## Filters
+
+<ParamField body="level" type="string">
+  Optional `debug`, `info`, `warn`, `error` or `fatal` filter.
+</ParamField>
+
+<ParamField body="eventType" type="string">
+  Optional event type.
+</ParamField>
+
+<ParamField body="resource" type="string">
+  Optional resource name.
+</ParamField>
+
+<ParamField body="message" type="string">
+  Optional message search.
+</ParamField>
+
+<ParamField body="playerId" type="string">
+  Optional player handle.
+</ParamField>
+
+<ParamField body="identifier" type="object">
+  Exact match such as `{"owner":"player","key":"discord","value":"123"}`.
+  Owner can be `player` or `target`.
+</ParamField>
+
+<ParamField body="cursor" type="string">
+  Optional opaque `pagination.nextCursor` from the previous response.
+</ParamField>
+
+Set `LOGS_FROM` and `LOGS_TO` to the UTC timestamps you want to search:
+
+```bash
+curl -X POST "https://api.fivemesh.io/v1/logs/query" \
+  -H "Authorization: Bearer $FIVEMESH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d "{\"from\":\"$LOGS_FROM\",\"to\":\"$LOGS_TO\",\"level\":\"error\",\"limit\":100}"
+```
+
+This example uses a server-bound key. Include `serverId` when using a global key.
+
+## Response and pagination
+
+```json
+{
+  "success": true,
+  "events": [],
+  "pagination": {
+    "hasMore": false,
+    "nextCursor": null
+  },
+  "range": {
+    "from": "2026-10-01T08:00:00.000Z",
+    "to": "2026-10-01T14:00:00.000Z"
+  },
+  "requestId": "req_..."
+}
+```
+
+Events use snake_case fields such as `event_id`, `occurred_at`, `event_type` and `player_identifiers`.
+
+When `hasMore` is true, keep the original request's `from`, `to`, server and filters unchanged and send `nextCursor` as `cursor`. The returned `range` describes the effective search window after retention is applied; it may be narrower than the original request. Start a new search when the cursor expires or the filters change.
+
+Responses are private and not cached. Rate limits and concurrent-search limits apply; honor `Retry-After` on `RATE_LIMITED` responses.
+
+## Related pages
+
+- [SDK queries](/sdk/logs#query-events)
+- [Logs ingestion](/api-reference/logs-ingestion)
+- [Authentication](/api-reference/authentication)

@@ -1,0 +1,27 @@
+---
+title: "FiveMesh Logs API"
+description: "Send event batches and query stored server events with separate ingestion and query endpoints."
+icon: "scroll-text"
+---
+
+Enable Logs on an active Growth or Pro customer account and connect the registered server before calling these endpoints.
+
+| Operation | Endpoint | Permission |
+| --- | --- | --- |
+| [Ingest events](/api-reference/logs-ingestion) | `POST https://logs.fivemesh.io/v1/servers/{cfxServerId}/logs` | `logs:write` |
+| Ingest with a server-bound key | `POST https://logs.fivemesh.io/v1/logs` | `logs:write` |
+| [Query events](/api-reference/logs-query) | `POST https://api.fivemesh.io/v1/logs/query` | `logs:read` |
+
+A Server API Key includes both permissions. Global Developer keys must identify the cfx.re join code; server-bound keys cannot access another server.
+
+The [FiveM SDK](/sdk/logs) handles batching, retries, identifier enrichment and query pagination. Use the REST endpoints for custom server-side integrations.
+
+## Usage
+
+Accepted events count toward **Log Events** across the customer's servers. Rejected batches and unchanged retries of an accepted batch do not add usage. Read [usage and allowances](/logs/operations#usage-and-allowances) for observation-period billing.
+
+Ingestion acceptance does not mean immediate search visibility. Allow time for events to become searchable.
+
+## Response formats
+
+The query API uses `success`, `requestId`, `events`, `range` and `pagination`. Ingestion success uses `accepted`, `batch_id`, `accepted_events`, `ingested_at` and `replayed`. Ingestion errors use `error`, `message` and `request_id`; request IDs are also in the `X-Request-Id` header. Check the endpoint-specific format.

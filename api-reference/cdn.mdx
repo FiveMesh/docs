@@ -6,10 +6,10 @@ icon: "radio-tower"
 
 Use the FiveMesh CDN API when a server-side integration needs to list, upload or delete CDN objects without opening the dashboard.
 
-The API manages objects only. Public file delivery happens through the `publicUrl` returned by object responses.
+The API manages objects, cached delivery responses and scoped upload URLs. Public file delivery happens through the `publicUrl` returned by object responses.
 
 <Warning>
-  Do not call these endpoints with a service key from client-side Lua, browser code or NUI bundles. Keep service keys on the server side.
+  Do not call these endpoints with an API key from client-side Lua, browser code or NUI bundles. Keep API keys on the server side.
 </Warning>
 
 ## Base URL
@@ -18,7 +18,7 @@ The API manages objects only. Public file delivery happens through the `publicUr
 https://api.fivemesh.io/v1
 ```
 
-All authenticated CDN routes require a service key with the matching `cdn` permission.
+All authenticated CDN routes require an API key with the matching `cdn` permission.
 
 ```http
 Authorization: Bearer YOUR_FIVEMESH_API_KEY
@@ -33,8 +33,11 @@ Every response includes `success` and `requestId`. The same request ID is return
 | `cdn:read` | List objects under allowed paths. |
 | `cdn:write` | Upload objects and create scoped upload URLs. |
 | `cdn:delete` | Delete one object or a batch of objects. |
+| `cdn:purge` | Expire cached delivery responses for specific objects. |
 
-Service keys can be limited to CDN path prefixes such as `/phone`, `/tablet` or `/uploads`.
+Server API Keys only include `cdn:write`. Use a Developer API Key for `cdn:read`, `cdn:delete` or `cdn:purge`.
+
+Developer API Keys can be limited to CDN path prefixes such as `/phone`, `/tablet` or `/uploads`.
 
 <Info>
   Path checks run against the final normalized object path. Encoded traversal, backslashes, absolute paths and dot-prefixed path segments are rejected or hidden from customer-facing listings.
@@ -50,7 +53,8 @@ Service keys can be limited to CDN path prefixes such as `/phone`, `/tablet` or 
 | `POST /objects/bulk` | Upload multiple files and receive per-file results. |
 | `DELETE /objects` | Remove a single object by path. |
 | `POST /objects/bulk-delete` | Remove multiple objects and receive per-path results. |
-| `GET /presigned-url` | Create a short-lived upload URL without exposing the service key. |
+| `POST /objects/purge` | Expire cached CDN responses without deleting stored files. |
+| `GET /presigned-url` | Create a short-lived upload URL without exposing the API key. |
 | `POST /presigned-url/{token}` | Send files to a scoped upload URL. |
 
 ## Object shape
@@ -94,8 +98,8 @@ Common CDN error codes:
 
 | Code | Meaning |
 | --- | --- |
-| `UNAUTHORIZED` | The service key is missing, invalid, disabled or expired. |
-| `FORBIDDEN` | The service key does not include the required permission. |
+| `UNAUTHORIZED` | The API key is missing, invalid, disabled or expired. |
+| `FORBIDDEN` | The API key does not include the required permission. |
 | `INVALID_PATH` | The path or filename is not accepted. |
 | `PATH_NOT_ALLOWED` | The path is outside the key or upload URL scope. |
 | `FILE_TOO_LARGE` | The uploaded file is over the allowed size. |

@@ -1,15 +1,15 @@
 ---
 title: "FiveM SDK"
-description: "Use the FiveMesh SDK resource to call FiveMesh CDN from FiveM server scripts."
+description: "Use the FiveMesh SDK resource to call FiveMesh CDN and Logs from FiveM server scripts."
 icon: "code"
 ---
 
 The FiveMesh SDK is a FiveM resource that connects your server scripts to the FiveMesh API.
 
-Use it when a resource needs to upload, list, delete or purge FiveMesh CDN objects without hand-writing HTTP requests. The SDK keeps your service key on the server side. Client exports call back to the server resource before anything is sent to FiveMesh.
+Use it when a resource needs to upload, list, delete or purge FiveMesh CDN objects without hand-writing HTTP requests, or to send and search server events through FiveMesh Logs. The SDK keeps your API key on the server side. Client exports call back to the server resource before anything is sent to FiveMesh.
 
 <Warning>
-  Do not place a FiveMesh service key in client-side Lua, NUI code or browser bundles. Configure the key as a server ConVar and let the SDK call the API from the server resource.
+  Do not place a FiveMesh API key in client-side Lua, NUI code or browser bundles. Configure the key as a server ConVar and let the SDK call the API from the server resource.
 </Warning>
 
 ## What the SDK covers
@@ -22,8 +22,13 @@ Use it when a resource needs to upload, list, delete or purge FiveMesh CDN objec
 | CDN cache purge | `purgeObjects` |
 | Scoped upload URLs | `createPresignedUrl`, `uploadWithPresignedUrl` |
 | Screenshots | `takeServerImage`, client `takeImage` |
+| Logs ingestion | `log`, `debug`, `info`, `warn`, `error`, `fatal`, `flushLogs` |
+| Logs queries | `queryLogs` |
+| Key identity | `whoami` |
 
-FiveMesh Cache helpers are not part of the first SDK release.
+The Server API Key supports CDN uploads and Logs reads/writes. CDN listing, deletion and purge require a Developer API Key with those permissions. Cache and Voice lifecycle operations use the dashboard.
+
+Read [SDK Logs](/sdk/logs) for custom events, identifier enrichment and paginated queries.
 
 ## Start here
 
@@ -41,13 +46,13 @@ FiveMesh Cache helpers are not part of the first SDK release.
   </Card>
 
   <Card title="Create upload URLs" icon="link" href="/sdk/presigned-uploads">
-    Give another script a short-lived upload target without exposing your service key.
+    Give another script a short-lived upload target without exposing your API key.
   </Card>
 </Columns>
 
 ## Permissions
 
-Use these permissions when creating the service key:
+Use these permissions when creating the API key:
 
 | Permission | Required for |
 | --- | --- |
@@ -57,7 +62,7 @@ Use these permissions when creating the service key:
 | `cdn:purge` | `purgeObjects` |
 
 <Tip>
-  Scope the service key to the path your resource owns, such as `/phone`, `/screenshots` or `/inventory`. This limits what the script can access if the key is copied by mistake.
+  Use a Developer API Key scoped to the path your resource owns, such as `/phone`, `/screenshots` or `/inventory`. This limits what the script can access if the key is copied by mistake.
 </Tip>
 
 ## Related pages

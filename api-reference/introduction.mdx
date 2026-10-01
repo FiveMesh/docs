@@ -1,48 +1,42 @@
 ---
 title: "API reference"
-description: "Use service keys to automate FiveMesh CDN, Cache and Voice operations."
+description: "Use the public FiveMesh API for CDN objects, scoped uploads, key identity and Logs."
 icon: "square-terminal"
 ---
 
-The FiveMesh API is for scripts, deployment tools and server automation that need to operate FiveMesh services without a dashboard session.
+Use the public API from server scripts and integration tools without a dashboard session.
 
-Use the API for workspace-scoped tasks such as preparing CDN uploads, managing public asset paths and operating server-aware services for registered FiveM servers.
-
-Current public endpoints cover FiveMesh CDN object management and scoped upload URLs. FiveMesh Cache and Voice endpoints will be documented when their public API surfaces are available.
-
-## API areas
+## Public API areas
 
 | Area | Use it for |
 | --- | --- |
-| [Authentication](/api-reference/authentication) | Passing service keys, handling scopes and keeping secrets server-side. |
-| [FiveMesh CDN](/api-reference/cdn) | Listing, uploading and deleting CDN objects, plus scoped upload URLs. |
-| [FiveMesh Cache](/api-reference/cache) | Planned resource cache setup, cache operations, origin settings and observability. |
-| [FiveMesh Voice](/api-reference/voice) | Planned managed Voice instance state, region and lifecycle operations. |
+| [Authentication](/api-reference/authentication) | Choose a key and pass bearer authentication. |
+| [Key identity](/api-reference/whoami) | Inspect permissions, path restrictions and server binding. |
+| [FiveMesh CDN](/api-reference/cdn) | List, upload, delete and purge CDN objects; create scoped upload URLs. |
+| [FiveMesh Logs](/api-reference/logs) | Ingest event batches and query stored events. |
+| [FiveMesh Cache](/api-reference/cache) | Dashboard setup and operations; no public lifecycle endpoints. |
+| [FiveMesh Voice](/api-reference/voice) | Dashboard setup and operations; no public lifecycle endpoints. |
+
+## Base URLs
+
+| API | Base URL |
+| --- | --- |
+| CDN, identity and Logs queries | `https://api.fivemesh.io/v1` |
+| Logs ingestion | `https://logs.fivemesh.io` |
+
+The SDK's `FIVEMESH_API_URL` includes `/v1`. Do not append another `/v1` when constructing requests from that value.
 
 ## Before you call the API
 
-Create a service key from [API keys](/account/api-keys), then choose the smallest permission set that supports your script.
-
-If the script only uploads media for one integration, restrict the key to a path prefix such as `/phone` or `/tablet`.
-
-<Warning>
-  Do not put service keys in client-side Lua, browser code or NUI bundles. Keep API calls that use service keys on the server side.
-</Warning>
-
-## Request pattern
-
-FiveMesh service APIs use bearer authentication.
+[Choose a key](/account/api-keys) with the required actions. The Server API Key covers uploads and Logs; a Developer API Key can provide narrower paths or additional actions.
 
 ```bash
-curl "$FIVEMESH_API_URL/v1/..." \
-  -H "Authorization: Bearer $FIVEMESH_API_KEY" \
-  -H "Content-Type: application/json"
+curl "https://api.fivemesh.io/v1/whoami" \
+  -H "Authorization: Bearer $FIVEMESH_API_KEY"
 ```
 
-Set `FIVEMESH_API_URL` to the API base URL provided for your workspace or integration environment.
+<Warning>
+  Keep permanent keys on the server. Use scoped upload URLs for client-visible uploads.
+</Warning>
 
-The production API base URL is:
-
-```text
-https://api.fivemesh.io
-```
+CDN and query responses use `success` and `requestId`. Logs ingestion has its own `accepted` and `accepted_events` success format, with `request_id` in error bodies; see its endpoint reference.

@@ -1,47 +1,45 @@
 ---
 title: "Quickstart"
-description: "Create a FiveMesh workspace, register a FiveM server and open CDN, Cache or Voice setup."
+description: "Activate a plan, register a FiveM server and configure CDN, Cache, Voice or Logs in FiveMesh V2."
 icon: "rocket"
 ---
 
-This guide takes you from a new account to a workspace that can use FiveMesh services.
+This guide takes you from a new account to your first configured service.
 
 ## Prerequisites
 
-Before you begin, you need:
-
-- A FiveMesh account.
-- Active trial or subscription access.
-- Your cfx.re server ID if you want to use Cache, Voice or server-aware services.
-- Access to your server configuration if you plan to enable Cache or Voice.
+- A FiveMesh account with a verified email address.
+- Trial or subscription access before activating services.
+- Your cfx.re join code for Cache, Voice or Logs.
+- Access to `server.cfg` for server-side integrations.
 
 ## Get started
 
 <Steps>
   <Step title="Sign in">
-    Open the FiveMesh dashboard and sign in. After authentication, FiveMesh sends you to `/dashboard`.
+    Open the [FiveMesh dashboard](https://app.fivemesh.io) and sign in. You land on **Overview**.
+
+    You can use the dashboard without an organization or subscription.
   </Step>
-
-  <Step title="Complete workspace setup">
-    Open **Onboarding** if the dashboard asks for setup details.
-
-    Add your community profile and connect a cfx.re server ID if one is ready. You can continue without a server, but Cache and Voice setup stay paused until a server is registered.
+  <Step title="Activate a plan">
+    Open **Billing** and choose a plan or confirm your existing subscription. Active and trialing subscriptions allow service setup. Logs requires Growth or Pro.
   </Step>
+  <Step title="Register a server">
+    Open **Servers**, register your cfx.re join code and review the detected details.
 
-  <Step title="Check billing access">
-    Open **Billing** and confirm the workspace has active trial or subscription access.
-
-    CDN, Cache and Voice dashboards stay locked until billing or trial access is active. Voice also requires a plan that includes the service.
+    CDN can operate without a registered server. Cache, Voice and Logs require one.
   </Step>
+  <Step title="Choose the context">
+    Use the selector at the top of the sidebar to choose **My account** or an organization, then select your registered server.
 
-  <Step title="Choose the service">
-    Open **CDN** to create a public asset workspace, open **Cache** to enable resource download caching, or open **Voice** to create a managed PMA-Voice compatible instance for a registered server.
+    An organization is optional. It shares access to its owner's resources without moving billing or ownership.
+  </Step>
+  <Step title="Enable a service">
+    Open **CDN** to configure public asset delivery, **Cache** to proxy resource downloads, **Voice** to create managed PMA-Voice infrastructure, or **Logs** to connect server events.
+
+    Follow the service setup guide below and wait for provisioning to finish.
   </Step>
 </Steps>
-
-<Check>
-  When setup is complete, the dashboard overview shows service cards for the active workspace and the next common actions.
-</Check>
 
 ## Common first paths
 
@@ -49,13 +47,14 @@ Before you begin, you need:
 | --- | --- |
 | Upload inventory images or media | [Set up FiveMesh CDN](/cdn/setup) |
 | Cache resource downloads | [Set up FiveMesh Cache](/cache/setup) |
-| Run managed PMA-Voice compatible infrastructure | [Set up FiveMesh Voice](/voice/setup) |
+| Run managed PMA-Voice infrastructure | [Set up FiveMesh Voice](/voice/setup) |
+| Collect and search server events | [Set up FiveMesh Logs](/logs/setup) |
+| Connect official FiveMesh resources | [Generate a Server API Key](/account/api-keys#server-api-key) |
+| Create keys for custom integrations | [Developer API Keys](/account/api-keys#developer-api-keys) |
 | Invite operators | [Organizations](/dashboard/organizations) |
-| Connect official FiveMesh resources | Open your registered Server and generate its Server API Key |
-| Create keys for custom integrations | [Developer API Keys](/api-reference/authentication) |
 
 ## Next steps
 
-- Review how [workspaces](/dashboard/workspaces) affect personal and organization services.
-- Register any missing servers from [Account servers](/account/servers).
+- Review [workspace and server context](/dashboard/workspaces).
+- Install the [FiveM SDK](/sdk/installation).
 - Read [troubleshooting](/reference/troubleshooting) if a service remains locked.

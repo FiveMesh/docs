@@ -1,49 +1,62 @@
 ---
 title: "Authentication"
-description: "Authenticate FiveMesh API requests with scoped service keys."
+description: "Authenticate with a Server API Key or a scoped Developer API Key and verify its permissions."
 icon: "key-round"
 ---
 
-FiveMesh API requests use service keys created from the dashboard.
+FiveMesh public API requests use bearer keys. Dashboard sessions are separate and cannot replace an API key.
 
-Keys are scoped to personal resources or organization resources, and can be limited by service, action and CDN path prefix.
+## Choose a key
+
+| Key | Use it for |
+| --- | --- |
+| Server API Key (`fm_server_...`) | CDN uploads, Logs ingestion and Logs queries for one registered server. |
+| Developer API Key (`fm_live_...`) | Custom permissions, restricted CDN paths or tooling for multiple servers. |
+
+Generate the Server API Key from **Servers** > the server overview. Create Developer API Keys from **Account** > **API keys**. See [API keys](/account/api-keys) for creation and rotation.
+
+Keys resolve the resource owner's customer account. Organization-scoped keys also depend on valid organization access.
 
 ## Authorization header
-
-Pass the service key as a bearer token.
 
 ```http
 Authorization: Bearer YOUR_FIVEMESH_API_KEY
 ```
 
-Example request shape:
+For example:
 
 ```bash
-curl "$FIVEMESH_API_URL/v1/..." \
+curl "https://api.fivemesh.io/v1/whoami" \
   -H "Authorization: Bearer $FIVEMESH_API_KEY"
 ```
 
-## Key scopes
+[Inspect the key](/api-reference/whoami) to check its permissions and server binding.
 
-Choose scopes based on where the key runs:
+## Server scope
 
-| Scope | Use it when |
-| --- | --- |
-| Personal resources | A script operates services owned by your personal workspace. |
-| Organization resources | A script operates services shared with an organization workspace. |
-| CDN path prefixes | A script should only read or write selected public asset paths. |
+A server-bound key identifies the registered server automatically. For Logs requests with a global Developer key, name the cfx.re join code in the ingestion URL or query body. Requests for a different server than the key's binding are refused.
+
+Dashboard server routes use FiveMesh's registered-server ID; public Logs routes and the SDK's `FIVEMESH_SERVER_ID` use the cfx.re join code.
+
+## CDN path scope
+
+A server binding does not isolate CDN folders. Restrict a Developer key to allowed prefixes such as `/phone` or `/screenshots` when the integration should only manage those assets.
+
+The Server API Key has `cdn:write`, `logs:read` and `logs:write`. CDN reads, deletes and purge need a Developer key with the matching action.
 
 ## Secret handling
 
-Store service keys in server environment variables, deployment secrets or a server-only configuration file.
+Store keys in server ConVars, deployment secrets or server-only configuration.
 
 <Warning>
-  The secret is shown once when the key is created. Rotate the key if it has been copied into a client script, repository or browser bundle.
+  Secrets are shown only at creation or rotation. Rotate a Server API Key or replace a Developer key if exposed in a client script, repository or browser bundle.
 </Warning>
+
+Scoped upload URLs are temporary credentials too. Keep their lifetime, path and upload limits narrow.
 
 ## Related pages
 
 - [API keys](/account/api-keys)
-- [FiveMesh CDN API](/api-reference/cdn)
-- [FiveMesh Cache API](/api-reference/cache)
+- [CDN API](/api-reference/cdn)
+- [Logs API](/api-reference/logs)
 

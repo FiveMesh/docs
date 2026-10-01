@@ -12,7 +12,9 @@ Once a server is connected, the Logs service follows the server selected in the 
 
 - Filter by server, time range, level, event type, resource, message and player identifiers.
 - Open a result to inspect its identifiers, metadata and payload.
-- Export the current filter as CSV or JSON when your role allows exports.
+- Export the current filter as CSV or JSON when your role allows exports. A single dashboard export includes at most 10,000 events; narrow the filter or split the time range for larger exports.
+
+Growth retains events for 30 days; Pro retains them for 90 days. Explorer can search within the plan's retention. SDK and public API queries have a separate seven-day limit per request.
 
 Retention follows the customer's plan. Events older than the retention window are removed automatically.
 
@@ -48,9 +50,8 @@ Analytics and payload-size metrics help you monitor ingestion. Payload bytes, ba
 | --- | --- |
 | **Disable Logs for this server** | Stops ingesting events from this server. The configuration stays and can be enabled again. |
 | **Enable Logs for this server** | Resumes ingestion for a disabled server. |
-| **Create ingestion key** | Opens the API key form with the Logs `logs:write` scope. |
-| **Create viewer key** | Opens the API key form with the Logs `logs:read` scope for the in-game viewer. |
-| **Delete Logs configuration** | Stops ingestion immediately and removes the configuration. Already stored events keep their normal retention window. |
+| **Manage Server API Key** | Opens the selected server's overview to generate, rotate or revoke its key. |
+| **Delete Logs configuration** | Stops ingestion immediately and removes the configuration. Already stored events become unavailable through Logs for that source; stored data follows its normal retention window. |
 
 <Info>
   Installation steps live in [Set up FiveMesh Logs](/logs/setup). Use **Open installation guide** to return to them whenever you connect another server.
@@ -64,6 +65,10 @@ Logs respects organization roles and API key scopes.
 - `logs:write` ingests events from a server.
 - `logs:export` exports filtered events.
 - `logs:admin` enables, disables and deletes a server's Logs configuration.
+
+## When events are missing
+
+Confirm the correct server is selected, its Logs source is enabled and connection state is active. Check the SDK console for rejected or retrying batches, and allow time for accepted events to become searchable. Review the time range and filters before sending the event again.
 
 ## Next steps
 

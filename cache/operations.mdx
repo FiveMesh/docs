@@ -6,11 +6,14 @@ icon: "activity"
 
 After Cache is enabled for a registered server, use the Cache dashboard to monitor request behavior and manage operational controls.
 
+## Select the server
+
+Select the registered server in the sidebar before opening **Cache**. V2 shows that server's configuration and analytics.
+
 ## Cache tabs
 
 | Tab | Use it for |
 | --- | --- |
-| **Servers** | Enable Cache for registered servers and open server settings. |
 | **Analytics** | Review request volume, hit ratio, served bandwidth, latency and origin errors. |
 | **Settings** | Copy the cache URL, update origin, purge cache, rotate the adhesive key, disable Cache or delete configuration. |
 
@@ -24,7 +27,7 @@ Use purge when resources change and players need the latest files.
   </Step>
 
   <Step title="Select the server">
-    Choose the Cache-enabled server.
+    Confirm the server shown in the sidebar selector.
   </Step>
 
   <Step title="Purge">
@@ -62,6 +65,8 @@ Rotate the key if the previous `adhesive_cdnKey` was lost or should no longer be
 
 ## Disable or delete Cache
 
+Before disabling or deleting Cache, remove its `fileserver_add` line from `server.cfg` and reload or restart your server so players return to origin downloads.
+
 Use **Disable Cache** when you want to pause Cache for a server without removing the saved configuration.
 
 Use **Delete Cache configuration** when you want to remove Cache settings for that server. The registered server remains in your account and can be enabled again later.
@@ -85,5 +90,5 @@ A sustained rise in origin errors usually means FiveMesh cannot reach your origi
 ## Related pages
 
 - [Set up FiveMesh Cache](/cache/setup)
-- [Account servers](/account/servers)
+- [Registered servers](/account/servers)
 - [Troubleshooting](/reference/troubleshooting)

@@ -1,64 +1,59 @@
 ---
-title: "Account servers"
-description: "Register cfx.re server IDs so FiveMesh can prepare Cache, Voice and server-aware services."
+title: "Registered servers"
+description: "Register a cfx.re join code, select a server and manage its services and Server API Key."
 icon: "server"
 ---
 
-Registered servers connect your FiveM server identity to the active FiveMesh workspace.
+Registered servers connect your FiveM server identity to your FiveMesh customer account.
 
-CDN can operate without a registered server. Cache, Voice, origin detection and server-aware services need a registered cfx.re server ID.
+CDN works without a registered server. Cache, Voice and Logs require one. Organizations can give members access to the owner's servers.
 
-## Find your cfx.re server ID
+## Find your cfx.re join code
 
-Open the Cfx.re portal or your server listing and copy the server ID. FiveMesh validates the ID before saving it to the workspace.
+Copy the short code from your server's Cfx.re join link. For example, `https://cfx.re/join/57gk77` has the code `57gk77`.
 
-The dashboard uses values like:
-
-```text
-57gk77
-```
+This is not the server license key or IP address.
 
 ## Register a server
 
 <Steps>
-  <Step title="Open Account">
-    In the dashboard sidebar, open **Account**.
-  </Step>
-
   <Step title="Open Servers">
-    Select the **Servers** tab, or use the **Servers** sidebar item.
+    Open **Servers** from the dashboard sidebar.
   </Step>
-
-  <Step title="Add the server ID">
-    Paste the cfx.re server ID and submit the form.
+  <Step title="Add the join code">
+    Choose the registration action, paste the cfx.re join code and submit the form.
   </Step>
-
   <Step title="Review detected details">
-    FiveMesh may show detected origin, player slots, resource count, support status and sample resources when available.
+    Review the detected server name, origin, player slots and resource information when available.
+  </Step>
+  <Step title="Open the server">
+    Select its row to open the server overview. Generate its [Server API Key](/account/api-keys#server-api-key) if you use the SDK or Logs viewer.
   </Step>
 </Steps>
 
+## Select a server for services
+
+Use the selector at the top of the sidebar. Cache, Voice and Logs follow that server. Selecting a server does not switch CDN workspaces or change your billing ownership.
+
+Dashboard routes use FiveMesh's registered-server ID. Public Logs ingestion and `FIVEMESH_SERVER_ID` use the cfx.re join code instead.
+
 ## Limits and access
 
-The number of servers you can register depends on the active plan.
+Registration follows the resource owner's active plan allowance. If registration is unavailable, check subscription access, the server limit and your organization role.
 
-If the add button is unavailable:
+If a registered server is missing in organization context, ask the owner to check your role and **Server access** grants.
 
-- Check that the workspace has active trial or subscription access.
-- Check whether the plan server limit is reached.
-- For organizations, confirm your role can manage registered servers.
+## Edit or remove a server
 
-## Remove a server
-
-Removing a server deletes it from the current FiveMesh workspace. It does not change anything in Cfx.re.
+Use the server management controls to edit its settings or remove it. Review the confirmation before deletion.
 
 <Warning>
-  If Cache or Voice is configured for the server, review service state before removing the registered server.
+  Removing a registered server removes its bound credentials and disables Logs ingestion. It does not automatically delete independently managed Cache or Voice services. Review and remove those services first when they are no longer needed, then update your FiveM server configuration. Cfx.re itself is unchanged.
 </Warning>
 
 ## Related pages
 
 - [Set up FiveMesh Cache](/cache/setup)
 - [Set up FiveMesh Voice](/voice/setup)
-- [Workspaces](/dashboard/workspaces)
-- [Troubleshooting](/reference/troubleshooting)
+- [Set up FiveMesh Logs](/logs/setup)
+- [Organizations](/dashboard/organizations)

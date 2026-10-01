@@ -4,13 +4,13 @@ description: "Configure LB-Phone or LB-Tablet to upload media through FiveMesh C
 icon: "plug"
 ---
 
-Use FiveMesh CDN with [LB-Phone](https://lbscripts.com/phone) or [LB-Tablet](https://lbscripts.com/tablet) by configuring a custom upload method.
+Use FiveMesh CDN with [LB-Phone](https://docs.lbscripts.com/phone/) or [LB-Tablet](https://docs.lbscripts.com/tablet/) by configuring a custom upload method.
 
-Use presigned uploads so the script can upload phone or tablet media without exposing your FiveMesh service key to clients.
+Use presigned uploads so the script can upload phone or tablet media without exposing your FiveMesh API key to clients.
 
 <Tip>
   If you use both LB-Phone and LB-Tablet, give each script its own CDN path
-  prefix such as `/phone` and `/tablet`. You can restrict service keys to those
+  prefix such as `/phone` and `/tablet`. You can restrict API keys to those
   prefixes from the FiveMesh dashboard.
 </Tip>
 
@@ -19,22 +19,17 @@ Use presigned uploads so the script can upload phone or tablet media without exp
 Before you begin, confirm:
 
 - FiveMesh CDN is set up for the active workspace.
-- You have a service key with CDN write access.
-- The service key is scoped to the path prefixes the script should manage.
+- You have an API key with CDN write access.
+- The API key is scoped to the path prefixes the script should manage.
 - You can edit the LB-Phone or LB-Tablet server files.
 
-Use these values while configuring the integration:
+Use a Developer API Key with `cdn:write` and allowed prefixes such as `phone` or `tablet` when you need path isolation. A Server API Key also supports CDN uploads, but its server binding does not restrict the CDN path.
 
-| Value                           | Description                                                                                    |
-| ------------------------------- | ---------------------------------------------------------------------------------------------- |
-| `FIVEMESH_PRESIGNED_UPLOAD_URL` | The presigned upload endpoint provided for your FiveMesh workspace or integration environment. |
-| `YOUR_API_KEY`                  | A scoped FiveMesh service key.                                                                 |
-| `YOUR_CDN_WORKSPACE`            | The CDN workspace name you configured during setup.                                            |
-| `file`                          | The upload field name used by LB-Scripts.                                                      |
+The presigned endpoint is `https://api.fivemesh.io/v1/presigned-url`. The public workspace slug comes from your CDN settings; you do not pass it in this request.
 
 <Warning>
   Do not configure direct uploads with a permanent API key in client-visible
-  files. Keep the service key in server-side LB-Scripts files and return
+  files. Keep the API key in server-side LB-Scripts files and return
   presigned upload URLs to the client.
 </Warning>
 
@@ -70,8 +65,8 @@ To use presigned uploads with LB-Phone, update the server and upload configurati
         local apiKey = API_KEYS[uploadType]
         local uploadPath = UPLOAD_PATHS[uploadType]
 
-        if not apiKey then
-            infoprint("error", ("[GetPresignedUrl] Invalid uploadType '%s' (missing API key or bucket")):format(uploadType))
+        if not apiKey or not uploadPath then
+            infoprint("error", ("[GetPresignedUrl] Invalid uploadType '%s' (missing API key or path)"):format(uploadType))
             return false
         end
 
@@ -110,7 +105,7 @@ To use presigned uploads with LB-Phone, update the server and upload configurati
   </Step>
 
   <Step title="Use presigned URLs in upload settings">
-    In `lb-phone/shared/upload.lua`, set `url` to `"PRESIGNED_URL"` for custom methods.
+    In `lb-phone/shared/upload.lua`, set `url` to `"PRESIGNED_URL"` for custom methods. Set each media type in `Config.UploadMethod` to `"Custom"` in your phone configuration.
 
     ```lua
     UploadMethods = {
@@ -166,7 +161,7 @@ LB-Tablet uses the same presigned upload pattern.
 
 <Steps>
   <Step title="Configure server credentials">
-    Open `lb-tablet/server/apiKeys.lua` and add the same `API_KEYS` and `UPLOAD_PATHS ` values.
+    Open `lb-tablet/server/apiKeys.lua` and add the same `API_KEYS` and `UPLOAD_PATHS` values.
   </Step>
 
 <Step title="Request a presigned upload URL">
@@ -176,13 +171,19 @@ LB-Tablet uses the same presigned upload pattern.
 
 <Step title="Use presigned URLs in upload settings">
   In `lb-tablet/config/upload.lua`, set `url = "PRESIGNED_URL"` for each custom
-  media type.
+  media type. Set the corresponding `Config.UploadMethod` entries to `"Custom"`.
 </Step>
 
   <Step title="Return the custom method">
     Confirm `CustomGetUploadMethod` is implemented in `lb-tablet/client/custom/functions/functions.lua`.
   </Step>
 </Steps>
+
+## Verify uploads
+
+Restart the affected LB resource after changing its configuration. Upload an image, video and audio clip, then check each public URL and the intended CDN folder.
+
+LB versions can change custom hook locations. Check your installed resource and the official [LB-Phone installation guide](https://docs.lbscripts.com/phone/installation/) or [LB-Tablet installation guide](https://docs.lbscripts.com/tablet/installation/) before replacing a hook. Preserve other customizations when updating.
 
 ## Related pages
 

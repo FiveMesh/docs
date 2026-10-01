@@ -1,0 +1,15 @@
+/* Mintlify's API action uses a fixed blue color outside docs.json.
+   Keep this small override aligned with the web marketing action palette. */
+.tryit-button {
+  background-color: #20221F;
+  color: #F7F6F2;
+}
+
+.dark .tryit-button {
+  background-color: #EEEEE7;
+  color: #121310;
+}
+
+.tryit-button .icon {
+  background-color: currentColor;
+}

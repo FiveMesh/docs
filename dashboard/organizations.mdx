@@ -1,93 +1,61 @@
 ---
 title: "Organizations"
-description: "Create an organization, invite members and control shared service access."
+description: "Share your customer-owned services with a team using roles, invitations and server access."
 icon: "users"
 ---
 
-Organizations let several operators work in the same FiveMesh workspace. They are useful when billing, service setup and operational access should belong to a team instead of one personal account.
-
-## What owners manage
-
-Organization owners can manage:
-
-- Organization name and generated slug.
-- Members and invitations.
-- Member roles.
-- Whether CDN, Cache and Voice are shared with the organization.
-
-The dashboard currently exposes **Overview**, **Members** and **Invitations** tabs for organization management.
+Organizations are optional collaboration spaces. Members work on the owner's shared services, while subscriptions, quotas and resources remain owned by that customer account.
 
 ## Create an organization
 
-<Steps>
-  <Step title="Open Organization">
-    In the sidebar, open **Organization**.
-  </Step>
+1. Open **Organization** in the sidebar.
+2. Choose **Create organization** and enter the name.
+3. Complete creation, then select the organization in the sidebar selector.
 
-  <Step title="Enter the organization name">
-    Add the workspace name. FiveMesh generates a slug from the name.
-  </Step>
-
-  <Step title="Create the workspace">
-    Click **Create**. FiveMesh switches to the new organization when creation succeeds.
-  </Step>
-</Steps>
-
-<Note>
-  Organization creation depends on the active plan. If the create form is not available, review [Billing](/dashboard/billing) or ask the workspace owner to invite you.
-</Note>
+Creation requires an eligible active plan. Your account can own one active customer organization. You can also join organizations through invitations.
 
 ## Invite members
 
-<Steps>
-  <Step title="Open Invitations">
-    In **Organization**, open the **Invitations** tab.
-  </Step>
+Open **Organization** > **Members**. Enter the member's email, select a role and send the invitation. The dashboard shows pending invitations and an invitation URL you can share.
 
-  <Step title="Enter the email and role">
-    Choose the member email and role. Owners cannot assign another owner through the invitation form.
-  </Step>
+The recipient signs in with the invited email and reviews the invitation before accepting or declining. Joining changes collaboration access; their own subscription and resources remain on their account.
 
-  <Step title="Send the invitation">
-    Create the invitation and share the generated invitation URL with the member.
-  </Step>
-</Steps>
+Owner access cannot be assigned through the invitation form.
+
+## Roles
+
+| Role | Main permissions |
+| --- | --- |
+| **Owner** | Full service access; manages organization settings, invitations, roles and server grants; can delete the organization. |
+| **Admin** | Full service access; edits organization settings and invitations. Owner-only role changes, server grants and organization deletion remain restricted. |
+| **Operator** | Manages servers and API keys; uploads, deletes and purges CDN assets; creates, purges and preloads Cache; reads, ingests and exports Logs; creates, restarts and deletes Voice. Cannot administer service settings or enable Logs sources. |
+| **Developer** | Reads, registers and updates servers; creates and reads API keys; reads and uploads CDN assets; reads and creates Cache; reads and ingests Logs; reads, creates and restarts Voice. Cannot delete resources or enable Logs sources. |
+| **Viewer** | Read-only service access, subject to server grants. Cannot export Logs or manage keys, services or organization settings. |
+
+Only the resource owner controls their customer subscription. Organization roles do not transfer billing ownership.
+
+## Server access
+
+Owners can open **Server access** for a member under **Members** and choose **All servers** or **Specific servers**. Selecting no specific servers gives that member no server access.
+
+Server grants restrict read-only roles. Roles that can update servers can reach all servers allowed by their role. A server grant does not add service actions that the role lacks.
 
 ## Share services
 
-Service sharing controls whether organization members can access the services tied to the organization workspace.
+Organization context gives members access to the owner's shared **CDN**, **Cache**, **Voice** and **Logs**, subject to their role, service availability and server access. The current V2 organization pages are **Overview**, **Members** and **Settings**; invitations are managed under **Members**.
 
-Available shared services:
+<Note>
+  An active owner subscription alone does not grant members service access. The member needs the required role and server access. Ask support to review service availability if those permissions are correct.
+</Note>
 
-- **FiveMesh CDN**
-- **FiveMesh Cache**
-- **FiveMesh Voice**
+## Leave or delete an organization
 
-Owners can toggle each service under **Organization** > **Overview**. The setting saves automatically.
+Use the organization access controls to leave an organization or, as its owner, delete it. Review the confirmation before continuing.
 
-<Warning>
-  If a service is not shared with the organization, members may see a locked or unavailable service even when the owner has an active subscription.
-</Warning>
-
-## Player Upload Portal permissions
-
-Player Upload Portals use the organization's FiveMesh CDN permissions.
-
-| Permission | Portal access |
-| --- | --- |
-| CDN read | View the workspace owner's portals, settings and upload logs. |
-| CDN write | Update existing portals, pause uploads, and block or unblock uploaders. |
-| CDN delete | Delete uploaded files from portal logs. |
-
-Only the workspace owner can create or reset portals. Organization members work with the owner's portals, and the owner's subscription determines the portal allowance.
-
-See [Manage Player Upload Portals](/cdn/upload-portal-management) for the complete permission and moderation workflow.
+Leaving removes your collaboration access. Deleting removes memberships, invitations and organization credentials. The customer's subscription, registered servers and services remain on the owner's account.
 
 ## Related pages
 
 - [Workspaces](/dashboard/workspaces)
 - [API keys](/account/api-keys)
-- [Set up FiveMesh CDN](/cdn/setup)
-- [Set up a Player Upload Portal](/cdn/upload-portal-setup)
-- [Set up FiveMesh Cache](/cache/setup)
-- [Set up FiveMesh Voice](/voice/setup)
+- [Billing](/dashboard/billing)

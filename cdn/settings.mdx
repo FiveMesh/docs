@@ -1,12 +1,18 @@
 ---
 title: "CDN settings"
-description: "Manage CDN placeholders, retention policies and read-only service states."
+description: "Review the public CDN URL, configure placeholders and retention, purge cached files or delete the service."
 icon: "settings-2"
 ---
 
 CDN settings control workspace-level configuration for public asset paths.
 
-The settings page includes placeholders for missing images and TTL policies for retention intent.
+The settings page shows the public URL, cache purge, placeholders, TTL policies and service deletion.
+
+## Public URL
+
+Your workspace slug appears in every public file URL. Choose it carefully during setup: the current service does not accept slug changes after onboarding.
+
+If you need another public name, contact support before changing scripts or moving assets. A public URL change requires every integration that stores the old URL to be updated.
 
 ## Permissions
 
@@ -99,6 +105,8 @@ Deleting a placeholder rule stops future fallback responses for that pattern. It
   </Step>
 </Steps>
 
+TTL policies apply storage expiration to matching files. Removing a policy does not restore files that have already expired. Avoid overlapping paths with conflicting retention rules.
+
 ## Path rules
 
 - Do not start a user-facing path segment with `.`.
@@ -109,9 +117,24 @@ Deleting a placeholder rule stops future fallback responses for that pattern. It
   For temporary script media, start with a shorter path policy. Keep durable assets such as inventory icons in a separate path.
 </Tip>
 
-## Destructive actions
+## Purge cached delivery
 
-The dashboard may show destructive actions as unavailable placeholders while cleanup automation is still being prepared.
+Under **Purge CDN cache**, review the workspace prefix and click **Purge workspace**. This requires `cdn:purge`.
+
+Purging expires cached responses under the public workspace prefix; it keeps stored objects. Use it after bulk replacements when requests still return older content. For specific objects, use the [CDN API reference](/api-reference/cdn#endpoints) with a Developer API Key.
+
+## Delete the CDN service
+
+In **Danger zone**, click **Delete CDN service** and type the current workspace slug to confirm. This requires CDN administration access.
+
+Public delivery stops immediately. Cleanup removes stored content, and the dashboard shows deletion progress. Export any files you need before confirming.
+
+If **Cancel deletion** is still available, it can restore the service, but it cannot recover objects already removed. Once cleanup completes, deletion can no longer be cancelled.
+
+<Warning>
+  Deleting a service is different from purging its cache. Purging keeps files;
+  deletion permanently removes content as cleanup progresses.
+</Warning>
 
 ## Related pages
 

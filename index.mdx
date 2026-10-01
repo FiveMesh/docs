@@ -1,29 +1,28 @@
 ---
 title: "FiveMesh documentation"
-description: "Set up and operate FiveMesh workspaces, CDN asset delivery, Cache resource proxying, Voice infrastructure, organizations and service keys."
+description: "Set up and operate FiveMesh workspaces, CDN asset delivery, Cache resource proxying, Voice infrastructure, Logs, organizations and API keys."
 icon: "network"
 ---
 
 FiveMesh is a cloud infrastructure platform for FiveM servers, powered by sCloud.
 
-Use these docs to configure your workspace, register servers, prepare public asset delivery with FiveMesh CDN, enable resource download caching with FiveMesh Cache and run managed PMA-Voice compatible infrastructure with FiveMesh Voice.
+Use these docs to configure your workspace, register servers, prepare public asset delivery with FiveMesh CDN, enable resource download caching with FiveMesh Cache, run managed PMA-Voice compatible infrastructure with FiveMesh Voice and collect server events with FiveMesh Logs.
 
 ## What FiveMesh manages
 
 - **FiveMesh CDN** hosts public server assets such as inventory images, phone media, loading screen files and other files that need stable public URLs.
 - **FiveMesh Cache** proxies FiveM resource downloads through a cache URL generated for each registered server.
 - **FiveMesh Voice** runs managed PMA-Voice compatible infrastructure for registered servers.
-- **Workspaces** separate your personal services from organization-owned services.
+- **FiveMesh Logs** collects server events for search, analytics and staff review.
+- **Workspaces** select your own account or collaboration on an organization's owner account.
 - **API keys** let scripts and tools access service operations with scoped permissions.
-
-<Tip>
-  FiveMesh is built for infrastructure and operations. The dashboard focuses on setup, delivery, cache state, usage and access management.
-</Tip>
 
 ## Start here
 
+Open the [V2 dashboard](https://app.fivemesh.io). Existing customers can use the [V2 upgrade checklist](/reference/v2-upgrade).
+
 <Card title="Quickstart" icon="rocket" href="/quickstart">
-  Create your account, complete workspace setup, register a server and open the first service dashboard.
+  Create your account, activate services, register a server and open the first service dashboard.
 </Card>
 
 <Card title="Dashboard overview" icon="layout-dashboard" href="/dashboard/overview">
@@ -42,15 +41,21 @@ Use these docs to configure your workspace, register servers, prepare public ass
   Create a managed Voice instance and copy the PMA-Voice configuration for your server.
 </Card>
 
+<Card title="Set up FiveMesh Logs" icon="scroll-text" href="/logs/setup">
+  Connect the SDK, enable server event ingestion and open the Explorer.
+</Card>
+
 ## Product paths
 
 | Area | Use it for |
 | --- | --- |
 | **Dashboard** | Workspace overview, billing, organizations and account settings. |
-| **CDN** | Public asset hosting, uploads, folders, previews, deletes and retention intent. |
+| **CDN** | Public asset hosting, uploads, folders, previews, deletes and retention. |
 | **Cache** | FiveM resource download proxy setup, origin mapping, purge and analytics. |
 | **Voice** | Managed PMA-Voice compatible instance setup, endpoint configuration and lifecycle actions. |
-| **Account** | Profile settings, registered cfx.re servers and service API keys. |
+| **Logs** | Server events, Explorer search, analytics and exports. |
+| **Servers** | Registered cfx.re servers and Server API Keys. |
+| **Account** | Profile, connections, notifications, Agent preferences and Developer API Keys. |
 
 ## Get help
 

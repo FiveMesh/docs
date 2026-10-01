@@ -1,54 +1,60 @@
 ---
 title: "Dashboard overview"
-description: "Understand the FiveMesh dashboard areas, workspace selector and service navigation."
+description: "Navigate the V2 dashboard and select the account, organization and server you want to operate."
 icon: "layout-dashboard"
 ---
 
-The FiveMesh dashboard is the operations surface for your active workspace. The sidebar keeps workspace, service and account areas separate so you can move between setup, service controls and access settings quickly.
+Open the [FiveMesh dashboard](https://app.fivemesh.io) to manage your services, servers, usage and access.
+
+Your account owns your subscription and resources. An organization lets your team collaborate on the owner's resources; it is optional.
 
 ## Main areas
 
-| Sidebar area | What it contains |
+| Area | What it contains |
 | --- | --- |
-| **Workspace** | Overview, organization management and billing. |
-| **Services** | FiveMesh CDN, FiveMesh Cache, FiveMesh Voice, and later service areas such as observability and usage. |
-| **Account** | Profile, registered servers and service API keys. |
+| **Overview** | Service state, usage, billing status and next actions. |
+| **Servers** | Registered cfx.re servers, server details and Server API Keys. |
+| **Organization** | Optional team membership, invitations, roles, server access and service sharing. |
+| **Billing** | Your own subscription, invoices, allowances and usage estimates. |
+| **Delivery** | FiveMesh CDN and FiveMesh Cache. |
+| **Realtime** | FiveMesh Voice. |
+| **Observability** | FiveMesh Logs. |
+| **Agent** | FiveMesh Agent when enabled in your account preferences. |
 
-The overview page gives a quick read on the active workspace: service access, billing state, storage usage when available and the next common actions.
+Open the user menu at the bottom of the sidebar and choose **Profile** for personal account settings. Notifications are available from the dashboard notification control.
 
-## Workspace context
+## Account and server selection
 
-The workspace switcher near the top of the sidebar controls whether you are viewing personal resources or an organization workspace.
+The selector at the top of the sidebar shows the selected server and account context. Open it to choose **My account** or an organization, then select a server.
 
-Changing the workspace can change:
+- **CDN** applies to the resource owner's whole account. Changing the selected server does not create another CDN workspace.
+- **Cache**, **Voice** and **Logs** follow the selected server. Their pages use `/servers/{serverId}/cache`, `/servers/{serverId}/voice` and `/servers/{serverId}/logs`.
+- **Billing** always manages your own customer subscription. Organization membership does not give you control over another customer's billing.
 
-- Which subscription is used.
-- Which CDN workspace appears.
-- Which Cache servers appear.
-- Which Voice instances appear.
-- Which organization roles and permissions apply.
-- Which service-sharing settings affect access.
+The `{serverId}` in a dashboard route is the FiveMesh registered-server ID. Use the cfx.re join code only where a setup field or public API explicitly requests it.
 
 <Tip>
-  If a service looks empty or locked, check the workspace switcher before changing settings.
+  Before changing service settings, check both the account or organization and the server shown in the selector.
 </Tip>
 
 ## Service states
 
-FiveMesh services can show different states depending on billing, setup and role permissions.
-
 | State | Meaning |
 | --- | --- |
-| Locked | The workspace does not have active trial or subscription access, or the service is not shared with the organization. |
-| Setup required | Billing is active, but the service workspace or server mapping has not been created yet. |
-| Read-only | Your organization role can view the service but cannot change it. |
-| Ready | The service can be used from the dashboard. |
+| Subscription required | The resource owner's subscription does not currently allow the service. |
+| Inactive or setup required | The service has not been enabled or configured yet. |
+| Provisioning | FiveMesh is preparing the service. Wait for completion before using it. |
+| Read-only or unavailable | Your role, service sharing or server access does not allow the action. |
+| Ready | The service is configured and available. |
+| Failed | Review the visible error and use the retry action when offered. |
+| Deleting | Cleanup is in progress. Public service access may already be stopped. |
+
+You can sign in and open Overview without a subscription, server or organization. Activate a plan before setting up services.
 
 ## Related pages
 
 - [Workspaces](/dashboard/workspaces)
 - [Billing](/dashboard/billing)
 - [Organizations](/dashboard/organizations)
-- [Set up FiveMesh CDN](/cdn/setup)
-- [Set up FiveMesh Cache](/cache/setup)
-- [Set up FiveMesh Voice](/voice/setup)
+- [Registered servers](/account/servers)
+- [V2 upgrade checklist](/reference/v2-upgrade)

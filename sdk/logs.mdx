@@ -1,0 +1,98 @@
+---
+title: "SDK Logs"
+description: "Send structured server events, enrich player identifiers and query FiveMesh Logs with the SDK."
+icon: "scroll-text"
+---
+
+[Enable Logs](/logs/setup) for the registered server and configure a Server API Key before using these server exports.
+
+## Send an event
+
+```lua
+local result = exports["fivemesh-sdk"]:log("warn", "Player transferred a high-value item", {
+    eventType = "inventory.transfer",
+    playerId = source,
+    targetPlayerId = targetSource,
+    data = { item = "diamond", count = 5 }
+})
+
+if not result.success then
+    print(result.error.message)
+end
+```
+
+Use `debug`, `info`, `warn`, `error` or `fatal` as shortcuts taking `(message, options)`. The `log` export takes `(level, message, options)`.
+
+A successful call means the event was queued locally, not that it is already searchable. The SDK sends batches of up to 50 events, normally every five seconds. Retryable requests reuse the same batch ID and payload.
+
+## Event options
+
+| Option | Description |
+| --- | --- |
+| `eventType` | Searchable lowercase event type; defaults to `log`. |
+| `playerId`, `targetPlayerId` | FiveM player handles used to enrich the corresponding identifiers. |
+| `data` | JSON-serializable structured data. |
+| `resource` | Resource name; defaults to the caller. |
+| `traceId` | Optional application correlation ID. |
+| `environment` | Overrides the configured environment label. |
+| `occurredAt` | RFC 3339 event time; defaults to now. |
+| `eventId` | Stable custom event ID; generated when omitted. |
+| `playerIdentifiers`, `targetPlayerIdentifiers` | Additional identifier maps merged with native identifiers. |
+
+Native prefixes are removed: `discord:123` becomes `{ discord = "123" }`. Use `FIVEMESH_LOGS_EXCLUDED_IDENTIFIERS` to omit native identifiers such as `ip` or `discord`.
+
+Client scripts should call a trusted server event that validates the request. Keep credentials and unrestricted Logs queries server-side.
+
+## Flush the queue
+
+```lua
+local result = exports["fivemesh-sdk"]:flushLogs()
+
+if not result.success then
+    print(result.error.message)
+else
+    print(result.acceptedEvents, result.pendingEvents)
+end
+```
+
+## Query events
+
+```lua
+local filters = {
+    level = "error",
+    resource = "my-resource",
+    limit = 100
+}
+
+local result = exports["fivemesh-sdk"]:queryLogs(filters)
+if not result.success then
+    print(result.error.message)
+    return
+end
+
+for _, event in ipairs(result.events) do
+    print(event.occurred_at, event.event_type, event.message)
+end
+
+if result.pagination.hasMore then
+    filters.from = result.range.from
+    filters.to = result.range.to
+    filters.cursor = result.pagination.nextCursor
+    local nextPage = exports["fivemesh-sdk"]:queryLogs(filters)
+end
+```
+
+Queries default to the latest six hours and at most 100 results. Set `from` and `to` to RFC 3339 times, or use `lookbackMinutes` when `from` is omitted. A query can span at most seven days and is limited by the plan's retention.
+
+Supported filters include `level`, `eventType`, `resource`, `message`, `playerId` and an exact `identifier = { owner = "player", key = "discord", value = "123" }`. Identifier owner may be `player` or `target`. You can select a named `keyProfile`.
+
+For pagination, preserve the original explicit time bounds and all filters while passing `pagination.nextCursor`. With the default six-hour query, save the resolved range from the first response as in the example above. Start a new search if the cursor expires.
+
+A server-bound key resolves the cfx.re join code automatically. For a global key, set `FIVEMESH_SERVER_ID` or supply `serverId`.
+
+## Related pages
+
+- [Logs setup](/logs/setup)
+- [Logs operations](/logs/operations)
+- [Logs query API](/api-reference/logs-query)
+- [SDK configuration](/sdk/installation#logs-configuration)

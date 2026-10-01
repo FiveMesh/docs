@@ -6,7 +6,11 @@ icon: "server"
 
 Use server exports when your FiveM resource needs to manage FiveMesh CDN objects.
 
-The default service key is read from `FIVEMESH_API_KEY`, so these exports should be called from server-side Lua or JavaScript.
+<Info>
+  The Server API Key only permits CDN uploads and Logs reads/writes. Use a [Developer API Key](/account/api-keys#developer-api-keys) with `cdn:read`, `cdn:delete` or `cdn:purge` for listing, deletion or purge. Configure it as the default or pass a named `keyProfile`.
+</Info>
+
+The default API key is read from `FIVEMESH_API_KEY`, so these exports should be called from server-side Lua or JavaScript.
 
 Lua callers can read the returned value directly. Failed exports return `success = false` with an `error` payload. JavaScript callers can use the returned Promise with `await`.
 
@@ -219,7 +223,7 @@ end
 
 ## Purge CDN files
 
-Use `purgeObjects` when a resource needs Cloudflare to refresh public CDN files after an overwrite or external change. The paths are bucket-relative and must be allowed by the service key.
+Use `purgeObjects` when a resource needs FiveMesh to refresh public CDN files after an overwrite or external change. The paths are relative to your CDN workspace and must be allowed by the API key.
 
 <CodeGroup>
 
@@ -248,7 +252,21 @@ console.log(`Purged ${result.purged} CDN files`);
 
 </CodeGroup>
 
-The service key needs `cdn:purge` for this export.
+The API key needs `cdn:purge` for this export.
+
+## Inspect the key
+
+Use `whoami` to check the configured key's permissions and server binding without exposing its secret.
+
+```lua
+local identity = exports["fivemesh-sdk"]:whoami()
+
+if identity.success ~= false and identity.server then
+    print(identity.server.cfxId)
+end
+```
+
+The SDK also checks identity at startup. Review its console output if Logs cannot resolve the server.
 
 ## Export reference
 
@@ -261,9 +279,11 @@ The service key needs `cdn:purge` for this export.
 | `deleteObject(path, options)` | Deletes one object path. |
 | `bulkDelete(paths, options)` | Deletes multiple object paths and returns per-path results. |
 | `purgeObjects(paths, options)` | Purges public CDN cache for one or more object paths. |
+| `whoami()` | Reads the configured key's scope and permissions. |
 
 ## Related pages
 
 - [Installation](/sdk/installation)
 - [Screenshots](/sdk/screenshots)
+- [SDK Logs](/sdk/logs)
 - [FiveMesh CDN API](/api-reference/cdn)

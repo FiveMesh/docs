@@ -25,7 +25,7 @@ Requires `cdn:write`.
 </ParamField>
 
 <ParamField body="metadata" type="object">
-  Optional string metadata. Non-string values are ignored.
+  Optional JSON object with string, number or boolean values. Values are stored as strings; nested objects, arrays and null values are ignored.
 </ParamField>
 
 ```bash

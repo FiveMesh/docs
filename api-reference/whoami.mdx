@@ -1,0 +1,26 @@
+---
+title: "Inspect an API key"
+description: "Read the authenticated key's permissions, path restrictions and server binding."
+api: "GET /whoami"
+---
+
+Use this read-only endpoint to check which key your integration is using. It does not return the secret.
+
+```bash
+curl "https://api.fivemesh.io/v1/whoami" \
+  -H "Authorization: Bearer $FIVEMESH_API_KEY"
+```
+
+The response includes:
+
+| Field | Meaning |
+| --- | --- |
+| `credentialType` | `server` or `developer`. |
+| `keyId` | Key record identifier. |
+| `organization` | Optional organization context; its ID may be `null` for a personal key. |
+| `server` | Bound server with `id` and `cfxId`, or `null` for a global key. |
+| `permissions` | Allowed actions grouped by service. |
+| `restrictions` | Allowed and denied CDN path prefixes. |
+| `allowedMimeTypes` | MIME restrictions, or `null` when unrestricted. |
+
+Responses are private and not cached. The SDK calls this endpoint at startup and exposes it through `whoami()`.

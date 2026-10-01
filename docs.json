@@ -3,9 +3,9 @@
   "theme": "mint",
   "name": "FiveMesh Docs",
   "colors": {
-    "primary": "#18181B",
-    "light": "#FAFAFA",
-    "dark": "#18181B"
+    "primary": "#20221F",
+    "light": "#EEEEE7",
+    "dark": "#20221F"
   },
   "icons": {
     "library": "lucide"
@@ -38,7 +38,8 @@
               "dashboard/overview",
               "dashboard/workspaces",
               "dashboard/organizations",
-              "dashboard/billing"
+              "dashboard/billing",
+              "dashboard/agent"
             ]
           },
           {
@@ -46,39 +47,50 @@
             "pages": [
               "cdn/setup",
               "cdn/object-browser",
-              "cdn/settings",
-              {
-                "group": "Player Upload Portals",
-                "pages": [
-                  "cdn/upload-portal-setup",
-                  "cdn/upload-portal-management"
-                ]
-              }
+              "cdn/settings"
             ]
           },
           {
             "group": "FiveMesh Cache",
-            "pages": ["cache/setup", "cache/operations"]
+            "pages": [
+              "cache/setup",
+              "cache/operations"
+            ]
           },
           {
             "group": "FiveMesh Voice",
-            "pages": ["voice/setup", "voice/operations"]
+            "pages": [
+              "voice/setup",
+              "voice/operations"
+            ]
           },
           {
             "group": "FiveMesh Logs",
-            "pages": ["logs/setup", "logs/operations"]
+            "pages": [
+              "logs/setup",
+              "logs/operations"
+            ]
           },
           {
             "group": "Integrations",
-            "pages": ["integrations/lb-scripts"]
+            "pages": [
+              "integrations/lb-scripts"
+            ]
           },
           {
             "group": "Account",
-            "pages": ["account/servers", "account/api-keys"]
+            "pages": [
+              "account/servers",
+              "account/api-keys",
+              "account/settings"
+            ]
           },
           {
             "group": "Reference",
-            "pages": ["reference/troubleshooting"]
+            "pages": [
+              "reference/v2-upgrade",
+              "reference/troubleshooting"
+            ]
           }
         ]
       },
@@ -88,6 +100,7 @@
         "pages": [
           "api-reference/introduction",
           "api-reference/authentication",
+          "api-reference/whoami",
           {
             "group": "FiveMesh CDN",
             "pages": [
@@ -98,17 +111,30 @@
               "api-reference/cdn-endpoints/bulk-upload-objects",
               "api-reference/cdn-endpoints/delete-object",
               "api-reference/cdn-endpoints/bulk-delete-objects",
+              "api-reference/cdn-endpoints/purge-objects",
               "api-reference/cdn-endpoints/create-upload-url",
               "api-reference/cdn-endpoints/upload-with-url"
             ]
           },
           {
+            "group": "FiveMesh Logs",
+            "pages": [
+              "api-reference/logs",
+              "api-reference/logs-ingestion",
+              "api-reference/logs-query"
+            ]
+          },
+          {
             "group": "FiveMesh Cache",
-            "pages": ["api-reference/cache"]
+            "pages": [
+              "api-reference/cache"
+            ]
           },
           {
             "group": "FiveMesh Voice",
-            "pages": ["api-reference/voice"]
+            "pages": [
+              "api-reference/voice"
+            ]
           }
         ]
       },
@@ -124,7 +150,8 @@
               "sdk/server-exports",
               "sdk/screenshots",
               "sdk/presigned-uploads",
-              "sdk/troubleshooting"
+              "sdk/troubleshooting",
+              "sdk/logs"
             ]
           }
         ]
@@ -139,7 +166,7 @@
         },
         {
           "anchor": "Dashboard",
-          "href": "https://fivemesh.io/dashboard",
+          "href": "https://app.fivemesh.io",
           "icon": "layout-dashboard"
         },
         {
@@ -160,7 +187,7 @@
     "primary": {
       "type": "button",
       "label": "Open dashboard",
-      "href": "https://fivemesh.io/dashboard"
+      "href": "https://app.fivemesh.io"
     }
   },
   "contextual": {
@@ -181,5 +208,28 @@
       "x": "https://x.com/fivemesh_",
       "discord": "https://discord.gg/wBJamWETxr"
     }
-  }
+  },
+  "appearance": {
+    "default": "dark",
+    "strict": false
+  },
+  "background": {
+    "color": {
+      "light": "#F7F6F2",
+      "dark": "#121310"
+    }
+  },
+  "fonts": {
+    "family": "Geist"
+  },
+  "redirects": [
+    {
+      "source": "/cdn/upload-portal-setup",
+      "destination": "/cdn/setup"
+    },
+    {
+      "source": "/cdn/upload-portal-management",
+      "destination": "/cdn/object-browser"
+    }
+  ]
 }

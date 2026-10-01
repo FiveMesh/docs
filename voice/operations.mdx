@@ -8,16 +8,13 @@ Use the Voice dashboard to monitor managed PMA-Voice compatible instances after 
 
 The dashboard shows instance state, region, endpoint, port, latest heartbeat and connected client count when the instance reports it.
 
-## Dashboard tabs
+## Selected server
 
-| Tab | Use it for |
-| --- | --- |
-| **Instances** | Review active Voice instances and open instance details. |
-| **Regions** | Check regional availability before creating or moving service capacity. |
+Choose the registered server in the sidebar, then open **Voice**. The page displays the instance for that server. Region selection appears during activation; V2 does not use the old all-instances and regions tabs.
 
 ## Instance details
 
-Open an instance to review:
+Open the server's **Voice** page to review:
 
 - Instance status.
 - Region.
@@ -44,7 +41,7 @@ Copy the setup block from the instance detail page whenever you need to reconfig
 
 <Steps>
   <Step title="Open the instance">
-    In **Voice**, open the instance detail page.
+    Select the server in the sidebar, then open **Voice**.
   </Step>
 
   <Step title="Request restart">
@@ -58,11 +55,15 @@ Copy the setup block from the instance detail page whenever you need to reconfig
 
 Restart is unavailable while an instance is provisioning, deleting or already deleted.
 
+## Retry provisioning
+
+If the endpoint and port are missing after a failed provisioning attempt, use **Retry provisioning** when offered. Wait for connection details before applying the PMA-Voice configuration. Contact support if retry fails.
+
 ## Delete an instance
 
 Delete a Voice instance only when the registered server should stop using managed Voice infrastructure.
 
-Deleting the instance frees the plan slot. It does not remove the registered server from FiveMesh.
+Remove or replace the external Voice settings in `server.cfg` before stopping the service. Deleting the instance frees the plan slot. It does not remove the registered server from FiveMesh.
 
 <Warning>
   You cannot delete an instance while provisioning is still in progress. Wait for provisioning to finish, then delete the instance if it is no longer needed.
@@ -82,6 +83,6 @@ If the heartbeat is missing or stale:
 ## Related pages
 
 - [Set up FiveMesh Voice](/voice/setup)
-- [Account servers](/account/servers)
+- [Registered servers](/account/servers)
 - [Billing](/dashboard/billing)
 - [Troubleshooting](/reference/troubleshooting)

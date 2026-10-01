@@ -12,7 +12,7 @@ Use it for files such as inventory images, phone media, tablet media, mugshots, 
 
 Before you set up CDN, confirm:
 
-- The active workspace has trial or subscription access.
+- The resource owner's account has trial or subscription access.
 - You have permission to create or administer CDN in the active workspace.
 - You know the public path name you want for this workspace.
 
@@ -26,7 +26,7 @@ Before you set up CDN, confirm:
   <Step title="Choose the workspace name">
     Enter the **CDN workspace name**.
 
-    Use lowercase letters, numbers and hyphens. The name must be 3 to 48 characters and becomes part of your public CDN paths.
+    Use lowercase letters, numbers, hyphens and underscores. Begin and end with a letter or number. The name must be 3 to 48 characters and becomes part of your public CDN paths.
   </Step>
 
   <Step title="Choose setup mode">
@@ -43,7 +43,7 @@ Before you set up CDN, confirm:
 </Steps>
 
 <Warning>
-  The CDN workspace name can only be set during setup. Choose it carefully before completing setup.
+  Choose the public URL slug carefully: it cannot be changed after onboarding in the current service. See [CDN settings](/cdn/settings#public-url).
 </Warning>
 
 ## Folder planning
@@ -58,17 +58,20 @@ The setup flow can prepare folders for:
 
 If one shared media folder is enough, keep the all-in-one structure. If each server needs isolated media, split media folders by server.
 
-## Retention intent
+## Provisioning
 
-During setup, FiveMesh can save TTL policies for selected media folders. A TTL policy records how long objects under a path should be kept.
+After completing setup, wait for provisioning to finish before uploading. If the dashboard reports a failed setup, use **Retry provisioning** when available. Do not create duplicate workspaces to retry.
+
+## Retention
+
+During setup, FiveMesh can save TTL policies for selected media folders. A TTL policy sets how long objects under a path should be kept.
 
 <Note>
-  TTL policies are saved as settings. They express retention intent for the workspace and can be adjusted later from CDN settings.
+  TTL policies apply storage expiration to matching files. Expired files cannot be recovered from the dashboard. Keep durable assets outside temporary media paths.
 </Note>
 
 ## Next steps
 
 - Upload files from the [object browser](/cdn/object-browser).
-- Create a Discord-gated [Player Upload Portal](/cdn/upload-portal-setup) for community media.
-- Add or change retention intent in [CDN settings](/cdn/settings).
-- Create scoped service keys from [API keys](/account/api-keys) if scripts need CDN access.
+- Add or change retention in [CDN settings](/cdn/settings).
+- Create scoped API keys from [API keys](/account/api-keys) if scripts need CDN access.

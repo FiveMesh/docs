@@ -1,12 +1,12 @@
 ---
 title: "Scoped upload URLs"
-description: "Create temporary upload URLs without exposing a FiveMesh service key."
+description: "Create temporary upload URLs without exposing a FiveMesh API key."
 icon: "link"
 ---
 
-Use scoped upload URLs when another script or client-visible integration needs to upload a file without receiving the service key.
+Use scoped upload URLs when another script or client-visible integration needs to upload a file without receiving the API key.
 
-The SDK calls `GET /presigned-url` with your server-side service key and returns a short-lived `uploadUrl`. Uploads sent to that URL are checked against the path, file count, file size and MIME rules you configured.
+The SDK calls `GET /presigned-url` with your server-side API key and returns a short-lived `uploadUrl`. Uploads sent to that URL are checked against the path, file count, file size and MIME rules you configured.
 
 ## Create an upload URL
 
@@ -53,7 +53,7 @@ print(result.object.publicUrl)
 
 | Option | Description |
 | --- | --- |
-| `path` | Locks uploads to a CDN folder. |
+| `path` | Default upload folder inside the key's allowed paths. Path restrictions continue to apply. |
 | `maxFiles` | Maximum files accepted by the URL. |
 | `expiresIn` | URL lifetime in seconds. |
 | `maxFileSize` | Maximum bytes accepted per file. |

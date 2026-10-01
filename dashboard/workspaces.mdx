@@ -1,68 +1,55 @@
 ---
 title: "Workspaces"
-description: "Use personal and organization workspaces without mixing service access or permissions."
+description: "Understand customer-owned resources and optional organization collaboration in FiveMesh V2."
 icon: "building-2"
 ---
 
-A workspace is the active context for dashboard data and service operations.
+A workspace is the account or organization context in which you view and operate services.
 
-Your personal workspace belongs to your account. Organization workspaces belong to a team and apply organization roles, invitations and service-sharing settings.
+In V2, the customer account owns billing, registered servers and services. Organizations grant collaboration on their owner's resources. Creating or deleting an organization does not move subscriptions or resources to another owner.
 
-## Personal workspace
+## My account
 
-Use your personal workspace when you are setting up services for yourself or for a single server operation managed by your account.
+Choose **My account** in the sidebar selector to operate your own resources:
 
-Personal workspace resources can include:
+- Your subscription and usage allowances.
+- Your registered cfx.re servers.
+- Your CDN workspace.
+- Cache, Voice and Logs for your registered servers.
+- Your Server API Keys and Developer API Keys.
 
-- Billing access tied to your account.
-- Registered cfx.re servers.
-- A CDN workspace.
-- Cache configuration for registered servers.
-- Voice instances for registered servers.
-- User-owned API keys.
+You do not need an organization to subscribe or configure services.
 
-## Organization workspace
+## Organization context
 
-Use an organization workspace when several operators need access to the same services.
+Choose an organization when you need to collaborate on its owner's services. Your access depends on membership, role, service-sharing settings and server grants.
 
-An organization can include:
+The owner's subscription supplies the shared service entitlement and quotas. Joining an organization does not move your personal resources into it or combine your subscription with the owner's plan. Switching context does not multiply allowances.
 
-- Members and invitations.
-- Role-based permissions.
-- Shared access to CDN, Cache and Voice.
-- Organization-scoped API keys.
+## Switch context
 
-## Switch workspace
+1. Open the server selector at the top of the sidebar.
+2. Choose **My account** or an organization you belong to.
+3. Choose the server you want to operate.
+4. Open **CDN**, **Cache**, **Voice** or **Logs** and check the service state.
 
-<Steps>
-  <Step title="Open the workspace switcher">
-    In the dashboard sidebar, use the workspace switcher near the top.
-  </Step>
-
-  <Step title="Choose a workspace">
-    Select **Personal workspace** or an organization you belong to.
-  </Step>
-
-  <Step title="Review service access">
-    Open **Overview**, **CDN**, **Cache** or **Voice** to confirm the selected workspace has the expected service state.
-  </Step>
-</Steps>
+CDN stays account-wide. The other three services follow your selected server.
 
 <Warning>
-  Workspace context affects service actions. Check the active workspace before uploading files, purging Cache, restarting Voice instances, rotating keys or changing organization settings.
+  Check both selections before uploading files, purging Cache, restarting Voice or rotating a Server API Key.
 </Warning>
 
 ## When access looks wrong
 
-If the dashboard does not show the service you expect:
+- Confirm the account or organization and server in the selector.
+- Check the resource owner's plan and service activation.
+- Ask the organization owner to check service sharing, your role and your server access.
+- Return to **My account** to see your own resources.
 
-- Confirm you selected the correct workspace.
-- Check that the workspace has active billing or trial access.
-- For organizations, confirm the service is shared under **Organization**.
-- For Cache or Voice, confirm the server is registered under the active workspace.
+**Billing** always operates on your own customer account, including when you have selected someone else's organization.
 
 ## Related pages
 
 - [Organizations](/dashboard/organizations)
 - [Billing](/dashboard/billing)
-- [Account servers](/account/servers)
+- [Registered servers](/account/servers)

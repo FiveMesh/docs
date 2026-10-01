@@ -1,0 +1,33 @@
+---
+title: "Purge CDN objects"
+description: "Expire cached responses for specific CDN object paths without deleting the files."
+api: "POST /objects/purge"
+---
+
+Requires `cdn:purge` on a Developer API Key. The Server API Key does not include this permission.
+
+<ParamField header="Idempotency-Key" type="string">
+  Optional key for safe retries of the same request.
+</ParamField>
+
+<ParamField body="paths" type="string[]" required>
+  Object paths relative to your CDN workspace, inside the key's allowed prefixes.
+</ParamField>
+
+```bash
+curl -X POST "https://api.fivemesh.io/v1/objects/purge" \
+  -H "Authorization: Bearer $FIVEMESH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"paths":["inventory/items/bread.png"]}'
+```
+
+```json
+{
+  "success": true,
+  "paths": ["inventory/items/bread.png"],
+  "purged": 1,
+  "requestId": "req_..."
+}
+```
+
+Purging keeps stored files. Subsequent requests fetch the current content. To expire the whole workspace prefix, use **CDN** > **Settings** in the dashboard.

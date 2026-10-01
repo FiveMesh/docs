@@ -1,38 +1,17 @@
 ---
 title: "FiveMesh Cache API"
-description: "Planned reference notes for automating resource cache operations for registered FiveM servers."
+description: "Configure Cache through the dashboard and understand current public API availability."
 icon: "hard-drive"
 ---
 
-FiveMesh Cache API endpoints are not public yet.
+Cache setup and lifecycle operations currently use the dashboard. There are no documented public REST endpoints for enabling Cache, changing its origin, rotating the adhesive key, purging or preloading resources.
 
-This page describes the planned surface for server-side integrations that need to operate resource cache state for registered FiveM servers.
+A Cache permission on a Developer API Key does not make a dashboard route a supported public endpoint.
 
-Cache is configured per registered server. The dashboard generates the `server.cfg` block that contains `fileserver_add` and `adhesive_cdnKey`.
-
-<Info>
-  Use the dashboard for Cache setup and operations until public Cache API endpoints are released.
-</Info>
-
-## Common operations
-
-| Operation | Description |
-| --- | --- |
-| Read cache state | Inspect whether Cache is enabled for a registered server. |
-| Rotate adhesive key | Generate a replacement key for `server.cfg`. |
-| Purge resources | Refresh cached resource downloads after a deployment. |
-| Preload resources | Warm selected resources before player traffic reaches them. |
-| Read observability | Review hit, miss and origin behavior for cache operations. |
-
-## Server ownership
-
-Cache operations require access to the workspace that owns the registered cfx.re server.
-
-If a server is shared with an organization, create the service key in the organization resource context and grant only the Cache permissions the automation needs.
+Select the registered server in the dashboard sidebar, then open **Cache**. Copy the generated `fileserver_add` and `adhesive_cdnKey` block for your FiveM server.
 
 ## Related pages
 
-- [Set up FiveMesh Cache](/cache/setup)
+- [Cache setup](/cache/setup)
 - [Cache operations](/cache/operations)
-- [Account servers](/account/servers)
-- [API keys](/account/api-keys)
+- [Registered servers](/account/servers)

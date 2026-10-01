@@ -12,8 +12,8 @@ Each server connects to Logs with the FiveMesh SDK and its Server API Key. The s
 
 Before you connect a server, confirm:
 
-- The organization is on a plan that includes Logs.
-- The cfx.re server is registered in **Account** > **Servers**.
+- The resource owner's account has an active Growth or Pro plan.
+- The cfx.re server is registered in **Servers** and selected in the sidebar.
 - You can edit your server's `server.cfg`.
 - Someone with permission to manage the Server API Key can generate it from the Server page.
 
@@ -25,7 +25,7 @@ Before you connect a server, confirm:
   </Step>
 
   <Step title="Enable Logs for the server">
-    The first time the organization uses Logs, the page asks the billing owner to enable Logs for the organization. After that, click **Enable Logs for this server** to create its source.
+    The first time the customer uses Logs, the page asks the resource owner to activate Logs for their account. Logs is available on Growth and Pro. After that, click **Enable Logs for this server** to create its source.
   </Step>
 
   <Step title="Generate the Server API Key">
@@ -44,14 +44,13 @@ Before you connect a server, confirm:
     set FIVEMESH_LOGS_AUTOMATIC "true"
 
     ensure fivemesh-sdk
-    ensure fivemesh-logs
     ```
 
-    Restart or reload the server with your normal deployment process.
+    Enable automatic logging only if you want the built-in events. Restart or reload the server with your normal deployment process.
   </Step>
 
   <Step title="Verify ingestion">
-    Open **Logs** > **Explorer**. Incoming events appear within a few seconds of server activity.
+    Open **Logs** > **Explorer**. Generate server activity, then refresh Explorer. Events can take time to become searchable after ingestion has been accepted.
   </Step>
 </Steps>
 
@@ -64,15 +63,29 @@ Before you connect a server, confirm:
 With `FIVEMESH_LOGS_AUTOMATIC` enabled, the SDK captures events from:
 
 - FiveM server and resource lifecycle
-- `baseevents` player connections
+- Player connections and `baseevents` death and kill notifications
 - `ox_inventory` item and money movement
 - `txAdmin` moderation actions
 
-Resources can also send their own events through the SDK exports. See [Server exports](/sdk/server-exports).
+Resources can also send their own events through the SDK exports. See [SDK Logs exports](/sdk/logs).
+
+## Automatic logging controls
+
+`FIVEMESH_LOGS_AUTOMATIC` defaults to `false`. You can enable or disable individual integrations independently:
+
+```cfg
+set FIVEMESH_LOGS_AUTOMATIC "true"
+set FIVEMESH_LOGS_BASEEVENTS "false"
+set FIVEMESH_LOGS_OX_INVENTORY "true"
+set FIVEMESH_LOGS_TXADMIN "true"
+set FIVEMESH_LOGS_EXCLUDED_IDENTIFIERS "ip,discord"
+```
+
+Death and kill notifications require `baseevents` and are client-reported. The SDK marks them as `client_reported`; treat them as operational context. Successful inventory actions require `ox_inventory` 2.47 or newer; older releases report observed hook attempts.
 
 ## In-game staff viewer
 
-The optional `fivemesh-logs` resource opens the Explorer inside the game with `/fmlogs`.
+The optional `fivemesh-logs` resource opens the Explorer inside the game with `/fmlogs`. It requires `fivemesh-sdk` 0.1.5 or newer.
 
 1. Download the latest [FiveMesh Logs viewer](https://github.com/FiveMesh/fivemesh-logs/releases/latest).
 2. Configure the viewer and restrict access to staff groups. It uses the same Server API Key as the SDK.
@@ -89,9 +102,11 @@ ensure fivemesh-logs
   Place the `FIVEMESH_API_KEY` setting before both `ensure` lines. The Server API Key already identifies this server.
 </Info>
 
+Set `FIVEMESH_LOGS_VIEWER_COMMAND` to change the command or `FIVEMESH_LOGS_VIEWER_ACE` to change the required ACE permission. Configure them before starting the viewer. Grant access only to staff authorized to inspect player identifiers and structured event data.
+
 ## Direct ingestion
 
-Integrations that do not use the SDK can post atomic event batches directly to the ingestion endpoint shown in **Logs** > **Settings**.
+Integrations that do not use the SDK can post atomic event batches directly to the ingestion endpoint shown in **Logs** > **Settings**. See the [Logs ingestion reference](/api-reference/logs-ingestion) for the payload and retry rules.
 
 | Field | Value |
 | --- | --- |

@@ -21,15 +21,13 @@ Before you begin, confirm:
   <Step title="Download the SDK">
     Download the latest release from the [`FiveMesh/sdk` GitHub repository](https://github.com/FiveMesh/sdk/releases/latest).
 
-    Releases include a built and zipped FiveM resource.
-
-    {/* TODO: Verify the final release asset name after the build-and-zip workflow is enabled. */}
+    Download the `fivemesh-sdk-vX.Y.Z.zip` release asset, rather than a source-code archive.
   </Step>
 
   <Step title="Place it in your resources folder">
     Add the folder to your FiveM server resources directory.
 
-    The examples in these docs assume the folder is named `fivemesh-sdk`. If you use another folder name, use that name in `ensure` and `exports[...]`.
+    Keep the resource folder named `fivemesh-sdk`. Official resources such as `fivemesh-logs` depend on that name.
   </Step>
 
   <Step title="Configure server.cfg">
@@ -61,16 +59,35 @@ Before you begin, confirm:
 
 | ConVar | Default | Description |
 | --- | --- | --- |
-| `FIVEMESH_API_KEY` | none | Server API Key generated from this Server's dashboard page. |
+| `FIVEMESH_API_KEY` | none | Server API Key for uploads and Logs, or a Developer API Key for custom permissions. |
 | `FIVEMESH_API_KEY_<PROFILE_NAME>` | none | Optional case-sensitive API key profile used by SDK calls with `keyProfile`. |
 | `FIVEMESH_API_URL` | `https://api.fivemesh.io/v1` | FiveMesh API base URL. |
 | `FIVEMESH_SDK_DEBUG` | `false` | Prints the resolved API base URL when the resource starts. |
 
 Keep the key in server-side configuration. Do not include it in client Lua or NUI code. It is shown only once; rotate it from the Server page if you lose it.
 
+## Logs configuration
+
+| ConVar | Default | Description |
+| --- | --- | --- |
+| `FIVEMESH_SERVER_ID` | none | cfx.re join code for Logs when using a global Developer key. Server-bound keys resolve it automatically. |
+| `FIVEMESH_LOGS_API_KEY` | General API key | Optional dedicated Logs ingestion key with `logs:write`. |
+| `FIVEMESH_LOGS_QUERY_API_KEY` | Logs or general API key | Optional dedicated key with `logs:read` for `queryLogs`. |
+| `FIVEMESH_LOGS_API_URL` | `https://logs.fivemesh.io` | Logs ingestion base URL. |
+| `FIVEMESH_LOGS_ENVIRONMENT` | `production` | Environment label attached to generated events. |
+| `FIVEMESH_LOGS_AUTOMATIC` | `false` | Enables automatic server, baseevents, inventory and txAdmin logging. |
+| `FIVEMESH_LOGS_BASEEVENTS` | Automatic setting | Overrides death and kill logging. |
+| `FIVEMESH_LOGS_OX_INVENTORY` | Automatic setting | Overrides inventory logging. |
+| `FIVEMESH_LOGS_TXADMIN` | Automatic setting | Overrides txAdmin logging. |
+| `FIVEMESH_LOGS_BATCH_SIZE` | `50` | Events per SDK batch; 1 to 50. |
+| `FIVEMESH_LOGS_FLUSH_INTERVAL` | `5000` | Flush interval in milliseconds; 1000 to 60000. |
+| `FIVEMESH_LOGS_EXCLUDED_IDENTIFIERS` | none | Comma-separated native identifier keys to omit. |
+
+Set these before `ensure fivemesh-sdk`. `ENABLE_AUTOMATIC_LOGGING` remains a compatibility alias for automatic logging.
+
 ## API key profiles
 
-The default Server API Key is sufficient for official FiveMesh resources. Custom integrations can use [Developer API Keys](/api-reference/authentication) with narrower permissions and named profiles. Existing `fm_live_*` keys and older `FIVEMESH_CDN_API_KEY` or `FIVEMESH_SERVICE_API_KEY` settings remain supported for migration and advanced configurations.
+The default Server API Key is sufficient for official FiveMesh resources. CDN listing, deletion and purge require a Developer API Key; the Server API Key only permits CDN uploads and Logs reads/writes. Custom integrations can use [Developer API Keys](/api-reference/authentication) with narrower permissions and named profiles. Existing `fm_live_*` keys and older `FIVEMESH_CDN_API_KEY` or `FIVEMESH_SERVICE_API_KEY` settings remain supported for migration and advanced configurations.
 
 ```cfg
 set FIVEMESH_API_KEY "fm_server_..."
@@ -85,3 +102,4 @@ Profile names are case-sensitive. `keyProfile = "MUGSHOTS"` resolves to `FIVEMES
 - [Call server exports](/sdk/server-exports)
 - [Capture screenshots](/sdk/screenshots)
 - [Create scoped upload URLs](/sdk/presigned-uploads)
+- [Send and query Logs](/sdk/logs)

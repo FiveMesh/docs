@@ -1,0 +1,77 @@
+---
+title: "Ingest log events"
+description: "Post atomic batches of events to the server's Logs ingestion endpoint."
+icon: "cloud-upload"
+---
+
+Copy the resolved endpoint from **Logs** > **Settings**. The explicit-server route uses the cfx.re join code, not the dashboard's registered-server ID:
+
+```text
+POST https://logs.fivemesh.io/v1/servers/{cfxServerId}/logs
+```
+
+A server-bound key can instead use `POST https://logs.fivemesh.io/v1/logs`. A global Developer key must use the explicit-server route.
+
+Requires bearer authentication with `logs:write` and an active Logs source.
+
+## Request
+
+Send `Content-Type: application/json` with a stable `batch_id` and an `events` array.
+
+```bash
+curl -X POST "https://logs.fivemesh.io/v1/logs" \
+  -H "Authorization: Bearer $FIVEMESH_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "batch_id": "support-batch-0001",
+    "events": [{
+      "event_id": "support-event-0001",
+      "level": "info",
+      "event_type": "support.ticket_opened",
+      "message": "Player opened a support ticket",
+      "resource": "support",
+      "data": {"ticketId": "ticket_123"}
+    }]
+  }'
+```
+
+This example requires a server-bound key. Generate a new batch and event ID for each new batch and event; preserve them when retrying.
+
+## Event fields
+
+| Field | Requirement |
+| --- | --- |
+| `level` | Required: `debug`, `info`, `warn`, `error` or `fatal`. |
+| `message` | Required nonempty message, up to 2048 characters. |
+| `event_id` | Optional stable ID: 8–64 letters, digits, colons, underscores or hyphens. |
+| `event_type` | Optional lowercase type; defaults to `log`. Up to 96 characters using letters, digits, dots, colons, underscores or hyphens. |
+| `occurred_at` | Optional RFC 3339 timestamp; defaults to ingestion time. No more than seven days old or five minutes in the future. |
+| `player_id`, `target_player_id` | Optional string player handles. |
+| `player_identifiers`, `target_player_identifiers` | Optional maps such as `{"discord":"123"}`; at most 16 entries per map. |
+| `resource`, `trace_id`, `environment` | Optional resource, correlation and environment labels. |
+| `data` | Optional JSON object containing structured event data. |
+
+The REST API uses snake_case event fields. SDK options such as `eventType` are translated by the SDK.
+
+## Limits and atomicity
+
+- 1 to 500 events per HTTP batch.
+- At most 1 MiB of JSON per request.
+- At most 16 KiB per event.
+- `batch_id` uses the same 8–64 character format as `event_id`.
+
+Validation is atomic: if any event is invalid, the batch is rejected and no events are accepted.
+
+## Response and retries
+
+Acceptance returns HTTP **202** with `accepted: true`, `batch_id`, `accepted_events`, `ingested_at` and `replayed`. The `X-Request-Id` header identifies the request; error bodies also include `request_id`.
+
+Retry transient failures with the same batch ID and unchanged payload. Reusing a batch ID with a different payload returns `batch_id_conflict`. Follow `Retry-After` on throttled or unavailable responses, and use backoff rather than immediate repeated retries.
+
+Keep event IDs stable too, so retry handling and query deduplication can recognize the same event. Acceptance and search visibility are separate; do not create a new batch merely because an event is not yet visible.
+
+## Related pages
+
+- [SDK Logs](/sdk/logs)
+- [Logs queries](/api-reference/logs-query)
+- [Logs setup](/logs/setup)

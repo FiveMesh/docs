@@ -12,21 +12,21 @@ Use this page when the SDK resource starts but an export fails, returns an API e
 | --- | --- |
 | `Missing FiveMesh API key` | Confirm `set FIVEMESH_API_KEY "fm_server_..."` is in `server.cfg` before `ensure fivemesh-sdk`. |
 | `Missing FiveMesh API key profile` | Confirm the exact `FIVEMESH_API_KEY_<PROFILE_NAME>` ConVar exists for the `keyProfile` used by the export. |
-| `FORBIDDEN` | Add the required CDN permission to the service key. |
-| `PATH_NOT_ALLOWED` | Check the service key path prefix and the `path` passed to the export. |
+| `FORBIDDEN` | Use a Developer API Key with the required permission for listing, deletion or purge. Server API Keys have fixed permissions. |
+| `PATH_NOT_ALLOWED` | Check the API key path prefix and the `path` passed to the export. |
 | Screenshot exports fail | Confirm `screenshot-basic` is installed and started before `fivemesh-sdk`. |
 | Upload URL expired | Create a new upload URL and keep `expiresIn` short but long enough for the caller to upload. |
 
-## Check the service key
+## Check the API key
 
-The SDK reads the service key from `FIVEMESH_API_KEY`.
+The SDK reads the API key from `FIVEMESH_API_KEY`.
 
 ```cfg
 set FIVEMESH_API_KEY "fm_server_..."
 set FIVEMESH_API_KEY_MUGSHOTS "fm_live_..."
 ```
 
-Create the key from **Account** > **API keys** and give it the exact CDN permission your export needs.
+Generate a Server API Key from **Servers** > the server overview for uploads and Logs. For CDN reads, deletes or purge, create a Developer API Key from **Profile** > **API keys** with the required permissions.
 
 If an export uses `keyProfile = "MUGSHOTS"`, the SDK reads `FIVEMESH_API_KEY_MUGSHOTS`. Profile names are case-sensitive.
 
@@ -38,9 +38,19 @@ If an export uses `keyProfile = "MUGSHOTS"`, the SDK reads `FIVEMESH_API_KEY_MUG
 | `deleteObject`, `bulkDelete` | `cdn:delete` |
 | `purgeObjects` | `cdn:purge` |
 
+## Check Logs setup
+
+- Enable Logs for the selected server in the dashboard before sending events.
+- Use a key with `logs:write` for ingestion and `logs:read` for queries.
+- With a global Developer key, set `FIVEMESH_SERVER_ID` to the cfx.re join code.
+- With a server-bound key, omit that ConVar or make sure it matches the key's server.
+- Check the startup identity message or call `whoami`.
+- Automatic logging is opt-in: set `FIVEMESH_LOGS_AUTOMATIC "true"` before starting the SDK.
+- Keep query windows within seven days and reuse the returned range and filters when paging with a cursor.
+
 ## Check the path scope
 
-If the service key is scoped to `/screenshots`, keep uploads and deletes under that path.
+If the API key is scoped to `/screenshots`, keep uploads and deletes under that path.
 
 ```lua
 exports["fivemesh-sdk"]:uploadImage(dataUrl, nil, {

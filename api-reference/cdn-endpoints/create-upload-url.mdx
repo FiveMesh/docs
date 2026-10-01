@@ -1,10 +1,10 @@
 ---
 title: "Create an upload URL"
-description: "Create a short-lived URL that can upload files without exposing a service key."
+description: "Create a short-lived URL that can upload files without exposing an API key."
 api: "GET /presigned-url"
 ---
 
-Create a short-lived upload URL that can receive files without exposing the service key.
+Create a short-lived upload URL that can receive files without exposing the API key.
 
 The URL is managed by the FiveMesh API. Uploads still enforce path scope, file limits, MIME allow-lists and metadata rules.
 
@@ -15,7 +15,7 @@ Requires `cdn:write`.
 </Info>
 
 <ParamField query="expiresIn" type="number">
-  Optional lifetime in seconds. The API clamps it to the workspace maximum.
+  Optional lifetime in seconds. The API clamps it to the configured maximum.
 </ParamField>
 
 <ParamField query="path" type="string">
@@ -36,6 +36,10 @@ Requires `cdn:write`.
 
 <ParamField query="allowCustomMetadata" type="boolean">
   Optional flag that allows the upload request to include metadata.
+</ParamField>
+
+<ParamField query="randomizeName" type="boolean">
+  Optional flag to generate a random stored filename while keeping the extension.
 </ParamField>
 
 ```bash

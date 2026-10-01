@@ -4,9 +4,9 @@
 
 This repository is the Mintlify documentation site for FiveMesh.
 
-FiveMesh is a cloud infrastructure platform for FiveM servers, powered by sCloud. It is not a gaming-themed product page and it is not only a CDN. The documentation should explain the operational platform: account setup, workspaces, subscriptions, CDN asset delivery, Cache resource proxying, server registration, organizations and service access.
+FiveMesh is a cloud infrastructure platform for FiveM servers, powered by sCloud. It is not a gaming-themed product page and it is not only a CDN. The documentation should explain the operational platform: account setup, workspaces, subscriptions, CDN asset delivery, Cache resource proxying, Voice instances, Logs, Agent, server registration, organizations and service access.
 
-Use the website repository's `BRANDING.md` and `AGENTS.md` as product context when copy or positioning is unclear.
+Use `../web/DESIGN.md` and the current marketing styles in `../web/app/components/marketing/editorial-home.css` for brand context. Verify dashboard workflows and service behavior against `../app`, `../api-worker`, `../logs-worker` and `../sdk`. The `website` repository contains an older marketing implementation.
 
 ## Stack
 
@@ -24,8 +24,8 @@ Use the local Mintlify skills in `.agents/skills` before changing Mintlify confi
 - Use **bold** for UI labels, buttons and dashboard tabs.
 - Use code formatting for file names, paths, commands, product keys and route-like values.
 - Use "workspace" for the active personal or organization context.
-- Use "organization" for team-owned workspaces.
-- Use "registered server" for a cfx.re server connected under **Account**.
+- Use "organization" for optional collaboration on the owner account. Subscriptions and resources belong to the customer account.
+- Use "registered server" for a cfx.re server connected in **Servers**.
 - Use "FiveMesh CDN" for public asset hosting and delivery.
 - Use "FiveMesh Cache" for resource download proxying through `fileserver_add` and `adhesive_cdnKey`.
 
@@ -33,7 +33,7 @@ Use the local Mintlify skills in `.agents/skills` before changing Mintlify confi
 
 - Document customer-facing workflows only.
 - Do not mention internal implementation providers, storage buckets, databases, queues or infrastructure vendors unless the product UI exposes them.
-- Do not promise unreleased modules. Mention future areas only as "coming later" when the dashboard already labels them that way.
+- Document the currently released surface. Remove obsolete workflows instead of maintaining outdated instructions.
 - Do not invent metrics, limits, customer names, SLA terms, API endpoints or domain names.
 - If a value must be verified later, add an MDX comment in this form: `{/* TODO: Verify ... */}`.
 

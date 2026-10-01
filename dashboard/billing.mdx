@@ -1,25 +1,25 @@
 ---
 title: "Billing"
-description: "Use billing state to understand when FiveMesh services unlock for a workspace."
+description: "Manage your customer subscription, usage allowances, invoices and overage estimates."
 icon: "credit-card"
 ---
 
-Billing controls whether the active workspace can use FiveMesh services.
+Billing manages the subscription owned by your customer account. Open **Billing** in the [V2 dashboard](https://app.fivemesh.io/billing).
 
-The dashboard treats active and trialing subscriptions as service access. When a workspace does not have active access, CDN, Cache and Voice setup remain locked.
+Active and trialing subscriptions allow service setup according to the plan. An account without a subscription can still sign in and view the dashboard.
 
-Voice can also require a plan that includes the service. Use the pricing page and dashboard billing state as the source of truth for current plan limits.
+CDN, Cache and Voice are included in the self-service plans. Logs requires Growth or Pro. Use the [pricing page](https://fivemesh.io/pricing) and dashboard billing state for current allowances and any custom subscription restrictions.
 
 ## What to check
 
-Open **Billing** from the dashboard sidebar to review the current workspace subscription state.
+Open **Billing** to review your subscription, renewal dates, invoice history, usage and billing portal actions. Billing always manages your own account, even when you have selected an organization belonging to another customer.
 
 Check billing when:
 
 - A service says an active subscription is required.
 - A checkout or plan change just completed.
-- You switched from personal workspace to an organization.
-- You expected an organization to share services but the service is still locked.
+- You need to review usage against your subscription allowances.
+- You need to update payment details or manage renewal in the billing portal.
 
 ## Access states
 
@@ -28,7 +28,7 @@ Check billing when:
 | Active or trialing | Continue to service setup. |
 | No active subscription | Pick a plan or complete checkout. |
 | Billing needs attention | Update the subscription before access changes. |
-| Organization has no shared subscription | Ask the owner to activate billing or switch back to your personal workspace. |
+| Shared service is locked | Ask the resource owner to check their plan and organization sharing. Your own Billing page cannot change their subscription. |
 
 ## After checkout
 
@@ -37,14 +37,22 @@ Check billing when:
     After checkout, return to **Billing** or **Overview**.
   </Step>
 
-  <Step title="Refresh the workspace state">
+  <Step title="Refresh the subscription state">
     If the dashboard has not updated yet, refresh the page.
   </Step>
 
   <Step title="Open the service">
-    Open **CDN**, **Cache** or **Voice** from the sidebar.
+    Open **CDN**, or select a registered server before opening **Cache**, **Voice** or **Logs**.
   </Step>
 </Steps>
+
+## Usage and estimates
+
+Usage is aggregated across the customer's services and servers within the subscription billing period. Organization collaboration does not create another allowance. Review requests, bandwidth, storage and Log Events in Billing.
+
+Estimates can lag while meters synchronize. A missing meter is unavailable, not zero. Pace projections need at least one full day of usage and assume the same traffic pace continues. They exclude plan fees and tax; the final invoice comes from the billing provider.
+
+Use **Open billing portal** for available subscription and payment actions. Scheduled cancellation keeps access until the period end shown in the dashboard.
 
 ## Pricing currency
 

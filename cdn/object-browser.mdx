@@ -40,7 +40,7 @@ Public URLs are generated from the configured CDN base URL and your CDN workspac
 
 Use **Create folder** from the object browser toolbar to add a folder under the current path.
 
-FiveMesh uses hidden marker objects internally so empty folders can exist. Those marker files are hidden from user-facing listing and usage displays.
+Empty folders are supported and can be created before uploading files.
 
 ## Preview files
 
@@ -63,7 +63,11 @@ Available object actions depend on your workspace permissions.
   File and folder deletion cannot be undone from the dashboard.
 </Warning>
 
+## Analytics
+
+Open **CDN** > **Analytics** to review delivery requests, bandwidth, cache behavior and breakdowns over the selected time range. Analytics cover the resource owner's CDN, regardless of the server selected in the sidebar.
+
 ## Next steps
 
-- Configure folder retention intent in [CDN settings](/cdn/settings).
+- Configure folder retention in [CDN settings](/cdn/settings).
 - Create a path-scoped key in [API keys](/account/api-keys) for scripts that only need specific CDN folders.

@@ -12,9 +12,9 @@ Use the Voice dashboard to create an instance, choose an available region and co
 
 Before you create a Voice instance, confirm that:
 
-- The active workspace has billing or trial access.
+- The resource owner's account has billing or trial access.
 - The active plan includes FiveMesh Voice.
-- The server is registered under **Account** > **Servers**.
+- The server is registered under **Servers** and selected in the sidebar.
 - PMA-Voice is installed on the server.
 - You can edit and restart or reload the server configuration.
 - Your organization role can create Voice instances if you are working in an organization workspace.
@@ -31,7 +31,7 @@ Before you create a Voice instance, confirm that:
   </Step>
 
   <Step title="Choose a server">
-    Select the registered cfx.re server that should use managed voice infrastructure.
+    Use the sidebar selector to choose the registered server that should use managed voice infrastructure.
   </Step>
 
   <Step title="Choose a region">
@@ -43,7 +43,7 @@ Before you create a Voice instance, confirm that:
   </Step>
 
   <Step title="Open the instance">
-    Open the instance detail page to copy the endpoint, port and PMA-Voice configuration.
+    The selected server's Voice page displays its instance. Copy the endpoint, port and PMA-Voice configuration once provisioning is complete.
   </Step>
 </Steps>
 
@@ -53,7 +53,7 @@ Before you create a Voice instance, confirm that:
 
 ## Configure PMA-Voice
 
-The instance detail page shows a generated `server.cfg` block similar to this:
+The server's Voice page shows a generated `server.cfg` block similar to this:
 
 ```cfg
 setr voice_useNativeAudio true
@@ -80,5 +80,5 @@ If the dashboard does not show an available region, wait and refresh later or op
 ## Next steps
 
 - Monitor the instance from [Voice operations](/voice/operations).
-- Review [Account servers](/account/servers) if the server is missing from the selector.
+- Review [Registered servers](/account/servers) if the server is missing from the selector.
 - Read [Troubleshooting](/reference/troubleshooting) if setup is locked or PMA-Voice does not connect.
