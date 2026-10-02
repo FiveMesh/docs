@@ -1,0 +1,68 @@
+---
+title: "Quasar Phone"
+description: "Configure Quasar Phone (qs-phone) to upload camera, video and voice recordings through FiveMesh CDN."
+icon: "plug"
+---
+
+FiveMesh is an official Quasar partner. Quasar Phone (also known as `qs-phone` or Quasar Smartphone) includes a built-in FiveMesh integration for phone media uploads.
+
+Configure your FiveMesh API key in the phone's server-side `_G.fivemesh` block to use FiveMesh CDN for camera images, video recordings and voice recordings.
+
+## Prerequisites
+
+- Complete [FiveMesh CDN setup](/cdn/setup) for the active workspace.
+- Install a Quasar Phone release that includes the `_G.fivemesh` configuration.
+- Have access to the phone's server files and either a Server API Key or a Developer API Key with `cdn:write` permission.
+
+## Configure FiveMesh
+
+<Steps>
+  <Step title="Create an API key">
+    Quasar Phone supports both key types. In the [FiveMesh dashboard](https://app.fivemesh.io), choose either:
+
+    - **Server API Key** (`fm_server_...`): Open **Servers**, select your registered server, then click **Generate API key** under **Server API Key**. CDN write access is included.
+    - **Developer API Key** (`fm_live_...`): Open the user menu > **Profile** > **API keys**. Create a key named `Quasar Phone` with `cdn:write` permission. Use this option when you need restricted CDN path access.
+
+    Copy the secret. Either key can be used as the `token` in the next step. See [API keys](/account/api-keys) for the full workflow.
+
+    If you restrict a Developer API Key to CDN path prefixes, confirm that they match the upload paths used by your installed phone version. A Server API Key's server binding does not restrict CDN paths.
+  </Step>
+
+  <Step title="Set the server-side token">
+    Open the phone's `server/webhook.lua` file. Quasar's [installation guide](https://www.quasar-store.com/docs/smartphone/installation#fivemanage-api-setup) uses the resource path `qs-smartphone/server/webhook.lua`; use your installed resource folder name.
+
+    Find the existing `_G.fivemesh` block and replace its `token` value with your FiveMesh API key:
+
+    {/* TODO: Verify the FiveMesh block location, token field and any provider selection setting against a Quasar release that includes the integration. The setup follows the partner-provided _G.fivemesh name and Quasar's documented FiveManage pattern; the phone resource has not been inspected or tested locally. */}
+
+    ```lua
+    _G.fivemesh = {
+        token = 'YOUR_FIVEMESH_API_KEY'
+    }
+    ```
+
+    Preserve any other settings in the existing block. If `_G.fivemesh` is missing, update your phone resource or ask Quasar which release includes the FiveMesh integration before continuing.
+
+    Keep the API key in server-side configuration. Do not place it in client Lua or the phone's web files.
+  </Step>
+
+  <Step title="Restart the phone">
+    Save the file and restart the phone resource or your server to apply the change.
+  </Step>
+</Steps>
+
+## Verify uploads
+
+Take a photo, record a short video and create a voice recording in the phone. Check that each upload appears in the FiveMesh [object browser](/cdn/object-browser), then open or play the media in the phone.
+
+## Troubleshooting
+
+- **The FiveMesh block is missing:** Confirm with Quasar that your installed version includes the integration. Adding a token alone does not add upload support to an older release.
+- **Uploads fail:** Check that the token is a FiveMesh API key with `cdn:write`, CDN provisioning has completed, and any key path restrictions allow the phone's upload paths. Check the server console for upload errors.
+- **Uploads still use another provider:** Confirm that you edited `_G.fivemesh` in the running resource. Check your version's upload provider settings with Quasar.
+
+## Related pages
+
+- [Set up FiveMesh CDN](/cdn/setup)
+- [API keys](/account/api-keys)
+- [CDN object browser](/cdn/object-browser)

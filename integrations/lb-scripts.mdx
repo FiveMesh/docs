@@ -10,7 +10,7 @@ Use presigned uploads so the script can upload phone or tablet media without exp
 
 <Tip>
   If you use both LB-Phone and LB-Tablet, give each script its own CDN path
-  prefix such as `/phone` and `/tablet`. You can restrict API keys to those
+  prefix such as `/phone` and `/tablet`. You can restrict Developer API Keys to those
   prefixes from the FiveMesh dashboard.
 </Tip>
 
@@ -19,11 +19,11 @@ Use presigned uploads so the script can upload phone or tablet media without exp
 Before you begin, confirm:
 
 - FiveMesh CDN is set up for the active workspace.
-- You have an API key with CDN write access.
-- The API key is scoped to the path prefixes the script should manage.
+- You have either a Server API Key or a Developer API Key with `cdn:write` permission.
+- If you use a Developer API Key with path restrictions, its allowed prefixes cover the paths the script should manage.
 - You can edit the LB-Phone or LB-Tablet server files.
 
-Use a Developer API Key with `cdn:write` and allowed prefixes such as `phone` or `tablet` when you need path isolation. A Server API Key also supports CDN uploads, but its server binding does not restrict the CDN path.
+Both LB-Phone and LB-Tablet support Server API Keys (`fm_server_...`) and Developer API Keys (`fm_live_...`). Use a Developer API Key with `cdn:write` and allowed prefixes such as `phone` or `tablet` when you need path isolation. A Server API Key includes CDN write access, but its server binding does not restrict CDN paths. See [API keys](/account/api-keys) for how to generate either type.
 
 The presigned endpoint is `https://api.fivemesh.io/v1/presigned-url`. The public workspace slug comes from your CDN settings; you do not pass it in this request.
 
@@ -40,6 +40,8 @@ To use presigned uploads with LB-Phone, update the server and upload configurati
 <Steps>
   <Step title="Configure server credentials">
     Open `lb-phone/server/apiKeys.lua` and configure the API keys and target path prefixes.
+
+    Each `API_KEYS` value accepts either a Server API Key or a Developer API Key with `cdn:write`. You can use the same key for all three media types.
 
     ```lua
     API_KEYS = {
@@ -161,7 +163,7 @@ LB-Tablet uses the same presigned upload pattern.
 
 <Steps>
   <Step title="Configure server credentials">
-    Open `lb-tablet/server/apiKeys.lua` and add the same `API_KEYS` and `UPLOAD_PATHS` values.
+    Open `lb-tablet/server/apiKeys.lua` and add the same `API_KEYS` and `UPLOAD_PATHS` values. Either key type works here too.
   </Step>
 
 <Step title="Request a presigned upload URL">
