@@ -54,6 +54,7 @@
             "group": "FiveMesh Cache",
             "pages": [
               "cache/setup",
+              "cache/firewall",
               "cache/operations"
             ]
           },
