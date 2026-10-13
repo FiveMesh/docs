@@ -1,0 +1,87 @@
+---
+title: "Upload media through Portal"
+description: "Sign in with Discord, upload an image or video, copy its CDN link and browse your personal upload history."
+icon: "upload"
+---
+
+Use your community's FiveMesh Portal to upload an image or video and copy its link for use in-game. Ask the community staff for the Portal address.
+
+You sign in with your Discord account. You do not need a FiveMesh customer dashboard account or an API key to upload through Portal.
+
+## Before you upload
+
+- Join the Discord server connected to the Portal.
+- Make sure your account meets any role requirements set by the community.
+- Check the allowed formats, maximum file size and remaining attempts on **Media**.
+- Check the displayed expiration period, if the community has one.
+
+The community controls whether uploads are available. Supported Portal formats are PNG, JPEG, WebP, GIF, MP4 and WebM; the community can allow a smaller selection.
+
+## Upload a file
+
+<Steps>
+  <Step title="Sign in with Discord">
+    Open the community's Portal and choose **Continue with Discord**. Review the Discord authorization and return to the Portal.
+
+    Use the Discord account that belongs to the community and holds the required roles.
+  </Step>
+  <Step title="Open Media">
+    Choose **Media** in the navigation or **Upload media** on the home page.
+
+    Review your remaining daily attempts and the size and format limits.
+  </Step>
+  <Step title="Choose your file">
+    Use **Choose file** or drop a file into the upload area. Review the selected file, then click **Upload media**.
+
+    Keep the page open until the upload and verification finish.
+  </Step>
+  <Step title="Copy the link">
+    Once the file is ready, choose **Copy URL**. Use **Open file** to check the link before using it in-game.
+
+    If your browser blocks clipboard access, select and copy the URL shown by Portal.
+  </Step>
+</Steps>
+
+<Note>
+  Your upload history is personal, but the file URL is public. Anyone with the link can access the uploaded file. Choose files you are comfortable sharing through a public link.
+</Note>
+
+## Find an earlier upload
+
+The signed-in home page shows your recent uploads. Open **Media** > **My uploads** for your full history and use the pagination controls to move between pages.
+
+Ready images show thumbnails, and supported videos show a paused preview. Use **Copy URL** or **Open file** on a ready record. An unavailable preview does not by itself mean the upload failed; try opening the file.
+
+| Record | Meaning |
+| --- | --- |
+| Ready file with link actions | The upload completed and passed verification. |
+| **Incomplete** | The upload has not completed. No ready link is available. |
+| **Failed** | The attempt did not produce a verified upload. |
+
+If you upload to more than one community Portal, each has its own personal history. Other players cannot browse your history through Portal.
+
+## Daily allowance and expiration
+
+Your daily allowance is per player in this Portal and resets at midnight UTC. Failed or stopped transfers also use an attempt. Check the remaining number on **Media** before retrying.
+
+If the community sets media expiration, files become eligible for deletion after that period. Community staff can also delete a file from their CDN. A history entry may remain after its file is gone, so a previously copied link can stop working.
+
+## Account and uploader information
+
+Open **Profile** to review your signed-in Discord identity or sign out.
+
+New uploads include your Discord user ID and, when available, your stored Discord username as file metadata. Community staff with access to the CDN object browser can use it to identify the uploader. These values come from your signed-in account and are not editable in the upload form.
+
+## If you cannot upload
+
+| Message or problem | Next step |
+| --- | --- |
+| Sign-in required | Sign in with the intended Discord account. |
+| Membership or role required | Join the connected Discord server or ask community staff to check your roles. |
+| Uploads disabled or CDN unavailable | Contact community staff; they control the upload service. |
+| Daily limit reached | Wait until midnight UTC for the allowance to reset. |
+| Unsupported type or file too large | Choose a file that meets the formats and size shown on **Media**. |
+| Uploader restricted | Ask community staff to review the restriction. |
+| Transfer failed | Check your connection and remaining attempts before retrying. |
+
+Community owners can find configuration instructions in [Portal operations](/portal/operations).

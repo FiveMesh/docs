@@ -107,6 +107,14 @@ Deleting a placeholder rule stops future fallback responses for that pattern. It
 
 TTL policies apply storage expiration to matching files. Removing a policy does not restore files that have already expired. Avoid overlapping paths with conflicting retention rules.
 
+## Portal media expiration
+
+The **Media expiration** setting in **Portal** > **Medias** manages the TTL policy for `portal/media/`. It appears here alongside your other policies. Changes made in either page affect the same rule.
+
+This policy applies to existing files and every Portal using this CDN. Older files can become eligible for deletion as soon as you enable or shorten the period. Expiration happens asynchronously; overlapping CDN rules can remove matching files sooner.
+
+Disabling Portal's expiration setting removes only this policy. It does not restore files or remove your other TTL policies. Review [Portal media expiration](/portal/operations#set-media-expiration) before changing it.
+
 ## Path rules
 
 - Do not start a user-facing path segment with `.`.

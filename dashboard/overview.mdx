@@ -19,6 +19,7 @@ Your account owns your subscription and resources. An organization lets your tea
 | **Delivery** | FiveMesh CDN and FiveMesh Cache. |
 | **Realtime** | FiveMesh Voice. |
 | **Observability** | FiveMesh Logs. |
+| **Community** | FiveMesh Portal, when enabled for the selected server's owner. |
 | **Agent** | FiveMesh Agent when enabled in your account preferences. |
 
 Open the user menu at the bottom of the sidebar and choose **Profile** for personal account settings. Notifications are available from the dashboard notification control.
@@ -29,6 +30,7 @@ The selector at the top of the sidebar shows the selected server and account con
 
 - **CDN** applies to the resource owner's whole account. Changing the selected server does not create another CDN workspace.
 - **Cache**, **Voice** and **Logs** follow the selected server. Their pages use `/servers/{serverId}/cache`, `/servers/{serverId}/voice` and `/servers/{serverId}/logs`.
+- **Portal** also follows the selected server. It connects that community's Discord server and uses the resource owner's CDN for player uploads.
 - **Billing** always manages your own customer subscription. Organization membership does not give you control over another customer's billing.
 
 The `{serverId}` in a dashboard route is the FiveMesh registered-server ID. Use the cfx.re join code only where a setup field or public API explicitly requests it.
@@ -57,4 +59,5 @@ You can sign in and open Overview without a subscription, server or organization
 - [Billing](/dashboard/billing)
 - [Organizations](/dashboard/organizations)
 - [Registered servers](/account/servers)
+- [Set up FiveMesh Portal](/portal/setup)
 - [V2 upgrade checklist](/reference/v2-upgrade)

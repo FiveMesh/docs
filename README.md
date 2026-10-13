@@ -32,6 +32,7 @@ npm run broken-links
 - `cache/` documents FiveMesh Cache setup and operations.
 - `voice/` documents FiveMesh Voice setup and operations.
 - `logs/` documents event ingestion, Explorer and staff viewer setup.
+- `portal/` documents Discord community setup, upload administration and personal player media.
 - `account/` documents servers, API keys and personal settings.
 - `api-reference/` documents public identity, CDN and Logs endpoints.
 - `sdk/` documents FiveM SDK installation, CDN helpers and Logs exports.

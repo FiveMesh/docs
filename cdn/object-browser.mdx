@@ -48,6 +48,14 @@ Use the preview action on a file row to inspect supported files before copying o
 
 Text previews can fail when a file cannot be loaded as text. In that case, use the public URL or download path from the dashboard.
 
+## Portal media and uploader details
+
+[FiveMesh Portal](/portal/setup) stores player uploads under `portal/media/`. New files appear directly in this folder; older uploads may remain in subfolders.
+
+Open a file's preview and review **Custom metadata**. New Portal uploads include `discordid` and, when available, `discordusername` from the signed-in player's Discord account. Files uploaded before this feature keep their previous metadata. See [Portal uploader details](/portal/operations#inspect-uploaded-files-and-discord-metadata).
+
+Players have personal upload histories in Portal. Customer staff with CDN access can browse the files here. Deleting a CDN object does not remove its Portal history entry, and that entry does not guarantee the file still exists.
+
 ## Rename and delete
 
 Available object actions depend on your workspace permissions.

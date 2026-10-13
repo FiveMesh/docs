@@ -1,0 +1,129 @@
+---
+title: "Portal operations"
+description: "Manage player upload limits, Discord role access, blocked uploaders, analytics and shared media expiration."
+icon: "settings-2"
+---
+
+Select your registered server in the dashboard and open **Portal** to manage its community page and player upload settings.
+
+## Dashboard tabs
+
+| Tab | Use it for |
+| --- | --- |
+| **Overview** | Review Portal status and community information. |
+| **Analytics** | Review upload activity, uploaded bytes, uploaders, failures and recent upload records for the selected period. |
+| **Medias** | Configure the CDN-backed upload service, limits, formats, Discord role access, expiration and blocked uploaders. |
+| **Discord** | Review the connected Discord server, check its connection or reconnect. |
+| **Settings** | Edit community details, address and branding, or disable and delete Portal. |
+
+Changes require Portal administration access. In an organization, the owner must share the service and grant access to the selected registered server. Changing media expiration also requires CDN administration access.
+
+## Upload limits and formats
+
+Open **Medias**, change the settings and click **Save media settings**.
+
+| Setting | Supported values |
+| --- | --- |
+| **Allow player uploads** | Enable or stop new uploads. |
+| **Maximum file size (MB)** | From 1 KB to 256 MB. |
+| **Uploads per player per day** | From 1 to 200 upload attempts. |
+| **Allowed file formats** | PNG, JPEG, WebP, GIF, MP4 and WebM; select at least one. |
+
+The daily allowance belongs to each signed-in player in this Portal. It is not a shared allowance for the whole community, and using another Portal has its own allowance. It resets at midnight UTC. Failed or stopped transfers also use an attempt.
+
+Files become ready only after upload verification completes. An incomplete or failed record does not provide a usable file link.
+
+Turning uploads off preserves existing upload records and CDN files. A CDN that becomes unavailable also blocks new uploads; Portal does not silently move files to another CDN.
+
+## Restrict uploads with Discord roles
+
+Under **Upload permissions**, choose one of these modes:
+
+| Mode | Who can upload |
+| --- | --- |
+| **Any member of the connected Discord server** | Players who belong to the connected community. |
+| **Members with any selected role** | Members who hold at least one selected role. |
+| **Members with all selected roles** | Members who hold every selected role. |
+
+For a role-based mode, select at least one role from the connected Discord server and save. These settings check the player's existing roles; they do not assign roles to players.
+
+If a selected role is no longer available, remove it or choose a replacement before saving. Use **Refresh roles** if the Discord role list has changed. When the connection or role list cannot be verified, resolve the visible error before making changes.
+
+## Block or unblock an uploader
+
+In **Medias** > **Blocked uploaders**, enter the player's **Discord user ID** and click **Block**. Use **Unblock** on an existing entry to allow that player to upload again, subject to your membership, role and daily-limit settings.
+
+A restriction applies to this Portal's uploads. Blocking an uploader does not remove their Discord membership or delete files they already uploaded.
+
+## Set media expiration
+
+Under **Medias** > **Media expiration**:
+
+1. Turn on **Automatically delete old media**.
+2. Set **Keep for** and select **Days** or **Hours**.
+3. Choose 1–365 days or 1–8,760 hours. Enabling the setting starts with 30 days; review the value before saving.
+4. Click **Save media settings**.
+
+The rule also appears in **CDN** > **Settings** as a TTL policy for `portal/media/`. You can review or change the same rule from either page.
+
+<Warning>
+  Expiration applies to all media under `portal/media/` in this CDN, including existing files and uploads from other Portals using the same CDN. Files already older than the period become eligible for deletion. Deletion cannot be undone from Portal.
+</Warning>
+
+Expiration follows the file's age; changing the period does not give older files a new retention period. Deletion happens asynchronously, so expiration is not an exact removal time. Other CDN retention policies can expire matching media sooner.
+
+Turn the setting off and save to remove the Portal media rule. This does not restore deleted files or remove other CDN retention rules. See [CDN settings](/cdn/settings#add-a-ttl-policy).
+
+An upload record can remain in a player's history after the file expires or is deleted through CDN. The record does not guarantee that the public URL still works.
+
+## Inspect uploaded files and Discord metadata
+
+Open **CDN** > **Objects** and browse `portal/media/`. New Portal media files sit directly inside this folder. Older files may remain in subfolders; their existing URLs are unchanged.
+
+Open a file's preview and review **Custom metadata**:
+
+| Key | Value |
+| --- | --- |
+| `discordid` | The authenticated uploader's Discord user ID. |
+| `discordusername` | The uploader's stored Discord username when the upload was completed. |
+
+Portal adds these values from the signed-in Discord account. Players cannot choose another uploader identity through the upload form. If the account has no stored username, only `discordid` is present.
+
+Metadata is added to new uploads. Files uploaded before this feature keep their previous metadata. It identifies the account at completion and does not automatically change when someone later changes their Discord username.
+
+Players see their own upload history in Portal. Customer staff with CDN access can inspect the stored files in the [CDN object browser](/cdn/object-browser). Public file responses do not include these Discord metadata fields.
+
+## Maintain the Discord connection
+
+Open **Discord** to review the connection and run the available checks. Reconnect if FiveMesh was removed from the Discord server or the dashboard reports a connection problem.
+
+Disconnecting the Portal clears its Discord connection. FiveMesh stays installed in the Discord server because other Portals may use it. Reconnect and verify the intended community before relying on membership or role checks again.
+
+## Disable or delete Portal
+
+In **Settings** > **Destructive actions**, use **Disable Portal** to stop access to the public Portal while preserving its configuration. Re-enable it when ready. Already published CDN files are not deleted by disabling Portal.
+
+Use **Delete Portal** to remove the Portal configuration, release its address and remove its associated upload history and restrictions. The registered FiveMesh server and installed Discord bot remain.
+
+<Warning>
+  Deleting Portal does not delete the files already stored in your CDN. Review them in **CDN** > **Objects** and delete any files you no longer want to publish. Deleting Portal's settings and history cannot be undone.
+</Warning>
+
+## Troubleshooting
+
+| Symptom | What to check |
+| --- | --- |
+| **Portal** is missing from the sidebar | Select a registered server, confirm workspace/server access and check that the owner has Portal access enabled. |
+| Upload settings show no CDN | [Set up FiveMesh CDN](/cdn/setup) for the resource owner and return to **Medias**. |
+| The associated CDN is unavailable | Check CDN provisioning and service state. Resolve that state before enabling new uploads. |
+| A player is refused | Check Discord membership, selected-role requirements, blocked uploaders and that player's remaining daily attempts. |
+| Role selections cannot be saved | Refresh roles, remove unavailable selections and check the Discord connection. |
+| Expiration is read-only | Check CDN administration permission and that the CDN is active. Portal administration alone is insufficient. |
+| Settings changed elsewhere | Reload the latest saved values, review your changes and save again. |
+| A preview or copied URL no longer works | Check for CDN deletion or expiration. Upload history can outlive the file. |
+
+## Related pages
+
+- [Set up FiveMesh Portal](/portal/setup)
+- [Upload media through Portal](/portal/player-uploads)
+- [CDN settings](/cdn/settings)

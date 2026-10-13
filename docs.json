@@ -72,6 +72,14 @@
             ]
           },
           {
+            "group": "FiveMesh Portal",
+            "pages": [
+              "portal/setup",
+              "portal/operations",
+              "portal/player-uploads"
+            ]
+          },
+          {
             "group": "Integrations",
             "pages": [
               "integrations/lb-scripts",
@@ -226,11 +234,11 @@
   "redirects": [
     {
       "source": "/cdn/upload-portal-setup",
-      "destination": "/cdn/setup"
+      "destination": "/portal/setup"
     },
     {
       "source": "/cdn/upload-portal-management",
-      "destination": "/cdn/object-browser"
+      "destination": "/portal/operations"
     }
   ]
 }
