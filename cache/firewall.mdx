@@ -1,0 +1,128 @@
+---
+title: "Allow FiveMesh Cache through your firewall"
+description: "Find the right port and allow Cloudflare IP ranges so FiveMesh Cache can download files from your FiveM server."
+icon: "shield-check"
+---
+
+If your players get resource download errors while your FiveM server is still online, your firewall or hosting provider's DDoS protection may be blocking FiveMesh Cache.
+
+FiveMesh Cache downloads a file from your server when that file is not already cached. These requests use Cloudflare's network, so your server must accept connections from Cloudflare on its **resource download port**.
+
+## What is a firewall?
+
+A firewall controls which network connections are allowed to reach your server. Your hosting provider may have a **network firewall or DDoS protection** in its control panel, and your server may have another firewall in Windows or Linux.
+
+An **IP allowlist** is a set of addresses that your firewall is told to accept. For FiveMesh Cache, you can allow Cloudflare's published IP ranges.
+
+## Which settings should I use?
+
+| Setting | Value |
+| --- | --- |
+| Direction | **Inbound** (connections to your server) |
+| Action | **Allow** |
+| Protocol | **TCP** |
+| Source IP addresses | All current Cloudflare IPv4 and IPv6 ranges at [cloudflare.com/ips](https://www.cloudflare.com/ips/) |
+| Destination | Your FiveM server's public resource download endpoint |
+| Destination port | The port shown in **Cache** > **Settings** for your origin |
+
+The default FiveM port is `30120`, but your server may use a different port. If your origin is `http://play.example.com:30120`, allow incoming **TCP 30120**. If you use a reverse proxy with `https://play.example.com`, the external port may be **443** instead.
+
+<Warning>
+  These IP ranges are shared by Cloudflare customers; they do not identify FiveMesh alone. Keep your existing authentication and DDoS protection. **Do not disable your firewall, open every port, or block all other FiveM traffic.** Allowing Cloudflare traffic must not prevent players from connecting normally.
+</Warning>
+
+## Find your origin port
+
+<Steps>
+  <Step title="Open FiveMesh Cache settings">
+    In the [FiveMesh dashboard](https://app.fivemesh.io), select your registered server and open **Cache** > **Settings**.
+  </Step>
+  <Step title="Check the origin URL">
+    Note the hostname and port of the **origin**, not the public `cache.fivemesh.io` URL. An explicit `:30120` means port `30120`. Without an explicit port, HTTP normally uses `80` and HTTPS uses `443`.
+  </Step>
+  <Step title="Check where the firewall is configured">
+    Look in your game hosting panel for **Firewall**, **Network**, **Security**, or **DDoS protection**. You may also need to update the Windows or Linux firewall on the server itself.
+  </Step>
+</Steps>
+
+## Game hosting panel or provider firewall
+
+Your hosting provider's interface may look different, but the required rule is the same.
+
+<Steps>
+  <Step title="Open the firewall or DDoS protection settings">
+    Select the public IP address or FiveM server that receives resource downloads.
+  </Step>
+  <Step title="Create an allow rule">
+    Set **Inbound**, **Allow**, **TCP** and the origin's **destination port**. For the **source IP**, add the Cloudflare networks from [cloudflare.com/ips](https://www.cloudflare.com/ips/). Include IPv4 and IPv6 if your origin is reachable over both.
+  </Step>
+  <Step title="Save and repeat where needed">
+    Some panels need one rule per IP range. Save all ranges, then check for a second firewall or DDoS ruleset upstream of the game server. If you host multiple FiveM servers on different fileserver ports, repeat for each port.
+  </Step>
+</Steps>
+
+<Info>
+  If you cannot find firewall settings or the host blocks Cloudflare traffic in its DDoS layer, contact the hosting provider. A Windows or Linux rule cannot override a block applied before traffic reaches your machine.
+</Info>
+
+## Windows Server firewall
+
+You need administrator access to your Windows Server.
+
+<Steps>
+  <Step title="Open Windows Defender Firewall">
+    Press **Win + R**, type `wf.msc`, and open **Windows Defender Firewall with Advanced Security**.
+  </Step>
+  <Step title="Create a custom inbound rule">
+    Select **Inbound Rules** > **New Rule** > **Custom**. Choose **All programs**. Under **Protocol and Ports**, select **TCP** and set the **Local port** to the origin port from FiveMesh Cache.
+  </Step>
+  <Step title="Add Cloudflare source ranges">
+    Under **Scope** > **Remote IP address**, choose **These IP addresses**. Add each applicable IPv4 and IPv6 range from [cloudflare.com/ips](https://www.cloudflare.com/ips/).
+  </Step>
+  <Step title="Allow and save">
+    Choose **Allow the connection**, select the appropriate network profiles, and name the rule something like **FiveMesh Cache - TCP 30120**. Confirm the rule is enabled.
+  </Step>
+</Steps>
+
+## Linux with UFW
+
+If your server uses UFW, allow each Cloudflare CIDR range on the correct TCP port. For example, for TCP port `30120`, one IPv4 range would be:
+
+~~~bash
+sudo ufw allow from 173.245.48.0/20 to any port 30120 proto tcp
+~~~
+
+This command is **only one example range**. Repeat it using **every current applicable IPv4 and IPv6 range** from [cloudflare.com/ips](https://www.cloudflare.com/ips/), and replace `30120` if your origin uses another port.
+
+Check the resulting rules with:
+
+~~~bash
+sudo ufw status
+~~~
+
+<Warning>
+  If UFW is not already enabled, do not enable it blindly on a remote server. First verify that your SSH, management and player connections will remain accessible.
+</Warning>
+
+## Ask your hosting provider for help
+
+If your host manages the firewall, send them this message:
+
+> Hello, I use FiveMesh Cache for my FiveM server. Could you allow inbound **TCP** connections from all Cloudflare IPv4 and IPv6 ranges listed at https://www.cloudflare.com/ips/ to my resource download endpoint **HOSTNAME:PORT**? Please check the network firewall and DDoS protection rules. This is for FiveMesh Cache to fetch uncached resources. Please keep normal player connectivity intact.
+
+Replace **HOSTNAME:PORT** with the origin endpoint in **Cache** > **Settings**.
+
+## Verify that it works
+
+1. Save the new firewall rules.
+2. Trigger a download of a resource that is **not already cached**. A successful Cache HIT does not test connectivity to your origin.
+3. Check **Cache** > **Analytics** for origin errors and confirm resource downloads succeed.
+4. If it still fails, check the port, the TCP protocol, IPv4/IPv6 ranges, and any firewall or DDoS protection managed by your hosting provider.
+
+You normally do not need to restart FiveM or purge your entire cache just to apply firewall changes.
+
+If the issue continues, open a [support ticket](https://discord.gg/wBJamWETxr) with your hosting provider, registered server ID, origin hostname and port, and the error you see. Do not share your `adhesive_cdnKey` or other secrets.
+
+<Info>
+  This allowlist applies to **FiveMesh Cache HTTP origin requests**. Do not assume it applies to other FiveMesh products, database backups, or Cloudflare Containers.
+</Info>
