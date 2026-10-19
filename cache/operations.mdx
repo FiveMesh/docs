@@ -55,7 +55,7 @@ Rotate the key if the previous `adhesive_cdnKey` was lost or should no longer be
   </Step>
 
   <Step title="Update your server">
-    Replace the old key in `server.cfg` and restart or reload your server.
+    Replace the old Cache setup block in `server.cfg` with the new block and restart or reload your server. Confirm the `fileserver_add` pattern is `".*"` so it matches all resource names.
   </Step>
 </Steps>
 
