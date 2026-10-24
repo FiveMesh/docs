@@ -50,17 +50,24 @@ Check billing when:
 
 Usage is aggregated across the customer's services and servers within the subscription billing period. Organization collaboration does not create another allowance. Review requests, bandwidth, storage and Log Events in Billing.
 
-Growth includes **100 million requests** and **30 TB bandwidth** per month. Pro includes **500 million requests** and **100 TB bandwidth** per month. CDN and Cache share these allowances.
+Starter includes **20 million requests** and **10 TB bandwidth** per month. Growth includes **50 million requests** and **30 TB bandwidth** per month. Pro includes **100 million requests** and **75 TB bandwidth** per month. CDN and Cache share these allowances. CDN storage remains **50 GB**, **200 GB** and **500 GB**, respectively.
+
+An existing billing period keeps the allowance already granted for that period. A larger existing allowance can therefore differ from the current pricing page. Revised allowances apply when a new period receives its grant; changing the published plans does not remove an existing period's grant.
 
 Estimates can lag while meters synchronize. A missing meter is unavailable, not zero. Pace projections need at least one full day of usage and assume the same traffic pace continues. They exclude plan fees and tax; the final invoice comes from the billing provider.
+
+A pricing estimate does not establish an amount due. A subscription without metered price attachments has no collectible metered overage; a hypothetical plan comparison can still show what that usage would cost on a standard metered plan.
+
+When fresh billing evidence supports a saving, Billing can show a plan recommendation. **Review plans** opens the existing plan-change flow. Viewing or dismissing a suggestion does not change your plan, cap charges or restrict service. A suggestion may be unavailable while billing data is incomplete or out of date.
 
 Use **Open billing portal** for available subscription and payment actions. Scheduled cancellation keeps access until the period end shown in the dashboard.
 
 ## Pricing currency
 
-Plan prices support the selected subscription currency. All overage rates and
-estimates stay in **EUR**, including Logs. A non-EUR plan amount and EUR overages
-are shown separately; the final invoice amount comes from Polar.
+Plan prices, CDN/Cache overage rates and their estimates use your subscription's
+supported currency: **EUR** or **USD**. Amounts are not converted between currencies.
+The final invoice comes from the billing provider. Logs remains unbilled during
+observation; its planned EUR rate is described below.
 
 ## Logs usage
 
