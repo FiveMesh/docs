@@ -1,0 +1,76 @@
+---
+title: "sd-phone media uploads with FiveMesh CDN"
+sidebarTitle: "sd-phone"
+description: "Configure sd-phone to store photos, videos and voice recordings on FiveMesh CDN, with optional direct uploads."
+keywords: ["sd-phone", "sd-phone CDN", "sd-phone media uploads", "FiveM phone media"]
+icon: "plug"
+---
+
+Use the built-in FiveMesh provider in [sd-phone](https://github.com/Samuels-Development/sd-phone), the open-source FiveM phone from Samuel's Development, to store photos, videos and voice recordings on FiveMesh CDN.
+
+## Prerequisites
+
+- Complete [FiveMesh CDN setup](/cdn/setup) for the workspace where you want to store the media.
+- Install a build of sd-phone that includes [FiveMesh support](https://github.com/Samuels-Development/sd-phone/pull/323).
+
+<Note>
+  FiveMesh support is on `main` and is planned for the next [sd-phone release](https://github.com/Samuels-Development/sd-phone/releases). To use it now, follow sd-phone's [build from source instructions](https://github.com/Samuels-Development/sd-phone#building-from-source) to build the phone UI. The `v1.0.10` release does not include the integration.
+</Note>
+
+## Configure FiveMesh
+
+<Steps>
+  <Step title="Create an API key">
+    In the [FiveMesh dashboard](https://app.fivemesh.io), create either key:
+
+    - **Developer API Key** (`fm_live_...`): Open **Developers** → **API Keys**. Create a key with `cdn:write` and allow the `phone` CDN path prefix, or the custom folder you set below.
+    - **Server API Key** (`fm_server_...`): Open **Servers**, select your registered server and generate a key under **Server API Key**. CDN write access is included. Use a Developer API Key if you need to restrict uploads to a folder.
+
+    Copy the secret when it is shown. See [API keys](/account/api-keys) for details.
+  </Step>
+
+  <Step title="Select FiveMesh as the upload provider">
+    In `sd-phone/configs/photos.lua`, update these fields in the existing configuration table:
+
+    ```lua
+    Provider = 'fivemesh',
+    FiveMeshPath = 'phone',
+    AllowDirectUpload = false,
+    ```
+
+    `FiveMeshPath` defaults to `phone`. To separate media by server, use a folder such as `phone/production` and make sure your key permits that path. Each folder name can contain letters, numbers, hyphens and underscores.
+  </Step>
+
+  <Step title="Set the key on the server">
+    Leave `FiveMeshCdn` empty in `sd-phone/configs/server/apikeys.lua` and add this line to `server.cfg` before `ensure sd-phone`:
+
+    ```cfg
+    set sd_fivemesh_cdn_key "YOUR_FIVEMESH_API_KEY"
+    ```
+
+    Use `set` to keep the key server-side. Never use `setr` or `sets` for this key.
+
+    Alternatively, set `FiveMeshCdn = 'YOUR_FIVEMESH_API_KEY'` in the existing table in `sd-phone/configs/server/apikeys.lua`. A non-empty `FiveMeshCdn` takes precedence over the `server.cfg` value.
+  </Step>
+
+  <Step title="Apply the configuration">
+    Restart the server to apply changes to `server.cfg`. If you only changed the Lua configuration files, restart the `sd-phone` resource.
+  </Step>
+</Steps>
+
+## Verify uploads
+
+Take a photo, record a short video and save a voice memo in the phone. In the FiveMesh dashboard, open the [CDN object browser](/cdn/object-browser) and check that the new files appear under `phone` or your chosen folder. Then open the photo and play the recordings in the phone.
+
+## Optional: Enable direct uploads
+
+By default, the game server receives the media and sends it to FiveMesh CDN. After verifying that uploads work, set `AllowDirectUpload = true` in `sd-phone/configs/photos.lua` and restart the resource to let supported phone features send files directly to FiveMesh. Repeat the upload checks after switching modes.
+
+The game server keeps the API key and issues a short-lived upload URL for one file. Supported features can fall back to uploading through the game server if the direct upload fails.
+
+## Troubleshooting
+
+- **`FiveMeshPath` or `FiveMeshCdn` is missing:** Check that the running resource includes the FiveMesh integration. The `v1.0.10` release predates it.
+- **Uploads fail:** Check the server console. Confirm that CDN provisioning is complete, the key has `cdn:write`, and any path restrictions cover `FiveMeshPath`. If you configured `server.cfg`, make sure `FiveMeshCdn` is empty and the `set` line comes before `ensure sd-phone`.
+- **New uploads still use another provider:** Check that `Provider = 'fivemesh'` is set in the running resource and restart it. Check newly captured media when testing; changing the provider does not move existing files.
+- **Uploads fail after enabling direct uploads:** Set `AllowDirectUpload = false`, restart the resource and retry through the game server.
