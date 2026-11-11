@@ -1,12 +1,18 @@
 ---
-title: "Set up FiveMesh Cache"
-description: "Enable resource download caching for a registered FiveM server and copy the generated server.cfg block."
+title: "Set up FiveMesh Cache for FiveM resource downloads"
+sidebarTitle: "Set up FiveMesh Cache"
+description: "Cache FiveM resource downloads for a registered server: enable FiveMesh Cache and add the generated fileserver_add and adhesive_cdnKey lines to server.cfg."
+keywords: ["fileserver_add", "adhesive_cdnKey", "FiveM resource cache", "FiveM cache proxy", "FiveM resource downloads", "FiveM bandwidth"]
 icon: "hard-drive"
 ---
 
-FiveMesh Cache is a resource download proxy for FiveM servers.
+FiveMesh Cache is a resource download proxy for FiveM servers. It reduces the bandwidth your server spends on resource downloads when players join.
 
-Players download resources through a FiveMesh cache URL. Cache hits are served from FiveMesh. Cache misses are fetched from your origin once, then reused until you purge or refresh the cache version.
+Players download resources through a FiveMesh cache URL instead of directly from your server. Cache hits are served from FiveMesh. Cache misses are fetched from your server, the origin, once and reused for later players.
+
+<Note>
+  FiveMesh Cache only handles the resource files FiveM downloads when players join. To host images, phone media or NUI assets at public URLs, use [FiveMesh CDN](/cdn/setup). See [CDN or Cache?](/index#cdn-or-cache).
+</Note>
 
 ## Prerequisites
 
@@ -66,6 +72,22 @@ adhesive_cdnKey "YOUR_SECRET_KEY"
   The adhesive key is only shown when it is created or rotated. If you lose it, rotate the key from Cache settings and update `server.cfg`.
 </Warning>
 
+## How the server.cfg lines work
+
+| Line | What it does |
+| --- | --- |
+| `fileserver_add ".*" "<cache URL>"` | Tells FiveM to download resources whose name matches the pattern from the cache URL instead of from your server. FiveM matches the pattern against the entire resource name, so `".*"` covers every resource. |
+| `adhesive_cdnKey "<secret>"` | Sets the shared secret used by FiveM's resource download flow for this cache URL. A missing, stale or mistyped key can break downloads. Treat it like a password. |
+
+Keep the two lines together and follow these rules:
+
+- Paste both values exactly as generated. Do not add a trailing slash after `/files`, and do not replace the server identifier in the URL with your cfx.re join code.
+- Keep one `fileserver_add` and one `adhesive_cdnKey` definition. Search `server.cfg`, files loaded with `exec` and hosting panel settings for older values; a later duplicate can override the generated block.
+- Each registered server has its own Cache URL and key. Do not copy a block from another server or environment.
+- Keep the key out of client resources, screenshots, public repositories and support messages. Rotate it from [Cache operations](/cache/operations#rotate-the-adhesive-key) if it is exposed.
+
+For background on both commands, read [How to configure fileserver_add and adhesive_cdnKey](https://fivemesh.io/blog/configure-fileserver-add-adhesive-cdnkey-fivem).
+
 ## Origin URL
 
 FiveMesh detects candidate endpoints for the registered cfx.re server. Choose the public endpoint that serves resource downloads, including the correct port.
@@ -89,6 +111,15 @@ Game host firewalls and DDoS protection often filter data center traffic while a
 New to firewalls? Follow [Allow FiveMesh Cache through your firewall](/cache/firewall) for the exact rule settings and Windows, Linux or hosting-panel instructions.
 
 If downloads fail after Cache is enabled while the server runs normally, see [players get download errors while the server runs fine](/reference/troubleshooting#players-get-download-errors-while-the-server-runs-fine).
+
+## Verify Cache is working
+
+1. Restart or reload your server after updating `server.cfg`.
+2. Join from a client that does not already have your current resources. A client with a warm local cache skips most downloads and does not test the Cache path.
+3. Open **Cache** > **Analytics** for the selected server. The first requests for each resource version are MISS responses fetched from your origin; later players should receive HIT responses.
+4. Check origin errors separately from MISS traffic. A MISS is expected; a rising origin error count means FiveMesh cannot fetch files from your server.
+
+If players cannot download resources, see [resource downloads fail through Cache](/reference/troubleshooting#resource-downloads-fail-through-cache).
 
 ## Next steps
 

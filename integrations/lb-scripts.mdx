@@ -1,6 +1,8 @@
 ---
-title: "LB-Scripts"
-description: "Configure LB-Phone or LB-Tablet to upload media through FiveMesh CDN."
+title: "LB-Phone and LB-Tablet media uploads with FiveMesh CDN"
+sidebarTitle: "LB-Scripts"
+description: "Configure LB-Phone or LB-Tablet to upload photos, videos and audio to FiveMesh CDN through presigned upload URLs, with the API key kept server-side."
+keywords: ["LB-Phone CDN", "LB-Phone upload", "LB-Tablet media hosting", "lb-phone custom upload", "FiveM phone media"]
 icon: "plug"
 ---
 
@@ -187,8 +189,21 @@ Restart the affected LB resource after changing its configuration. Upload an ima
 
 LB versions can change custom hook locations. Check your installed resource and the official [LB-Phone installation guide](https://docs.lbscripts.com/phone/installation/) or [LB-Tablet installation guide](https://docs.lbscripts.com/tablet/installation/) before replacing a hook. Preserve other customizations when updating.
 
+## Troubleshooting
+
+`GetPresignedUrl` prints the HTTP status to the server console when FiveMesh does not return an upload URL.
+
+| Status | Check |
+| --- | --- |
+| `401` | The API key is missing, mistyped or revoked. Copy the full key into `apiKeys.lua` and restart the resource. |
+| `403` | The key lacks `cdn:write`, or a Developer API Key's allowed prefixes do not cover the `UPLOAD_PATHS` value. |
+| `0` or no status | The server could not reach `api.fivemesh.io`. Check outbound HTTPS from the game server. |
+
+If the upload URL is created but media does not appear, confirm each media type in `Config.UploadMethod` is set to `"Custom"` and that FiveMesh CDN setup has finished provisioning. Check the intended folder in the [object browser](/cdn/object-browser).
+
 ## Related pages
 
 - [Set up FiveMesh CDN](/cdn/setup)
 - [API keys](/account/api-keys)
+- [CDN API endpoints](/api-reference/cdn#endpoints)
 - [FiveMesh CDN API](/api-reference/cdn)

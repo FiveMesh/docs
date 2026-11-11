@@ -1,12 +1,13 @@
 ---
-title: "FiveMesh documentation"
-description: "Set up and operate FiveMesh workspaces, CDN, Cache, Voice, Logs, community Portals, organizations and API keys."
+title: "FiveMesh documentation for FiveM servers"
+sidebarTitle: "FiveMesh documentation"
+description: "Set up FiveMesh for your FiveM server: CDN for images and NUI assets, Cache for resource downloads, managed PMA-Voice, server logs and Discord Portals."
 icon: "network"
 ---
 
 FiveMesh is a cloud infrastructure platform for FiveM servers, powered by sCloud.
 
-Use these docs to configure your workspace, register servers, prepare public asset delivery with FiveMesh CDN, enable resource download caching with FiveMesh Cache, run managed PMA-Voice compatible infrastructure with FiveMesh Voice and collect server events with FiveMesh Logs.
+Use these docs to configure your workspace, register servers, host public media and NUI assets with FiveMesh CDN, cache resource downloads with FiveMesh Cache, run managed PMA-Voice compatible infrastructure with FiveMesh Voice and collect server events with FiveMesh Logs.
 
 ## What FiveMesh manages
 
@@ -17,6 +18,19 @@ Use these docs to configure your workspace, register servers, prepare public ass
 - **FiveMesh Portal** gives your Discord community a public home and personal player uploads backed by your CDN.
 - **Workspaces** select your own account or collaboration on an organization's owner account.
 - **API keys** let scripts and tools access service operations with scoped permissions.
+
+## CDN or Cache?
+
+Both services deliver files to players, but they solve different problems. Searches for a "FiveM CDN" often mean either one.
+
+| You want to | Use | Start with |
+| --- | --- | --- |
+| Host inventory icons, phone or tablet media, screenshots, loading screen files or NUI assets at stable public URLs | **FiveMesh CDN** | [Set up FiveMesh CDN](/cdn/setup) |
+| Upload media from LB-Phone, LB-Tablet or Quasar Phone | **FiveMesh CDN** | [LB-Scripts](/integrations/lb-scripts) or [Quasar Phone](/integrations/qs-phone) |
+| Speed up the resource and streamed asset downloads players get when joining, and reduce bandwidth on your server | **FiveMesh Cache** | [Set up FiveMesh Cache](/cache/setup) |
+| Configure `fileserver_add` and `adhesive_cdnKey` | **FiveMesh Cache** | [Set up FiveMesh Cache](/cache/setup#how-the-server-cfg-lines-work) |
+
+Files on FiveMesh CDN are uploaded by you, your scripts or your players, and keep their URL until you delete them or a retention policy expires them. FiveMesh Cache stores nothing you upload: it fetches the resources your FiveM server already serves and reuses them for later players. Many servers use both. For a longer explanation, read [FiveM CDN vs cache proxy](https://fivemesh.io/blog/fivem-cdn-vs-cache-proxy).
 
 ## Start here
 

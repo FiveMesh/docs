@@ -1,6 +1,8 @@
 ---
-title: "Cache operations"
-description: "Manage Cache origin settings, purge, key rotation, server state and analytics."
+title: "FiveMesh Cache purge, key rotation and analytics"
+sidebarTitle: "Cache operations"
+description: "Purge cached FiveM resources, rotate the adhesive_cdnKey, update the origin, disable Cache and read HIT, MISS and origin error analytics."
+keywords: ["adhesive_cdnKey rotation", "FiveM cache purge", "fileserver_add", "FiveM resource cache analytics"]
 icon: "activity"
 ---
 
@@ -19,7 +21,9 @@ Select the registered server in the sidebar before opening **Cache**. V2 shows t
 
 ## Purge cache
 
-Use purge when resources change and players need the latest files.
+You usually do not need to purge after updating a resource. FiveM requests each resource version separately, so Cache fetches a changed file from your origin on its first request and serves it to later players.
+
+Purge when players still receive outdated files after an update, or when you want Cache to fetch every resource from your origin again. After a purge, the next requests are MISS responses until Cache warms up again, so avoid purging repeatedly while you measure performance.
 
 <Steps>
   <Step title="Open settings">
@@ -55,7 +59,7 @@ Rotate the key if the previous `adhesive_cdnKey` was lost or should no longer be
   </Step>
 
   <Step title="Update your server">
-    Replace the old Cache setup block in `server.cfg` with the new block and restart or reload your server. Confirm the `fileserver_add` pattern is `".*"` so it matches all resource names.
+    Replace the old Cache setup block in `server.cfg` with the new block and restart or reload your server. Confirm the `fileserver_add` pattern is `".*"` so it matches all resource names, and remove any older `adhesive_cdnKey` definitions in other configuration files. If several server instances share this configuration, update all of them.
   </Step>
 </Steps>
 
@@ -65,7 +69,7 @@ Rotate the key if the previous `adhesive_cdnKey` was lost or should no longer be
 
 ## Disable or delete Cache
 
-Before disabling or deleting Cache, remove its `fileserver_add` line from `server.cfg` and reload or restart your server so players return to origin downloads.
+Before disabling or deleting Cache, remove its `fileserver_add` line from `server.cfg` and reload or restart your server so players return to origin downloads. If the line stays in place, players keep requesting resources from the Cache URL and their downloads fail.
 
 Use **Disable Cache** when you want to pause Cache for a server without removing the saved configuration.
 
@@ -90,5 +94,6 @@ A sustained rise in origin errors usually means FiveMesh cannot reach your origi
 ## Related pages
 
 - [Set up FiveMesh Cache](/cache/setup)
+- [Allow FiveMesh Cache through your firewall](/cache/firewall)
 - [Registered servers](/account/servers)
-- [Troubleshooting](/reference/troubleshooting)
+- [Troubleshoot resource downloads through Cache](/reference/troubleshooting#resource-downloads-fail-through-cache)

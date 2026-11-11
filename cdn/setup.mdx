@@ -1,12 +1,18 @@
 ---
-title: "Set up FiveMesh CDN"
-description: "Create your CDN workspace, choose a public path name and prepare starter folders."
+title: "Set up FiveMesh CDN for FiveM media hosting"
+sidebarTitle: "Set up FiveMesh CDN"
+description: "Host FiveM inventory images, phone and tablet media, screenshots and NUI assets on FiveMesh CDN: create your CDN workspace, choose its public name and prepare folders."
+keywords: ["FiveM CDN", "FiveM image hosting", "FiveM NUI assets", "FiveM media hosting", "inventory images"]
 icon: "radio-tower"
 ---
 
 FiveMesh CDN is for public assets that your FiveM server, scripts or player-facing UI need to load from stable URLs.
 
-Use it for files such as inventory images, phone media, tablet media, mugshots, loading screen assets and other public uploads.
+Use it for files such as inventory images, phone media, tablet media, mugshots, screenshots, loading screen assets, NUI images and other public uploads.
+
+<Note>
+  Looking to speed up the resource downloads players get when joining your server? That is [FiveMesh Cache](/cache/setup), configured with `fileserver_add`. See [CDN or Cache?](/index#cdn-or-cache).
+</Note>
 
 ## Prerequisites
 
@@ -75,3 +81,5 @@ During setup, FiveMesh can save TTL policies for selected media folders. A TTL p
 - Upload files from the [object browser](/cdn/object-browser).
 - Add or change retention in [CDN settings](/cdn/settings).
 - Create scoped API keys from [API keys](/account/api-keys) if scripts need CDN access.
+- Connect phone uploads with [LB-Phone and LB-Tablet](/integrations/lb-scripts) or [Quasar Phone](/integrations/qs-phone).
+- Upload from your own server scripts with the [FiveM SDK](/sdk/server-exports) or the [CDN API](/api-reference/cdn).

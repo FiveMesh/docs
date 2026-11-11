@@ -1,6 +1,7 @@
 ---
-title: "CDN settings"
-description: "Review the public CDN URL, configure placeholders and retention, purge cached files or delete the service."
+title: "FiveMesh CDN settings: placeholders, retention and purge"
+sidebarTitle: "CDN settings"
+description: "Configure FiveMesh CDN fallback images for missing files, TTL retention for phone media, workspace cache purge and service deletion."
 icon: "settings-2"
 ---
 
@@ -129,7 +130,7 @@ Disabling Portal's expiration setting removes only this policy. It does not rest
 
 Under **Purge CDN cache**, review the workspace prefix and click **Purge workspace**. This requires `cdn:purge`.
 
-Purging expires cached responses under the public workspace prefix; it keeps stored objects. Use it after bulk replacements when requests still return older content. For specific objects, use the [CDN API reference](/api-reference/cdn#endpoints) with a Developer API Key.
+Purging expires cached responses under the public workspace prefix; it keeps stored objects. Use it after bulk replacements when requests still return older content. This purge applies to FiveMesh CDN files only; to refresh resource downloads, see [Cache operations](/cache/operations#purge-cache). For specific objects, use the [CDN API reference](/api-reference/cdn#endpoints) with a Developer API Key.
 
 ## Delete the CDN service
 
@@ -149,3 +150,4 @@ If **Cancel deletion** is still available, it can restore the service, but it ca
 - [Set up FiveMesh CDN](/cdn/setup)
 - [CDN object browser](/cdn/object-browser)
 - [API keys](/account/api-keys)
+- [Portal media expiration](/portal/operations#set-media-expiration)

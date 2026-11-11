@@ -1,6 +1,7 @@
 ---
 title: "Allow FiveMesh Cache through your firewall"
-description: "Find the right port and allow Cloudflare IP ranges so FiveMesh Cache can download files from your FiveM server."
+description: "Fix FiveM resource download errors behind a firewall or DDoS protection: find the fileserver port and allow Cloudflare IP ranges so FiveMesh Cache can reach your server."
+keywords: ["FiveM firewall", "FiveM DDoS protection", "Cloudflare IP allowlist", "FiveM resource download errors", "port 30120"]
 icon: "shield-check"
 ---
 
@@ -121,7 +122,7 @@ Replace **HOSTNAME:PORT** with the origin endpoint in **Cache** > **Settings**.
 
 You normally do not need to restart FiveM or purge your entire cache just to apply firewall changes.
 
-If the issue continues, open a [support ticket](https://discord.gg/wBJamWETxr) with your hosting provider, registered server ID, origin hostname and port, and the error you see. Do not share your `adhesive_cdnKey` or other secrets.
+If downloads still fail, check the other causes in [resource downloads fail through Cache](/reference/troubleshooting#resource-downloads-fail-through-cache). If the issue continues, open a [support ticket](https://discord.gg/wBJamWETxr) with your hosting provider, registered server ID, origin hostname and port, and the error you see. Do not share your `adhesive_cdnKey` or other secrets.
 
 <Info>
   This allowlist applies to **FiveMesh Cache HTTP origin requests**. Do not assume it applies to other FiveMesh products, database backups, or Cloudflare Containers.

@@ -1,12 +1,16 @@
 ---
-title: "Troubleshooting"
-description: "Resolve common FiveMesh dashboard, CDN, Cache, Voice, Logs, workspace and permission issues."
+title: "Troubleshoot FiveMesh CDN, Cache, Voice and Logs"
+sidebarTitle: "Troubleshooting"
+description: "Fix common FiveMesh issues: FiveM resource download errors through Cache, CDN upload failures, PMA-Voice connection problems, missing Logs events and locked services."
+keywords: ["FiveM resource download failed", "fileserver_add not working", "adhesive_cdnKey", "pma-voice not connecting", "FiveM CDN upload failed"]
 icon: "circle-help"
 ---
 
-Use this page when the dashboard does not show the state you expected.
+Use this page when the dashboard does not show the state you expected, or a FiveMesh service does not behave as configured on your FiveM server.
 
-## Service is locked
+## Access and workspaces
+
+### Service is locked
 
 Check these in order:
 
@@ -15,7 +19,20 @@ Check these in order:
 3. If you are in an organization, confirm the service is shared under **Organization**.
 4. Confirm your role allows access to the service.
 
-## CDN setup is unavailable
+### Organization member cannot access a service
+
+Ask an owner to check:
+
+- The member accepted the invitation.
+- The member has the intended role.
+- The organization is the active workspace.
+- The owner has made the service available to the organization.
+- The member has access to the intended server. Restricted server grants apply to read-only viewers.
+- The organization's owner account has the required service subscription.
+
+## FiveMesh CDN
+
+### CDN setup is unavailable
 
 Possible causes:
 
@@ -26,7 +43,7 @@ Possible causes:
 
 Workspace names must be 3 to 48 lowercase letters, numbers, hyphens or underscores, starting and ending with a letter or number.
 
-## CDN upload failed
+### CDN upload failed
 
 Check:
 
@@ -37,21 +54,17 @@ Check:
 
 If one file fails in a batch, retry that file after the current upload finishes.
 
-## Folder cannot be deleted
+For uploads from phone scripts or server code, see [LB-Scripts troubleshooting](/integrations/lb-scripts#troubleshooting), [Quasar Phone troubleshooting](/integrations/qs-phone#troubleshooting) or [SDK troubleshooting](/sdk/troubleshooting).
+
+### Folder cannot be deleted
 
 FiveMesh checks the folder before deletion.
 
 A folder can only be deleted when it is empty. Remove files and subfolders first, then retry deletion.
 
-## Portal is missing or player uploads are unavailable
+## FiveMesh Cache
 
-Select the intended registered server and workspace first. Organization members also need access to that server and service. Check service sharing, server grants and your role if Portal reports an access problem.
-
-In **Portal** > **Medias**, check that uploads are enabled and the associated FiveMesh CDN is active. For an individual player, check Discord membership, role requirements, blocked uploaders and remaining daily attempts. Each player's allowance is separate and resets at midnight UTC.
-
-See [Portal operations](/portal/operations#troubleshooting) for owner checks, or [Upload media through Portal](/portal/player-uploads#if-you-cannot-upload) for player instructions.
-
-## Cache setup is unavailable
+### Cache setup is unavailable
 
 Check:
 
@@ -60,7 +73,7 @@ Check:
 - Your organization role can create Cache configuration.
 - The selected server is not already enabled.
 
-## Players cannot connect after Cache is enabled
+### Players cannot connect after Cache is enabled
 
 Check the selected server's Cache origin and provisioning state.
 
@@ -71,7 +84,22 @@ Check the selected server's Cache origin and provisioning state.
 
 Do not replace the identifier in the generated Cache URL with the cfx.re join code. If the origin remains unreachable, contact [support](https://discord.gg/wBJamWETxr).
 
-## Players get download errors while the server runs fine
+### Resource downloads fail through Cache
+
+When FiveM cannot download a resource, the client error or the F8 console often shows the HTTP status returned by the Cache URL. Use it to find the cause.
+
+| Status | Meaning | Fix |
+| --- | --- | --- |
+| `404` | The Cache URL does not match an active Cache configuration. The URL was edited, copied from another server, or its configuration was deleted. | Copy the setup block again from **Cache** > **Settings** for the selected server. If you deleted Cache, remove the `fileserver_add` line. |
+| `403` | Cache is disabled for this server, but `server.cfg` still sends players to the Cache URL. | Enable Cache again, or remove the `fileserver_add` line and restart or reload your server. |
+| `502` or `504` | FiveMesh could not get a valid response from your origin. The connection was blocked or timed out, or the origin returned a server error. | Confirm the server is online and the origin and port in **Cache** > **Settings** are correct, then check your firewall. See [players get download errors while the server runs fine](#players-get-download-errors-while-the-server-runs-fine). |
+| Other `4xx` | Your origin rejected the request, and Cache passed its response through. | Compare `server.cfg` with the generated block, including `adhesive_cdnKey`, and remove duplicate `fileserver_add` or `adhesive_cdnKey` definitions. |
+
+If your origin is behind a reverse proxy, the proxy must return resource files uncompressed. A proxy that compresses responses on `/files/` paths causes `502` errors through Cache.
+
+If players download resources directly from your server instead of through Cache, check that the `fileserver_add` line is in a configuration file your server actually executes, and that no later definition overrides it. See [how the server.cfg lines work](/cache/setup#how-the-server-cfg-lines-work).
+
+### Players get download errors while the server runs fine
 
 Players see resource download errors when joining, while players already in the game keep playing normally. The server itself stays online and reachable.
 
@@ -94,22 +122,24 @@ To fix it:
 
 After the rules change, downloads recover on the next request. No purge or restart is needed.
 
-## Players still receive old resources
+### Players still receive old resources
 
-If resources changed after Cache was enabled:
+Cache fetches each new resource version from your origin on its first request, so an update normally reaches players without a purge. If players still receive outdated files:
 
-1. Open **Cache** > **Settings**.
-2. Confirm the server selected in the sidebar.
+1. Confirm the updated resource is running on the server, for example by restarting it.
+2. Open **Cache** > **Settings** and confirm the server selected in the sidebar.
 3. Click **Purge**.
 4. Restart or reload your server if your deployment process requires it.
 
-## Adhesive key was lost
+### Adhesive key was lost
 
 Existing `adhesive_cdnKey` secrets are not shown again.
 
 Rotate the key in **Cache** > **Settings**, copy the new `server.cfg` block, then update your server configuration.
 
-## Voice setup is unavailable
+## FiveMesh Voice
+
+### Voice setup is unavailable
 
 Check:
 
@@ -121,7 +151,7 @@ Check:
 - The workspace has not reached its Voice instance limit.
 - At least one Voice region is accepting new instances.
 
-## PMA-Voice does not connect to the endpoint
+### PMA-Voice does not connect to the endpoint
 
 Check:
 
@@ -132,7 +162,7 @@ Check:
 5. Restart or reload your server using your normal deployment process.
 6. Confirm the instance status is online and the heartbeat updates.
 
-## Voice instance is stuck or shows an error
+### Voice instance is stuck or shows an error
 
 If an instance stays in provisioning, restarting or error state:
 
@@ -142,24 +172,15 @@ If an instance stays in provisioning, restarting or error state:
 - Do not delete the instance while provisioning is still in progress.
 - Open a [Discord ticket](https://discord.gg/wBJamWETxr) with the workspace, registered server ID, instance ID, region and visible error message.
 
-## Voice region is missing or unavailable
+### Voice region is missing or unavailable
 
 Voice regions can be limited, under maintenance or unavailable.
 
 If no region is accepting new instances, open a [Discord ticket](https://discord.gg/wBJamWETxr). Include the workspace, registered server ID and preferred region.
 
-## Organization member cannot access a service
+## FiveMesh Logs
 
-Ask an owner to check:
-
-- The member accepted the invitation.
-- The member has the intended role.
-- The organization is the active workspace.
-- The owner has made the service available to the organization.
-- The member has access to the intended server. Restricted server grants apply to read-only viewers.
-- The organization's owner account has the required service subscription.
-
-## Logs events are missing
+### Logs events are missing
 
 1. Confirm the resource owner has Growth or Pro access, has activated Logs, and has enabled Logs for the selected server.
 2. Verify the key with [Who am I?](/api-reference/whoami). Ingestion needs `logs:write`; querying needs `logs:read`.
@@ -170,11 +191,21 @@ Ask an owner to check:
 
 See [SDK troubleshooting](/sdk/troubleshooting) and [Logs operations](/logs/operations).
 
-## Logs query is rejected
+### Logs query is rejected
 
 An SDK or public API query can span at most seven days. Use smaller ranges to search a longer retained period. Preserve the original query time bounds and filters when using a pagination cursor.
 
 For rate limits, wait before retrying. For authorization failures, check key permissions, the server binding and whether the Logs source still exists.
+
+## FiveMesh Portal
+
+### Portal is missing or player uploads are unavailable
+
+Select the intended registered server and workspace first. Organization members also need access to that server and service. Check service sharing, server grants and your role if Portal reports an access problem.
+
+In **Portal** > **Medias**, check that uploads are enabled and the associated FiveMesh CDN is active. For an individual player, check Discord membership, role requirements, blocked uploaders and remaining daily attempts. Each player's allowance is separate and resets at midnight UTC.
+
+See [Portal operations](/portal/operations#troubleshooting) for owner checks, or [Upload media through Portal](/portal/player-uploads#if-you-cannot-upload) for player instructions.
 
 ## What to include when asking for help
 
@@ -184,6 +215,7 @@ Include:
 - Service area: CDN, Cache, Voice, Logs, billing, organization or account.
 - Registered server ID and cfx.re join code when Cache, Voice, Logs or servers are involved.
 - Hosting provider, and whether other FiveM servers run on the same machine, when players see download errors.
+- The HTTP status or error shown in the FiveM client, F8 console or server console when resource downloads fail.
 - The action you tried.
 - The exact error message shown in the dashboard or SDK console. Include a request ID if the API returns one.
 

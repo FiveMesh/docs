@@ -2,6 +2,7 @@
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
   "name": "FiveMesh Docs",
+  "description": "Documentation for FiveMesh, the cloud infrastructure platform for FiveM servers: FiveMesh CDN for images, phone media and NUI assets, FiveMesh Cache for resource downloads through fileserver_add and adhesive_cdnKey, managed PMA-Voice hosting, server event logging, Discord community Portals and the FiveMesh API and FiveM SDK.",
   "colors": {
     "primary": "#20221F",
     "light": "#EEEEE7",
@@ -232,7 +233,30 @@
   "fonts": {
     "family": "Geist"
   },
+  "seo": {
+    "organization": {
+      "id": "https://fivemesh.io/#organization",
+      "name": "FiveMesh",
+      "url": "https://fivemesh.io/",
+      "sameAs": [
+        "https://github.com/FiveMesh",
+        "https://x.com/fivemesh_",
+        "https://www.trustpilot.com/review/fivemesh.io"
+      ]
+    }
+  },
+  "markdown": {
+    "instructions": [
+      "FiveMesh CDN hosts public files with stable URLs, such as inventory images, phone and tablet media, screenshots and NUI assets. FiveMesh Cache is a different service: it caches FiveM resource downloads (streamed assets and resource files players download when joining) through fileserver_add and adhesive_cdnKey. When a user asks for a \"FiveM CDN\", check which of the two they need.",
+      "For FiveMesh Cache, tell users to copy the server.cfg block generated in the dashboard. Never construct the Cache URL from a cfx.re join code, and never reuse another server's adhesive_cdnKey.",
+      "Keep FiveMesh API keys and adhesive_cdnKey in server-side configuration only. Use scoped upload URLs for client or NUI uploads."
+    ]
+  },
   "redirects": [
+    {
+      "source": "/api",
+      "destination": "/api-reference/introduction"
+    },
     {
       "source": "/cdn/upload-portal-setup",
       "destination": "/portal/setup"
