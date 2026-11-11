@@ -44,34 +44,28 @@
             ]
           },
           {
-            "group": "FiveMesh CDN",
+            "group": "Integrations",
             "pages": [
-              "cdn/setup",
-              "cdn/object-browser",
-              "cdn/settings"
+              "integrations/lb-scripts",
+              "integrations/qs-phone",
+              "integrations/sd-phone"
             ]
+          },
+          {
+            "group": "FiveMesh CDN",
+            "pages": ["cdn/setup", "cdn/object-browser", "cdn/settings"]
           },
           {
             "group": "FiveMesh Cache",
-            "pages": [
-              "cache/setup",
-              "cache/firewall",
-              "cache/operations"
-            ]
+            "pages": ["cache/setup", "cache/firewall", "cache/operations"]
           },
           {
             "group": "FiveMesh Voice",
-            "pages": [
-              "voice/setup",
-              "voice/operations"
-            ]
+            "pages": ["voice/setup", "voice/operations"]
           },
           {
             "group": "FiveMesh Logs",
-            "pages": [
-              "logs/setup",
-              "logs/operations"
-            ]
+            "pages": ["logs/setup", "logs/operations"]
           },
           {
             "group": "FiveMesh Portal",
@@ -82,26 +76,12 @@
             ]
           },
           {
-            "group": "Integrations",
-            "pages": [
-              "integrations/lb-scripts",
-              "integrations/qs-phone"
-            ]
-          },
-          {
             "group": "Account",
-            "pages": [
-              "account/servers",
-              "account/api-keys",
-              "account/settings"
-            ]
+            "pages": ["account/servers", "account/api-keys", "account/settings"]
           },
           {
             "group": "Reference",
-            "pages": [
-              "reference/v2-upgrade",
-              "reference/troubleshooting"
-            ]
+            "pages": ["reference/v2-upgrade", "reference/troubleshooting"]
           }
         ]
       },
@@ -137,15 +117,11 @@
           },
           {
             "group": "FiveMesh Cache",
-            "pages": [
-              "api-reference/cache"
-            ]
+            "pages": ["api-reference/cache"]
           },
           {
             "group": "FiveMesh Voice",
-            "pages": [
-              "api-reference/voice"
-            ]
+            "pages": ["api-reference/voice"]
           }
         ]
       },
