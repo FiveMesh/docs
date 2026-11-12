@@ -1,0 +1,86 @@
+---
+title: "Install FiveMesh Backup"
+description: "Install FiveMesh Backup on Windows or Linux, connect to MySQL or MariaDB, and create your first verified local backup."
+sidebarTitle: "Install and set up"
+---
+
+## Requirements
+
+| Platform | Architecture | Scheduler |
+| --- | --- | --- |
+| Windows 10/11 or Windows Server 2016+ | amd64 | Task Scheduler |
+| Debian, Ubuntu or another systemd Linux distribution | amd64, arm64 | systemd user timers |
+
+Install the MariaDB or MySQL client tools on the machine running backups: `mariadb-dump` or `mysqldump`, plus `mariadb` or `mysql`. They are included with MariaDB/MySQL server installations and packages such as XAMPP, Laragon and WAMP. The tool searches common installation locations even when the clients are not on `PATH`.
+
+You also need database connection details and a writable backup directory with enough free space. Run setup as the user that will own and execute backups.
+
+## Install
+
+<Tabs>
+  <Tab title="Windows">
+    Run in PowerShell. Installing the binary does not require administrator access.
+
+    ```powershell
+    irm https://github.com/FiveMesh/fivemesh-backup/releases/latest/download/install.ps1 | iex
+    ```
+
+    The installer checks the binary against the release's `SHA256SUMS`, installs it in `%LOCALAPPDATA%\FiveMesh\bin` and starts guided setup.
+
+    Windows background scheduling asks for administrator approval when you create or change a task. See [Windows scheduling](/backup/scheduling#windows).
+  </Tab>
+  <Tab title="Linux">
+    Run as the user that will own the backups, not root.
+
+    ```bash
+    curl -fsSL https://github.com/FiveMesh/fivemesh-backup/releases/latest/download/install.sh | bash
+    ```
+
+    The installer selects amd64 or arm64, checks the binary against the release's `SHA256SUMS`, installs it in `~/.local/bin` and starts guided setup. It refuses to run as root.
+  </Tab>
+</Tabs>
+
+These commands download and execute the release installer. If you prefer to inspect the files first, use the [latest release](https://github.com/FiveMesh/fivemesh-backup/releases/latest). Download the binary for your platform, compare its checksum with `SHA256SUMS`, and run it directly.
+
+<Note>
+  Windows binaries are not code-signed yet. SmartScreen or your browser may show an unrecognized-app warning. Verify the file against `SHA256SUMS`, or use `gh attestation verify`, before allowing it.
+</Note>
+
+## Complete guided setup
+
+If setup did not open, run:
+
+```bash
+fivemesh-backup setup
+```
+
+1. **Database:** confirm the detected client tools, enter connection details and credentials, then select a database from the list your account can access.
+2. **Storage:** choose the archive folder, compression, retention and minimum free space.
+3. **Schedule:** choose manual backups, every 6 or 12 hours, daily, or a custom interval. Review the platform-specific requirements in [scheduling](/backup/scheduling).
+4. **Review:** check the summary before saving. Accept the optional test backup to create an archive and verify it end to end.
+
+Passwords are masked during entry. On limited terminals, setup falls back to numbered prompts. Set `FIVEMESH_BACKUP_PLAIN=1` to request that mode explicitly.
+
+Running `fivemesh-backup` with no arguments starts setup on first use and shows status afterwards. You can also double-click the Windows executable.
+
+## Confirm the result
+
+The examples in these docs use a profile named `production`. Replace it with the profile you created.
+
+```bash
+fivemesh-backup status
+fivemesh-backup list --profile production
+fivemesh-backup verify --all --profile production
+```
+
+Confirm that an archive appears in your chosen folder and verification succeeds. Then [rehearse a restore](/backup/operations#rehearse-a-restore) into a separate database.
+
+## Update or change settings
+
+Run the same installer again to upgrade. It preserves configuration, schedules and backups. To revisit the setup choices:
+
+```bash
+fivemesh-backup configure
+```
+
+Existing settings load into the wizard. Changes are saved only after you confirm the review.

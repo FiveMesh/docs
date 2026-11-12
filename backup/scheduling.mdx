@@ -1,0 +1,85 @@
+---
+title: "Schedule database backups"
+description: "Run FiveMesh Backup automatically through Windows Task Scheduler or Linux systemd user timers, including after logout and reboot."
+sidebarTitle: "Scheduling"
+---
+
+Guided setup can create a schedule for each profile. The OS scheduler runs the same short-lived backup command you use manually. There is no separate FiveMesh service to keep running.
+
+The commands below use the example profile `production`.
+
+## Windows
+
+Choose the execution mode that matches your storage and sign-in requirements.
+
+| Mode | After sign-out or reboot | Windows password stored | Requirements |
+| --- | --- | --- | --- |
+| Background (recommended) | Yes | No | One administrator approval when creating or changing the task; local backup folder |
+| Only while signed in | No | No | An active sign-in session |
+| With my Windows password | Yes | By Task Scheduler as an LSA secret | Windows account password and **Log on as a batch job** permission |
+
+Background mode runs as the account that configured the task. It cannot use Windows network credentials, so SMB shares and mapped drives are not supported as backup destinations in this mode. Use password mode for a network share. Remote database TCP connections are still supported in background mode.
+
+An administrator account's background task runs with administrator rights. Prefer a standard account for backups when possible.
+
+### Configure and check a schedule
+
+```powershell
+fivemesh-backup schedule configure --profile production --frequency 6h --start-time 03:00
+fivemesh-backup schedule status
+fivemesh-backup schedule run --profile production
+```
+
+`--logon-mode` defaults to `background`. Use `interactive` or `password` to select another mode. Password mode prompts for the Windows password; it is not stored in FiveMesh configuration.
+
+`--frequency` accepts `daily`, `6h`, `12h`, or `custom` with `--interval-minutes`. Custom intervals must be between 15 and 1440 minutes and divide evenly into 24 hours. Windows schedules use the machine's local timezone.
+
+Checking, running, pausing and removing a background task work from a normal console after registration.
+
+## Linux
+
+Guided setup creates a systemd user service and timer for each scheduled profile. Run these commands as the account that owns the configuration:
+
+```bash
+fivemesh-backup schedule status
+fivemesh-backup schedule enable --profile production
+fivemesh-backup schedule next --profile production
+```
+
+To keep user timers running after logout, enable lingering for that account:
+
+```bash
+sudo loginctl enable-linger "$USER"
+```
+
+If your account cannot enable lingering, ask an administrator to enable it for your backup user. The quoted command uses the currently signed-in user's name.
+
+The wizard supports manual, 6-hour, 12-hour, daily and custom schedules. Daily at 06:00 local time is the default. The selected IANA timezone is included in the systemd calendar expression.
+
+With persistent scheduling enabled, systemd catches up at most once after missed windows. It does not replay every missed backup. A profile lock prevents overlapping manual and scheduled executions.
+
+## Pause, resume or remove
+
+```bash
+fivemesh-backup schedule disable --profile production
+fivemesh-backup schedule enable --profile production
+fivemesh-backup schedule remove --profile production
+```
+
+Disabling keeps the schedule definition for later use. Removing deletes that profile's schedule and returns it to manual mode. Neither command removes your backup archives.
+
+## Investigate a missed run
+
+```bash
+fivemesh-backup schedule status
+fivemesh-backup schedule logs --profile production --lines 100
+fivemesh-backup backup --profile production
+```
+
+Run the manual backup as the same account used by the scheduler. Check database availability, client discovery, folder permissions and the selected logon mode or systemd user session.
+
+After boot, a backup can wait for database connectivity for up to 120 seconds. Invalid credentials, missing databases and permission failures are not retried.
+
+<Note>
+  Discord cannot report a backup that never starts, such as when the machine is off or the scheduler cannot launch the command. Check schedule status and archive recency separately.
+</Note>

@@ -1,0 +1,52 @@
+---
+title: "Discord notifications"
+description: "Configure optional Discord notifications for FiveMesh Backup results, restores and settings changes."
+---
+
+Discord notifications are optional. Scheduled and manual backups send the same event types.
+
+| Event | Category | Details |
+| --- | --- | --- |
+| Backup succeeds | `success` | Archive name, size, duration and retention cleanup |
+| Backup fails or is interrupted | `failure` | Failed step, error and log command |
+| Restore finishes or fails | `restore` | Target database, archive and duration |
+| Settings change | `config` | Profile changes, schedule changes and uninstall |
+
+## Connect a channel
+
+1. In Discord, open **Server Settings > Integrations > Webhooks > New Webhook**.
+2. Select a channel and choose **Copy Webhook URL**.
+3. Run the configuration command:
+
+   ```bash
+   fivemesh-backup notify discord
+   ```
+
+4. Paste the URL when prompted, select the event categories, and give the machine a recognizable name.
+5. Confirm that the test message arrives. The tool sends this test before saving the settings.
+
+Setup also offers notifications on first use. Run `notify discord` again to change settings; press Enter at the URL prompt to retain the existing webhook.
+
+## Manage delivery
+
+```bash
+fivemesh-backup notify status
+fivemesh-backup notify test
+fivemesh-backup notify disable
+fivemesh-backup notify enable
+fivemesh-backup notify remove
+```
+
+`status` masks the webhook URL. `disable` pauses delivery while keeping the settings; `remove` forgets the webhook and notification settings.
+
+## Delivery limits
+
+Notifications are best effort. A Discord error prints a warning but does not change the result of a backup, restore or configuration change. Messages never ping `@everyone` or `@here`. Only an explicitly configured failure mention can ping a role or user.
+
+If the machine is off or the scheduled command never starts, there is no process to send a failure message. Check [schedule status](/backup/scheduling#investigate-a-missed-run) and recent archives independently.
+
+## Protect the webhook
+
+The URL allows anyone who has it to post to your channel. It is stored with database passwords in `credentials.toml`, with restricted file permissions, rather than in ordinary configuration or logs. If it leaks, delete the webhook in Discord and configure a replacement.
+
+Notifications send operational details such as the machine name, archive name, target database and errors to Discord. They do not send the database archive itself. See the upstream [notification reference](https://github.com/FiveMesh/fivemesh-backup/blob/main/docs/notifications.md) for provisioning flags and failure mentions.

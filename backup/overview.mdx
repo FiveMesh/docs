@@ -1,0 +1,39 @@
+---
+title: "FiveMesh Backup"
+description: "Create scheduled, verified MySQL and MariaDB backups on your own Windows or Linux machine with the free, open source FiveMesh Backup tool."
+icon: "hard-drive"
+---
+
+FiveMesh Backup is a standalone command-line tool for local MySQL and MariaDB backups. It uses native database client tools, compresses dumps with Zstandard, verifies archive integrity and saves the result to a folder you choose.
+
+You do not need a FiveMesh account, subscription, registered server or API key. The tool is free under the MIT license and works independently of FiveM.
+
+## What it does
+
+- Guides you through database selection, storage, retention and scheduling.
+- Runs scheduled backups through Windows Task Scheduler or systemd user timers, without an always-running backup daemon.
+- Creates `.sql.zst` archives with SHA-256 checksums and metadata.
+- Verifies archives and restores into an explicitly named target database.
+- Optionally sends backup, restore and configuration notifications to Discord.
+
+<Note>
+  FiveMesh Backup backs up databases only. It does not back up FiveM resources, server configuration, uploaded media or other files. It does not provide managed cloud storage.
+</Note>
+
+## Start here
+
+1. [Install and configure the tool](/backup/installation).
+2. [Set up scheduled backups](/backup/scheduling).
+3. [Verify archives and rehearse a restore](/backup/operations).
+4. [Configure Discord notifications](/backup/notifications).
+5. [Review retention, credentials and troubleshooting](/backup/configuration).
+
+## What stays local
+
+Configuration, database credentials, run history and archives stay on your machine. There is no telemetry. Optional Discord notifications send operational details to the channel you configure; they do not upload database archives.
+
+A local backup does not protect against losing the machine or disk that holds it. Keep a separate off-machine copy when you need that protection. Archive verification checks integrity; a restore rehearsal checks whether the data works for your application.
+
+## Source and releases
+
+Read the [source code](https://github.com/FiveMesh/fivemesh-backup), download [release files](https://github.com/FiveMesh/fivemesh-backup/releases/latest), or [report an issue](https://github.com/FiveMesh/fivemesh-backup/issues). Report security vulnerabilities using the repository's [security policy](https://github.com/FiveMesh/fivemesh-backup/blob/main/SECURITY.md).

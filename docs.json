@@ -126,6 +126,23 @@
         ]
       },
       {
+        "tab": "Tools",
+        "icon": "wrench",
+        "pages": [
+          {
+            "group": "FiveMesh Backup",
+            "pages": [
+              "backup/overview",
+              "backup/installation",
+              "backup/scheduling",
+              "backup/operations",
+              "backup/notifications",
+              "backup/configuration"
+            ]
+          }
+        ]
+      },
+      {
         "tab": "SDK",
         "icon": "code",
         "pages": [

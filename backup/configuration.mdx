@@ -1,0 +1,70 @@
+---
+title: "Configuration and troubleshooting"
+description: "Understand FiveMesh Backup profiles, local credential storage, retention rules, database permissions and common operational failures."
+sidebarTitle: "Configuration and troubleshooting"
+---
+
+Use the wizard to change an existing profile:
+
+```bash
+fivemesh-backup configure
+```
+
+It loads existing values and presents a review before saving. For complete TOML examples, use the upstream [configuration reference](https://github.com/FiveMesh/fivemesh-backup/blob/main/docs/configuration.md).
+
+## Local files
+
+| Data | Windows | Linux |
+| --- | --- | --- |
+| Configuration and credentials | `%AppData%\fivemesh-backup` | `${XDG_CONFIG_HOME:-~/.config}/fivemesh-backup` |
+| Backup archives | Folder selected during setup | Folder selected during setup |
+
+`config.toml` holds non-secret profile settings. `credentials.toml` holds database passwords and the optional Discord webhook URL. `FIVEMESH_BACKUP_HOME` overrides the configuration directory.
+
+Credentials are plaintext in a permission-protected file, not an encrypted vault. Linux requires restrictive permissions (`0600`). Windows restricts access to the current account, SYSTEM and Administrators. A process running as that account can still read the file.
+
+Database passwords are passed to native clients through short-lived protected option files, not command-line arguments. Keep the configuration directory private and run scheduled backups as the account that owns it.
+
+## Retention
+
+Each profile can configure:
+
+| Setting | Behavior |
+| --- | --- |
+| `keep_last` | Keeps the newest N successful archives under the count/age policy |
+| `keep_days` | Keeps successful archives created within the specified number of days under the count/age policy |
+| `maximum_bytes` | Removes oldest archives to reduce disk usage, even when the count/age policy would keep them; always retains the newest known successful archive |
+
+All three settings are optional. Setting all three to zero disables automatic retention. Cleanup considers complete archives with matching metadata for the profile; unrelated files are not removed.
+
+The count and age rules are combined: an archive is kept if either rule applies. The byte limit can then remove older archives that those rules would keep. Do not treat `maximum_bytes` as a hard disk quota: the newest successful archive is always retained, even if it alone exceeds the limit. Monitor free disk space and keep off-machine copies separately when needed.
+
+## Database permissions
+
+Use a dedicated backup database account with only the access your dumps need. Typical grants include `SELECT`, `SHOW VIEW`, `TRIGGER`, `EVENT` and `LOCK TABLES`; routines can require additional visibility privileges depending on the engine and version.
+
+MariaDB versions with granular routine privileges can require `SHOW CREATE ROUTINE`; older versions may use other grants. Inspect the sanitized native client error instead of applying a broad universal grant.
+
+Restoring needs creation permissions on the target database. MariaDB routine/event definers can require suitable existing accounts or `SET USER`. Review those privileges with your database administrator before a restore.
+
+## Timeouts and startup
+
+There is no default execution timeout for a dump. Set the optional `backup.timeout` using Go duration syntax, such as `"12h"`, only if you know an appropriate upper bound.
+
+Before dumping, the tool waits for authenticated database connectivity for up to 120 seconds, or the configured backup timeout if shorter. Availability errors are retried. Invalid credentials, missing databases and permission failures are not.
+
+## Troubleshooting
+
+| Symptom | Check |
+| --- | --- |
+| Dump client not found | Install native MariaDB/MySQL client tools; confirm the executable location or `PATH` and rerun configuration. |
+| Connection refused | Confirm the database is running and the host, port or socket is correct. Check firewall rules for remote connections. |
+| Access denied or routines missing | Check the account's grants for the database, views, routines and events. Read `fivemesh-backup logs --profile production`. |
+| Backup cannot write | Check destination permissions and free space as the account running the task. Windows background mode requires a local folder. |
+| Windows backup stops after sign-out | Check the logon mode; interactive mode runs only while signed in. Use background or password mode for unattended runs. |
+| Linux timer does not run after logout | Check `systemctl --user` availability, schedule status and lingering for the backup account. |
+| Linux socket works manually but fails on schedule | A socket under `/tmp` can be hidden by systemd's `PrivateTmp`. Use the database's normal socket location, often `/run/mysqld/mysqld.sock`. |
+| Verification fails | Keep the archive and accompanying files intact. Inspect logs and use another verified archive; do not bypass an integrity failure to restore production. |
+| No Discord failure notification | Check notification settings and whether the command started at all. Delivery is best effort. |
+
+Replace `production` with your profile name. For a reproducible failure, include the tool version, OS and sanitized error when [opening an issue](https://github.com/FiveMesh/fivemesh-backup/issues). Do not include credentials, webhook URLs or database contents.

@@ -1,0 +1,80 @@
+---
+title: "Back up, verify and restore"
+description: "Create a manual MySQL or MariaDB backup, inspect local archives, verify integrity and safely rehearse a restore with FiveMesh Backup."
+sidebarTitle: "Backups and restores"
+---
+
+These examples use a profile named `production`. Replace it with your own profile name.
+
+## Run a backup now
+
+```bash
+fivemesh-backup backup --profile production
+```
+
+The tool runs the native dump client, streams the dump through Zstandard, writes a SHA-256 checksum and verifies the archive before exposing it as complete. Successful backups are subject to your profile's [retention rules](/backup/configuration#retention).
+
+## Inspect archives and recent results
+
+```bash
+fivemesh-backup list --profile production
+fivemesh-backup status
+fivemesh-backup logs --profile production
+```
+
+`list` shows the archives on disk. `status` shows the latest result per profile. `logs` provides details for troubleshooting failures.
+
+An execution left running after a crash is shown as interrupted once the tool confirms that no process owns its profile lock. Recovery does not automatically rerun a backup or delete archives.
+
+## Verify integrity
+
+```bash
+fivemesh-backup verify --all --profile production
+```
+
+Verification checks the checksum and compressed stream. It does not prove SQL validity, restore permissions or application-level correctness. Keep the archive and its accompanying metadata and checksum files together.
+
+## Rehearse a restore
+
+Use a separate database first. Choose an archive from `list`, prepare a target database with appropriate restore permissions, and supply its name explicitly.
+
+<Warning>
+  A restore executes SQL against the target database and can overwrite its contents. Confirm the connection, target and archive before continuing. Do not point a rehearsal at your production database.
+</Warning>
+
+<Tabs>
+  <Tab title="Windows">
+    This example archive path is a placeholder. Replace it with the full path from your archive list.
+
+    ```powershell
+    fivemesh-backup restore --profile production --archive "C:\Backups\production-ARCHIVE.sql.zst" --database fxserver_restore_test
+    ```
+  </Tab>
+  <Tab title="Linux">
+    This example archive path is a placeholder. Replace it with the full path from your archive list.
+
+    ```bash
+    fivemesh-backup restore --profile production \
+      --archive /var/backups/fivemesh/production-ARCHIVE.sql.zst \
+      --database fxserver_restore_test
+    ```
+  </Tab>
+</Tabs>
+
+The tool verifies archive integrity and asks you to type the target database name to confirm. Keep that interactive confirmation for manual restores.
+
+After restoring, inspect the expected tables and data, then test the application against the restored database in an isolated environment. Record the result and repeat periodically.
+
+Routines, events and preserved definers may need additional target privileges. A read-only backup account is not necessarily suitable for restoring. See [database permissions](/backup/configuration#database-permissions).
+
+## Snapshot limits
+
+`--single-transaction` provides a consistent snapshot for InnoDB tables. It does not provide the same guarantee for MyISAM or other non-transactional tables. Account for your table engines and workload when planning backups.
+
+## Uninstall
+
+```bash
+fivemesh-backup uninstall
+```
+
+Uninstall removes configured schedules. Add `--remove-binary` to request executable removal. Configuration, credentials, run history and archives are preserved; uninstalling does not erase them.
