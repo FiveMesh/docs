@@ -11,11 +11,7 @@ Use the built-in FiveMesh provider in [sd-phone](https://github.com/Samuels-Deve
 ## Prerequisites
 
 - Complete [FiveMesh CDN setup](/cdn/setup) for the workspace where you want to store the media.
-- Install a build of sd-phone that includes [FiveMesh support](https://github.com/Samuels-Development/sd-phone/pull/323).
-
-<Note>
-  FiveMesh support is on `main` and is planned for the next [sd-phone release](https://github.com/Samuels-Development/sd-phone/releases). To use it now, follow sd-phone's [build from source instructions](https://github.com/Samuels-Development/sd-phone#building-from-source) to build the phone UI. The `v1.0.10` release does not include the integration.
-</Note>
+- Install sd-phone v1.1.0 or later. The built-in FiveMesh provider was introduced in [v1.1.0](https://github.com/Samuels-Development/sd-phone/releases/tag/v1.1.0).
 
 ## Configure FiveMesh
 
@@ -70,7 +66,7 @@ The game server keeps the API key and issues a short-lived upload URL for one fi
 
 ## Troubleshooting
 
-- **`FiveMeshPath` or `FiveMeshCdn` is missing:** Check that the running resource includes the FiveMesh integration. The `v1.0.10` release predates it.
+- If `FiveMeshPath` or `FiveMeshCdn` is missing, confirm the running resource is v1.1.0 or later. If you carried over configuration files from an older version, copy the new settings into those files.
 - **Uploads fail:** Check the server console. Confirm that CDN provisioning is complete, the key has `cdn:write`, and any path restrictions cover `FiveMeshPath`. If you configured `server.cfg`, make sure `FiveMeshCdn` is empty and the `set` line comes before `ensure sd-phone`.
 - **New uploads still use another provider:** Check that `Provider = 'fivemesh'` is set in the running resource and restart it. Check newly captured media when testing; changing the provider does not move existing files.
 - **Uploads fail after enabling direct uploads:** Set `AllowDirectUpload = false`, restart the resource and retry through the game server.
