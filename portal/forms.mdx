@@ -81,6 +81,26 @@ Choose which providers a question accepts: **Google Docs**, **Canva** or both. T
   To give a role, the FiveMesh bot needs **Manage Roles** in your Discord server, and its role must be above the role it gives. Saving refuses a role the bot cannot give. Roles managed by an integration are not offered.
 </Note>
 
+## Bot permissions
+
+Forms is the only Portal feature that needs Discord permissions. The FiveMesh bot needs:
+
+| Permission | Used for |
+| --- | --- |
+| **View Channel**, **Send Messages**, **Embed Links** | Posting in the staff and applicant updates channels |
+| **Manage Roles** | Giving the role on acceptance |
+
+Open **Portal** → **Settings** → **Discord**. **Bot permissions** checks every channel and role your forms use and says how to fix each problem:
+
+- **Missing permissions**: select **Update bot permissions**. Discord opens on your connected server and asks you to approve the new permissions. If only one channel is affected, a channel override blocks the bot; allow the permissions for the FiveMesh bot in that channel's settings instead.
+- **Role too high**: in Discord, open **Server Settings** → **Roles** and drag the FiveMesh role above the role it gives.
+- **Ping blocked**: turn on **Allow anyone to @mention this role** for the staff role, otherwise the ping is skipped.
+- **Not found**: the channel or role was deleted. Choose another one in the form settings.
+
+<Tip>
+  Portals connected before Forms asked Discord for no permissions. Select **Update bot permissions** once before you add channels or a role on acceptance.
+</Tip>
+
 ## Notifications
 
 Each form has its own notifications: a staff channel, an applicant updates channel and the channels players can opt in to. See [Notifications](/portal/notifications).
