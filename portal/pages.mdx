@@ -1,0 +1,139 @@
+---
+title: "Pages and homepage content"
+description: "Write rules, guides and lore pages, and add an FAQ, staff team and gallery to your Portal homepage."
+icon: "file-text"
+---
+
+<Note>
+  Pages and homepage content are part of the [Forms & Design open beta](/portal/beta). Edit them in **Portal** → **Design**, under **Content**.
+</Note>
+
+## Pages
+
+Pages hold your rules, guides, lore or anything players should read. Each page gets its own address, for example `/your-community/p/server-rules`.
+
+<Steps>
+  <Step title="Create a page">
+    Open **Design** → **Pages** and select **New page**. Type a title; the address follows it until you edit it.
+  </Step>
+  <Step title="Write the content">
+    Use the editor toolbar, the **Insert** menu or the [formatting reference](#formatting-reference) below.
+  </Step>
+  <Step title="Choose where it appears">
+    Turn on **Show in navigation** to add it to the Portal menu, and **Feature on homepage** to add a card in the homepage **Pages** section.
+  </Step>
+  <Step title="Preview and publish">
+    Select **Preview** to read it on your Portal, then **Publish**.
+  </Step>
+</Steps>
+
+You can have up to 8 pages of up to 20,000 characters each. At most four pages appear in the navigation. Pages with four or more top-level sections get an **On this page** outline that highlights the section being read.
+
+### The page editor
+
+- **Toolbar**: headings, bold, italic, strikethrough, highlight, inline code, link, bulleted, numbered and checklists, and quotes. Shortcuts: <kbd>Ctrl</kbd>+<kbd>B</kbd>, <kbd>Ctrl</kbd>+<kbd>I</kbd> and <kbd>Ctrl</kbd>+<kbd>K</kbd>.
+- **Insert** menu: callouts, images, YouTube videos, video files, buttons, tables, columns, collapsible sections, code blocks and dividers.
+- **Write**, **Split** and **Preview**: edit the text, see a live preview beside it, or read the preview alone. The live preview shows videos as placeholders; use **Preview** in the top bar to see the page exactly as players will.
+
+## Formatting reference
+
+Pages use a Markdown-based format. Everything you write is shown as text, so raw HTML never runs.
+
+### Text
+
+| You write | You get |
+| --- | --- |
+| `**bold**` | **bold** |
+| `*italic*` | *italic* |
+| `~~strike~~` | ~~strike~~ |
+| `==highlight==` | highlighted text |
+| `` `code` `` | `code` |
+| `[link text](https://example.com)` | a link |
+
+Links accept `https://` addresses and paths on your Portal, such as `/your-community/forms`.
+
+### Blocks
+
+````markdown
+## Section title
+### Subsection
+
+- Bulleted item
+  - Nested item
+1. Numbered item
+- [x] Done task
+- [ ] Open task
+
+> A quote
+
+---
+````
+
+### Callouts
+
+````markdown
+> [!NOTE] Optional title
+> Text of the callout.
+````
+
+Use `NOTE`, `TIP`, `IMPORTANT`, `WARNING` or `DANGER`.
+
+### Tables
+
+````markdown
+| Job | Pay | Whitelisted |
+| :-- | --: | :-: |
+| Mechanic | $450 | Yes |
+````
+
+Colons in the separator row align a column left, right or center.
+
+### Media and buttons
+
+````markdown
+![Describe the image](https://example.com/image.png "Optional caption")
+
+@[youtube](https://www.youtube.com/watch?v=VIDEO_ID)
+@[video](https://example.com/clip.mp4)
+
+[[Apply now]](/your-community/forms) [[Read the rules]](/your-community/p/server-rules "secondary")
+````
+
+Images and video files need `https://` links. Video files must be `.mp4` or `.webm`. YouTube videos use YouTube's privacy-enhanced player. Put several buttons on one line to show them side by side; add `"secondary"` for an outlined button.
+
+### Layout
+
+````markdown
+:::columns
+### Left column
+Text
++++
+### Right column
+Text
+:::
+
+:::details Click to expand
+Hidden text
+:::
+
+```
+connect play.example.gg
+```
+````
+
+Columns accept two or three columns separated by `+++`.
+
+## Homepage content
+
+| Section | Limit | Notes |
+| --- | --- | --- |
+| **FAQ** | 20 questions | Shown as expandable questions. |
+| **Team** | 24 members | Name, role and an optional Discord user ID. Members with an ID show their Discord avatar once they have signed in to your Portal. |
+| **Gallery** | 12 images | `https://` image links with a description. |
+
+Each section has an optional custom heading. Order and visibility come from **Design** → **Homepage**.
+
+## Related pages
+
+- [Customize your Portal](/portal/design)
+- [Forms & Design open beta](/portal/beta)
