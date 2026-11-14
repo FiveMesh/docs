@@ -1,0 +1,54 @@
+---
+title: "Notifications"
+description: "Alert your staff in Discord, post applicant updates in a channel, and let players opt in to Discord DMs or email."
+icon: "bell"
+---
+
+Each form has its own notification settings under **Forms** → your form → **Notifications**. There are three kinds.
+
+## Staff notifications
+
+Post a message in one of your Discord channels when something needs your team.
+
+| Setting | What it does |
+| --- | --- |
+| **Team channel** | A text or announcement channel in your Discord server. Pick it from the list or enter its ID. |
+| **Role to mention** | Optional. This role is pinged with each staff message. Leave it empty to post quietly. |
+| **New applications** | Posts when a player submits. |
+| **Application updated by the applicant** | Posts when a player updates their answers. |
+| **Replies from applicants** | Posts when a player replies. |
+
+The FiveMesh bot needs **View Channel**, **Send Messages** and **Embed Links** in the channel.
+
+## Applicant updates channel
+
+Post updates in a channel your players can read, such as `#applications`, and mention the applicant. This works even when players did not turn on notifications.
+
+Choose a channel, then which events to post: **Application received**, **Review started and decisions**, and **Team replies**.
+
+<Note>
+  Decisions are posted without their outcome: the message tells the applicant a decision was made and links to their application. A refusal is never shown publicly.
+</Note>
+
+## Applicant notifications
+
+Players choose how they hear about their applications. **Nobody is messaged without opting in.** In the form settings you decide which channels players may choose and which events notify them:
+
+- **Let applicants opt in to Discord DMs**: messages from the FiveMesh bot.
+- **Let applicants opt in to email**: emails from `no-reply@fivemesh.io` with your community's name, sent only to addresses the player confirmed with a code.
+- Events: **Application received**, **Status changes** and **Replies from the team**.
+
+Players turn these on in their Portal profile. See [Apply as a player](/portal/applying#notifications).
+
+### Delivery
+
+- Messages contain a link to the application, never the answers or private notes.
+- Discord DMs are paced so the bot is never flagged as spam. When several updates happen close together, the player gets one message summarizing them.
+- If a player's DMs are closed, DMs to them pause for 7 days. The update is always visible on their application page.
+- Emails include an **Unsubscribe** link to the player's profile.
+
+## Related pages
+
+- [Application forms](/portal/forms)
+- [Review applications](/portal/reviewing)
+- [Apply as a player](/portal/applying)

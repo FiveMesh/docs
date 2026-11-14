@@ -1,0 +1,64 @@
+---
+title: "Review applications"
+description: "Use the Portal review queue to read answers, talk to applicants, keep private notes and decide."
+icon: "messages-square"
+---
+
+Your review team works on the Portal itself, at `/your-community/review`. Reviewers sign in with Discord. They see the forms they review and nothing else.
+
+## Who can review
+
+A player can review a form when they have one of the form's review roles in your Discord server, or when their Discord user ID is listed in the form's **Review team**. Set this in the dashboard under **Forms** → your form → **Review team**.
+
+The **Review team** tab also shows the review space link with **Copy link** and **Open**, so you can share it with your staff.
+
+## The review queue
+
+The queue lists applications newest first. Use it to:
+
+- Filter by status: **New**, **In review**, **Accepted** or **Rejected**, with counts.
+- Filter by form.
+- Search by applicant name or Discord ID.
+
+New applications and applications with new activity are marked until a reviewer opens them.
+
+## Review an application
+
+Open an application to see:
+
+- **Answers**, numbered and grouped by section, with attached files and document links.
+- **Activity**, a timeline of status changes, replies and private notes.
+- **Versions**, when the applicant updated their answers. Compare versions to see what changed.
+- **Decision**, the current status and actions.
+
+### Reply or add a private note
+
+Use the composer under the timeline:
+
+- **Private note**: visible to the review team only. Notes use a dashed style so they stand out.
+- **Reply to applicant**: visible to the applicant on their application page.
+
+### Make a decision
+
+Use the **Decision** panel:
+
+| Action | Result |
+| --- | --- |
+| **Mark as in review** | Tells the applicant that someone picked up their application. |
+| **Accept application** | Accepts it. You can add a message. If the form has a role on acceptance, the bot gives it. |
+| **Reject application** | Rejects it. You can describe why. |
+| **Move back to new** | Returns it to the queue. |
+
+The applicant sees the new status on their application page and is notified through the channels they chose. See [Notifications](/portal/notifications).
+
+When the bot cannot give the role on acceptance, a private note explains why, for example missing permissions or a player who left the server.
+
+## Insights
+
+The dashboard **Analytics** tab has a **Forms** view with applications and decisions per day, the review backlog, your acceptance rate, the median time to a decision and a breakdown per form.
+
+## Related pages
+
+- [Application forms](/portal/forms)
+- [Notifications](/portal/notifications)
+- [Apply as a player](/portal/applying)

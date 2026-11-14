@@ -1,0 +1,92 @@
+---
+title: "Application forms"
+description: "Build whitelist, staff and job applications, choose who reviews them and publish them on your Portal."
+icon: "clipboard-list"
+---
+
+<Note>
+  Forms is part of the [Forms & Design open beta](/portal/beta). Join it from Portal **Overview** first.
+</Note>
+
+Forms lets players apply to your community on your Portal. Players sign in with Discord, fill in your form and follow their application. Your team reviews applications on the Portal and makes a decision.
+
+## Create a form
+
+<Steps>
+  <Step title="Open Forms">
+    Select your registered server, open **Portal** and select the **Forms** tab.
+  </Step>
+  <Step title="Start from a template">
+    Choose **Whitelist**, **Staff** or **Blank**. Templates give you a ready set of questions you can edit.
+  </Step>
+  <Step title="Edit the questions">
+    Change the title and introduction, then add, edit and reorder blocks in **Questions**. Drag a block by its handle to move it.
+  </Step>
+  <Step title="Choose the review team">
+    In **Review team**, add Discord roles and individual Discord user IDs who can review this form.
+  </Step>
+  <Step title="Publish">
+    Set the form to **Open** and select **Save**. Use **View on Portal** to open it.
+  </Step>
+</Steps>
+
+There is no limit on the number of forms. Each form keeps its own questions, review team and notification settings.
+
+## Form states
+
+| State | Players | Review team |
+| --- | --- | --- |
+| **Draft** | Cannot see or open the form. | Can preview it on the Portal with **Preview on Portal**. |
+| **Open** | Can apply. | Reviews applications. |
+| **Closed** | Can read the questions but cannot apply. | Keeps reviewing existing applications. |
+
+Players can submit once per form.
+
+## Question types
+
+| Block | Use it for |
+| --- | --- |
+| **Short answer** | Names, Discord tags or other one-line answers. Supports character limits. |
+| **Paragraph** | Backstories and longer answers. Supports minimum and maximum length. |
+| **Single choice** | One option from a list. |
+| **Multiple choice** | Several options from a list, with optional limits. |
+| **Number** | Ages or hours played, with optional minimum and maximum. |
+| **Confirmation** | A required checkbox, for example "I accept the server rules". |
+| **File upload** | Screenshots, clips or PDFs. See [File uploads](#file-uploads). |
+| **Document link** | A Google Docs or Canva link, checked for sharing. See [Document links](#document-links). |
+| **Section** | A heading and text that split a long form into parts. |
+
+A form can have up to 60 blocks and 50 questions. Mark a question as required to block submission until it is answered.
+
+### File uploads
+
+Choose which file kinds a question accepts (**Images**, **Videos**, **PDF**), the largest file size (5, 10, 25 or 50 MB) and how many files a player can attach (1 to 10).
+
+Files go to your [FiveMesh CDN](/cdn/setup) in a dedicated Portal folder with random file names. Anyone with a file's link can open it. File questions need an active CDN selected under **Medias**.
+
+### Document links
+
+Choose which providers a question accepts: **Google Docs**, **Canva** or both. The link must point to an actual document. When a player submits a Google Docs link, Portal checks that it is shared with **Anyone with the link** and tells the player how to fix it if not.
+
+## Form settings
+
+| Setting | What it does |
+| --- | --- |
+| **Form address** | The readable part of the form URL, for example `/your-community/forms/whitelist`. It follows the title until you edit it. Old links keep working. |
+| **Applicant updates** | Lets players update their answers until a decision is made. Every version is kept for your team. |
+| **Role on acceptance** | A Discord role the FiveMesh bot gives when you accept an application. |
+| **Show on homepage** | Features the form on your Portal homepage. |
+
+<Note>
+  To give a role, the FiveMesh bot needs **Manage Roles** in your Discord server, and its role must be above the role it gives. Saving refuses a role the bot cannot give. Roles managed by an integration are not offered.
+</Note>
+
+## Notifications
+
+Each form has its own notifications: a staff channel, an applicant updates channel and the channels players can opt in to. See [Notifications](/portal/notifications).
+
+## Related pages
+
+- [Review applications](/portal/reviewing)
+- [Notifications](/portal/notifications)
+- [Apply as a player](/portal/applying)

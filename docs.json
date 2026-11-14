@@ -72,7 +72,14 @@
             "pages": [
               "portal/setup",
               "portal/operations",
-              "portal/player-uploads"
+              "portal/player-uploads",
+              "portal/beta",
+              "portal/forms",
+              "portal/reviewing",
+              "portal/notifications",
+              "portal/design",
+              "portal/pages",
+              "portal/applying"
             ]
           },
           {
